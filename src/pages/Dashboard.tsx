@@ -76,12 +76,34 @@ const statusColors: Record<string, string> = {
 
 const mesesNomes = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
+const totalAcoes = acoesPlanilha.length;
+
+function getSaudacao() {
+  const h = new Date().getHours();
+  if (h >= 6 && h < 12) return 'Bom dia! ☀️';
+  if (h >= 12 && h < 18) return 'Boa tarde! 🌤️';
+  return 'Boa noite! 🌙';
+}
+
+function getDataFormatada() {
+  return new Date().toLocaleDateString('pt-BR', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  }).replace(/^\w/, (c) => c.toUpperCase());
+}
+
 export default function Dashboard() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground text-sm mt-1">Visão geral da Vigilância Socioassistencial</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-sm text-muted-foreground">{getSaudacao()}</p>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-muted-foreground text-sm mt-1">Visão geral da Vigilância Socioassistencial — Presidente Venceslau/SP</p>
+        </div>
+        <p className="text-sm text-muted-foreground">{getDataFormatada()}</p>
       </div>
 
       {/* Summary Cards */}
@@ -121,6 +143,13 @@ export default function Dashboard() {
               </Pie>
               <Legend />
               <Tooltip />
+              {/* Center label */}
+              <text x="50%" y="47%" textAnchor="middle" dominantBaseline="middle" className="text-2xl font-bold" fill="hsl(215 28% 17%)">
+                {totalAcoes}
+              </text>
+              <text x="50%" y="55%" textAnchor="middle" dominantBaseline="middle" className="text-xs" fill="hsl(215 16% 47%)">
+                ações
+              </text>
             </PieChart>
           </ResponsiveContainer>
         </div>
