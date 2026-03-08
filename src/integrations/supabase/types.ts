@@ -14,7 +14,351 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analises_ia: {
+        Row: {
+          conteudo: string
+          created_at: string
+          dados_utilizados: Json | null
+          id: string
+          referencia: string
+          tipo: string
+        }
+        Insert: {
+          conteudo: string
+          created_at?: string
+          dados_utilizados?: Json | null
+          id?: string
+          referencia: string
+          tipo: string
+        }
+        Update: {
+          conteudo?: string
+          created_at?: string
+          dados_utilizados?: Json | null
+          id?: string
+          referencia?: string
+          tipo?: string
+        }
+        Relationships: []
+      }
+      dados_cadunico: {
+        Row: {
+          acima_linha_pobreza: number | null
+          beneficiarios_bolsa_familia: number | null
+          beneficiarios_bpc: number | null
+          cadastro_atualizado: number | null
+          cadastro_desatualizado: number | null
+          created_at: string
+          extrema_pobreza: number | null
+          familias_rurais: number | null
+          familias_urbanas: number | null
+          id: string
+          mes_referencia: string
+          pobreza: number | null
+          total_familias: number | null
+          updated_at: string
+        }
+        Insert: {
+          acima_linha_pobreza?: number | null
+          beneficiarios_bolsa_familia?: number | null
+          beneficiarios_bpc?: number | null
+          cadastro_atualizado?: number | null
+          cadastro_desatualizado?: number | null
+          created_at?: string
+          extrema_pobreza?: number | null
+          familias_rurais?: number | null
+          familias_urbanas?: number | null
+          id?: string
+          mes_referencia: string
+          pobreza?: number | null
+          total_familias?: number | null
+          updated_at?: string
+        }
+        Update: {
+          acima_linha_pobreza?: number | null
+          beneficiarios_bolsa_familia?: number | null
+          beneficiarios_bpc?: number | null
+          cadastro_atualizado?: number | null
+          cadastro_desatualizado?: number | null
+          created_at?: string
+          extrema_pobreza?: number | null
+          familias_rurais?: number | null
+          familias_urbanas?: number | null
+          id?: string
+          mes_referencia?: string
+          pobreza?: number | null
+          total_familias?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      documentos_enviados: {
+        Row: {
+          ano_referencia: string | null
+          arquivo_url: string | null
+          created_at: string
+          id: string
+          nome_arquivo: string
+          resumo_ia: string | null
+          tipo: string
+        }
+        Insert: {
+          ano_referencia?: string | null
+          arquivo_url?: string | null
+          created_at?: string
+          id?: string
+          nome_arquivo: string
+          resumo_ia?: string | null
+          tipo: string
+        }
+        Update: {
+          ano_referencia?: string | null
+          arquivo_url?: string | null
+          created_at?: string
+          id?: string
+          nome_arquivo?: string
+          resumo_ia?: string | null
+          tipo?: string
+        }
+        Relationships: []
+      }
+      registros_rapidos: {
+        Row: {
+          bairro: string | null
+          created_at: string
+          data_registro: string
+          descricao: string
+          equipamento_id: string
+          familia_individuo: string | null
+          id: string
+          quantidade: number | null
+          responsavel: string | null
+          tipo: string
+        }
+        Insert: {
+          bairro?: string | null
+          created_at?: string
+          data_registro?: string
+          descricao: string
+          equipamento_id: string
+          familia_individuo?: string | null
+          id?: string
+          quantidade?: number | null
+          responsavel?: string | null
+          tipo: string
+        }
+        Update: {
+          bairro?: string | null
+          created_at?: string
+          data_registro?: string
+          descricao?: string
+          equipamento_id?: string
+          familia_individuo?: string | null
+          id?: string
+          quantidade?: number | null
+          responsavel?: string | null
+          tipo?: string
+        }
+        Relationships: []
+      }
+      rma_cras: {
+        Row: {
+          atendimentos_individualizados: number | null
+          beneficio_funeral: number | null
+          beneficio_natalidade: number | null
+          beneficio_vulnerabilidade: number | null
+          busca_ativa: boolean | null
+          busca_ativa_quantidade: number | null
+          created_at: string
+          descumprimento_condicionalidades: number | null
+          encaminhamentos: number | null
+          equipamento_id: string
+          familias_acompanhamento_paif: number | null
+          familias_grupos_paif: number | null
+          id: string
+          mes_referencia: string
+          novas_familias_paif: number | null
+          observacoes: string | null
+          scfv_criancas: number | null
+          scfv_idosos: number | null
+          updated_at: string
+          visitas_domiciliares: number | null
+        }
+        Insert: {
+          atendimentos_individualizados?: number | null
+          beneficio_funeral?: number | null
+          beneficio_natalidade?: number | null
+          beneficio_vulnerabilidade?: number | null
+          busca_ativa?: boolean | null
+          busca_ativa_quantidade?: number | null
+          created_at?: string
+          descumprimento_condicionalidades?: number | null
+          encaminhamentos?: number | null
+          equipamento_id: string
+          familias_acompanhamento_paif?: number | null
+          familias_grupos_paif?: number | null
+          id?: string
+          mes_referencia: string
+          novas_familias_paif?: number | null
+          observacoes?: string | null
+          scfv_criancas?: number | null
+          scfv_idosos?: number | null
+          updated_at?: string
+          visitas_domiciliares?: number | null
+        }
+        Update: {
+          atendimentos_individualizados?: number | null
+          beneficio_funeral?: number | null
+          beneficio_natalidade?: number | null
+          beneficio_vulnerabilidade?: number | null
+          busca_ativa?: boolean | null
+          busca_ativa_quantidade?: number | null
+          created_at?: string
+          descumprimento_condicionalidades?: number | null
+          encaminhamentos?: number | null
+          equipamento_id?: string
+          familias_acompanhamento_paif?: number | null
+          familias_grupos_paif?: number | null
+          id?: string
+          mes_referencia?: string
+          novas_familias_paif?: number | null
+          observacoes?: string | null
+          scfv_criancas?: number | null
+          scfv_idosos?: number | null
+          updated_at?: string
+          visitas_domiciliares?: number | null
+        }
+        Relationships: []
+      }
+      rma_creas: {
+        Row: {
+          abuso_sexual: number | null
+          adolescentes_mse_la: number | null
+          adolescentes_mse_psc: number | null
+          atendimentos_individualizados: number | null
+          created_at: string
+          encaminhamentos: number | null
+          equipamento_id: string
+          exploracao_sexual: number | null
+          familias_acompanhamento_paefi: number | null
+          id: string
+          mes_referencia: string
+          negligencia_abandono: number | null
+          novas_familias_paefi: number | null
+          observacoes: string | null
+          outras_violacoes: number | null
+          pessoas_abordagem_social: number | null
+          trabalho_infantil: number | null
+          updated_at: string
+          violencia_fisica: number | null
+          violencia_psicologica: number | null
+          vitimas_adolescentes: number | null
+          vitimas_adultos: number | null
+          vitimas_criancas: number | null
+          vitimas_idosos: number | null
+        }
+        Insert: {
+          abuso_sexual?: number | null
+          adolescentes_mse_la?: number | null
+          adolescentes_mse_psc?: number | null
+          atendimentos_individualizados?: number | null
+          created_at?: string
+          encaminhamentos?: number | null
+          equipamento_id: string
+          exploracao_sexual?: number | null
+          familias_acompanhamento_paefi?: number | null
+          id?: string
+          mes_referencia: string
+          negligencia_abandono?: number | null
+          novas_familias_paefi?: number | null
+          observacoes?: string | null
+          outras_violacoes?: number | null
+          pessoas_abordagem_social?: number | null
+          trabalho_infantil?: number | null
+          updated_at?: string
+          violencia_fisica?: number | null
+          violencia_psicologica?: number | null
+          vitimas_adolescentes?: number | null
+          vitimas_adultos?: number | null
+          vitimas_criancas?: number | null
+          vitimas_idosos?: number | null
+        }
+        Update: {
+          abuso_sexual?: number | null
+          adolescentes_mse_la?: number | null
+          adolescentes_mse_psc?: number | null
+          atendimentos_individualizados?: number | null
+          created_at?: string
+          encaminhamentos?: number | null
+          equipamento_id?: string
+          exploracao_sexual?: number | null
+          familias_acompanhamento_paefi?: number | null
+          id?: string
+          mes_referencia?: string
+          negligencia_abandono?: number | null
+          novas_familias_paefi?: number | null
+          observacoes?: string | null
+          outras_violacoes?: number | null
+          pessoas_abordagem_social?: number | null
+          trabalho_infantil?: number | null
+          updated_at?: string
+          violencia_fisica?: number | null
+          violencia_psicologica?: number | null
+          vitimas_adolescentes?: number | null
+          vitimas_adultos?: number | null
+          vitimas_criancas?: number | null
+          vitimas_idosos?: number | null
+        }
+        Relationships: []
+      }
+      rma_rede_indireta: {
+        Row: {
+          atividades_realizadas: number | null
+          created_at: string
+          desligamentos: number | null
+          encaminhamentos_realizados: number | null
+          encaminhamentos_recebidos: number | null
+          equipamento_id: string
+          id: string
+          lista_espera: number | null
+          mes_referencia: string
+          novas_insercoes: number | null
+          observacoes: string | null
+          total_atendidos: number | null
+          updated_at: string
+        }
+        Insert: {
+          atividades_realizadas?: number | null
+          created_at?: string
+          desligamentos?: number | null
+          encaminhamentos_realizados?: number | null
+          encaminhamentos_recebidos?: number | null
+          equipamento_id: string
+          id?: string
+          lista_espera?: number | null
+          mes_referencia: string
+          novas_insercoes?: number | null
+          observacoes?: string | null
+          total_atendidos?: number | null
+          updated_at?: string
+        }
+        Update: {
+          atividades_realizadas?: number | null
+          created_at?: string
+          desligamentos?: number | null
+          encaminhamentos_realizados?: number | null
+          encaminhamentos_recebidos?: number | null
+          equipamento_id?: string
+          id?: string
+          lista_espera?: number | null
+          mes_referencia?: string
+          novas_insercoes?: number | null
+          observacoes?: string | null
+          total_atendidos?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
