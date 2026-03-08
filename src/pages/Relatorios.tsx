@@ -141,8 +141,9 @@ async function exportPDF(content: string, titulo: string) {
 
 async function exportWord(content: string, titulo: string) {
   const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = await import('docx');
+  type ParagraphType = InstanceType<typeof Paragraph>;
 
-  const paragraphs: Paragraph[] = [];
+  const paragraphs: ParagraphType[] = [];
 
   // Header
   paragraphs.push(new Paragraph({
