@@ -3,8 +3,10 @@ import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   Building2,
+  Database,
   BarChart3,
   ClipboardList,
+  BrainCircuit,
   FileText,
   Settings,
   Shield,
@@ -16,8 +18,10 @@ import {
 const menuItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/rede', label: 'Rede Socioassistencial', icon: Building2 },
+  { to: '/central-dados', label: 'Central de Dados', icon: Database },
   { to: '/dados', label: 'Dados e Indicadores', icon: BarChart3 },
   { to: '/plano', label: 'Plano de Trabalho', icon: ClipboardList },
+  { to: '/assistente-ia', label: 'Assistente IA', icon: BrainCircuit },
   { to: '/relatorios', label: 'Relatórios', icon: FileText },
   { to: '/configuracoes', label: 'Configurações', icon: Settings },
 ];
