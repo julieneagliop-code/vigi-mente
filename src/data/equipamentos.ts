@@ -130,4 +130,17 @@ export const equipamentos: Equipamento[] = [
     equipeTotalProfissionais: 2,
     atendimentosAtuais: 24,
   },
+  {
+    id: '10',
+    nome: 'Cadastro Único — CadÚnico',
+    tipoRede: 'direta',
+    complexidade: 'baixa',
+    servicos: ['Cadastramento e atualização cadastral junto ao CadÚnico'],
+    publicoAtendido: 'Famílias em situação de vulnerabilidade social que necessitam de cadastramento ou atualização no Cadastro Único',
+    capacidade: 2068,
+    capacidadeMensal: 2068,
+    capacidadeDescricao: '2.068 pessoas/famílias/mês (2 unidades)',
+    equipeTotalProfissionais: 1,
+    atendimentosAtuais: 1650,
+  },
 ];
