@@ -9,6 +9,7 @@ import {
 
 // Capacidade mensal ordenada do maior para o menor
 const capacidadeData = [
+  { nome: 'CadÚnico', capacidade: 2068 },
   { nome: 'CRAS', capacidade: 650 },
   { nome: 'Órgão Gestor', capacidade: 259 },
   { nome: 'APAE', capacidade: 150 },
@@ -108,7 +109,7 @@ export default function Dashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCard title="Total de Equipamentos" value={9} icon={Building2} variant="primary" subtitle="3 diretos • 6 indiretos" />
+        <SummaryCard title="Total de Equipamentos" value={10} icon={Building2} variant="primary" subtitle="3 diretos • 7 indiretos" />
         <SummaryCard title="Famílias no CadÚnico" value="8.015" icon={Users} variant="success" subtitle="390 rural • 7.625 urbano" />
         <SummaryCard title="Ações em Andamento" value={emAndamento} icon={Activity} variant="warning" subtitle={`de ${acoesPlanilha.length} ações totais`} />
         <SummaryCard title="Próximo Relatório" value="Jun/2026" icon={Calendar} variant="primary" subtitle="Relatório Semestral — DRADS" />
