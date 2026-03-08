@@ -122,6 +122,87 @@ export type Database = {
         }
         Relationships: []
       }
+      equipe_profissionais: {
+        Row: {
+          atualizado_por: string | null
+          carga_horaria_semanal: number | null
+          cargo_funcao: string
+          created_at: string
+          data_admissao: string | null
+          data_desligamento: string | null
+          equipamento_id: string
+          formacao: string
+          id: string
+          nome_completo: string
+          observacoes: string | null
+          status: string
+          updated_at: string
+          vinculo: string
+        }
+        Insert: {
+          atualizado_por?: string | null
+          carga_horaria_semanal?: number | null
+          cargo_funcao: string
+          created_at?: string
+          data_admissao?: string | null
+          data_desligamento?: string | null
+          equipamento_id: string
+          formacao: string
+          id?: string
+          nome_completo: string
+          observacoes?: string | null
+          status?: string
+          updated_at?: string
+          vinculo: string
+        }
+        Update: {
+          atualizado_por?: string | null
+          carga_horaria_semanal?: number | null
+          cargo_funcao?: string
+          created_at?: string
+          data_admissao?: string | null
+          data_desligamento?: string | null
+          equipamento_id?: string
+          formacao?: string
+          id?: string
+          nome_completo?: string
+          observacoes?: string | null
+          status?: string
+          updated_at?: string
+          vinculo?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          cargo: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          cargo?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          cargo?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       registros_rapidos: {
         Row: {
           bairro: string | null
@@ -359,15 +440,45 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          equipamentos_vinculados: string[] | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          equipamentos_vinculados?: string[] | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          equipamentos_vinculados?: string[] | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "gestor" | "tecnico" | "coordenador"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -494,6 +605,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["gestor", "tecnico", "coordenador"],
+    },
   },
 } as const
