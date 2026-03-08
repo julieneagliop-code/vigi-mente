@@ -41,11 +41,11 @@ interface Alerta {
 }
 
 const alertasFixos: Alerta[] = [
-  { nivel: 'urgente', texto: 'Relatório Semestral — prazo: Jun/2025', data: '30/06/2025' },
-  { nivel: 'atencao', texto: 'Censo SUAS — preenchimento previsto para Outubro/2025', data: 'Out/2025' },
-  { nivel: 'atencao', texto: 'Visita bimestral às entidades — verificar agenda', data: 'Mar/2025' },
-  { nivel: 'informativo', texto: 'Capacitação da equipe — planejar cronograma', data: '2025' },
-  { nivel: 'informativo', texto: 'Reunião mensal de monitoramento — agendar próxima', data: 'Mar/2025' },
+  { nivel: 'urgente', texto: 'Relatório Semestral — prazo: Jun/2026', data: '30/06/2026' },
+  { nivel: 'atencao', texto: 'Censo SUAS — preenchimento previsto para Outubro/2026', data: 'Out/2026' },
+  { nivel: 'atencao', texto: 'Visita bimestral às entidades — verificar agenda', data: 'Mar/2026' },
+  { nivel: 'informativo', texto: 'Capacitação da equipe — planejar cronograma', data: '2026' },
+  { nivel: 'informativo', texto: 'Reunião mensal de monitoramento — agendar próxima', data: 'Mar/2026' },
 ];
 
 // Alertas automáticos para ações atrasadas
@@ -111,7 +111,7 @@ export default function Dashboard() {
         <SummaryCard title="Total de Equipamentos" value={9} icon={Building2} variant="primary" subtitle="3 diretos • 6 indiretos" />
         <SummaryCard title="Famílias no CadÚnico" value="8.015" icon={Users} variant="success" subtitle="390 rural • 7.625 urbano" />
         <SummaryCard title="Ações em Andamento" value={emAndamento} icon={Activity} variant="warning" subtitle={`de ${acoesPlanilha.length} ações totais`} />
-        <SummaryCard title="Próximo Relatório" value="Jun/2025" icon={Calendar} variant="primary" subtitle="Relatório Semestral — DRADS" />
+        <SummaryCard title="Próximo Relatório" value="Jun/2026" icon={Calendar} variant="primary" subtitle="Relatório Semestral — DRADS" />
       </div>
 
       {/* Charts Row */}
@@ -200,7 +200,7 @@ export default function Dashboard() {
                   <div className="flex items-center gap-3 mt-1">
                     <span className="text-xs text-muted-foreground">{a.periodicidade}</span>
                     <span className="text-xs font-medium text-primary">
-                      {mesesNomes[a.mesInicio - 1]}{a.mesInicio !== a.mesFim ? `–${mesesNomes[a.mesFim - 1]}` : ''}/2025
+                      {mesesNomes[a.mesInicio - 1]}{a.mesInicio !== a.mesFim ? `–${mesesNomes[a.mesFim - 1]}` : ''}/2026
                     </span>
                   </div>
                 </div>

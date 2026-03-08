@@ -30,7 +30,7 @@ export default function EquipamentoDetalhe() {
   }));
 
   const visitas = [
-    { data: '10/01/2025', observacoes: 'Estrutura em boas condições. Equipe completa.', pendencias: 'Nenhuma', responsavel: 'Ana Paula' },
+    { data: '10/01/2026', observacoes: 'Estrutura em boas condições. Equipe completa.', pendencias: 'Nenhuma', responsavel: 'Ana Paula' },
     { data: '15/11/2024', observacoes: 'Necessidade de manutenção elétrica.', pendencias: 'Solicitar manutenção', responsavel: 'Maria Clara' },
   ];
 

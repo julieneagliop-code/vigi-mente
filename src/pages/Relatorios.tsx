@@ -21,7 +21,7 @@ const meses = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ];
-const anos = ['2024', '2025', '2026'];
+const anos = ['2025', '2026', '2027'];
 const mesAnoOptions = anos.flatMap((a) => meses.map((m) => `${m}/${a}`));
 
 const tiposRelatorio = [
@@ -255,14 +255,14 @@ async function exportExcel(titulo: string) {
 
 /* ──────────────────────────── COMPONENT ──────────────────────────── */
 export default function Relatorios() {
-  const [periodo, setPeriodo] = useState('1sem2025');
+  const [periodo, setPeriodo] = useState('1sem2026');
   const totalPrevisto = orcamento.reduce((s, o) => s + o.valorPrevisto, 0);
   const totalExecutado = orcamento.reduce((s, o) => s + o.valorExecutado, 0);
 
   // AI report state
   const [tipoRel, setTipoRel] = useState('semestral_drads');
-  const [periodoInicio, setPeriodoInicio] = useState('Janeiro/2025');
-  const [periodoFim, setPeriodoFim] = useState('Junho/2025');
+  const [periodoInicio, setPeriodoInicio] = useState('Janeiro/2026');
+  const [periodoFim, setPeriodoFim] = useState('Junho/2026');
   const [instrucoes, setInstrucoes] = useState('');
   const [gerando, setGerando] = useState(false);
   const [relatorioGerado, setRelatorioGerado] = useState('');
@@ -270,7 +270,7 @@ export default function Relatorios() {
   const previewRef = useRef<HTMLDivElement>(null);
 
   const relatoriosAnteriores = [
-    { periodo: '2º Semestre 2024', dataGeracao: '15/01/2025', destinatario: 'DRADS', status: 'finalizado' },
+    { periodo: '2º Semestre 2025', dataGeracao: '15/01/2026', destinatario: 'DRADS', status: 'finalizado' },
     { periodo: '1º Semestre 2024', dataGeracao: '10/07/2024', destinatario: 'Conselho', status: 'finalizado' },
   ];
 
