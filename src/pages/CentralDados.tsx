@@ -19,7 +19,7 @@ const meses = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ];
-const anos = ['2024', '2025', '2026'];
+const anos = ['2025', '2026', '2027'];
 const mesAnoOptions = anos.flatMap((a) => meses.map((m) => `${m}/${a}`));
 
 const NumField = ({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) => (
@@ -32,7 +32,7 @@ const NumField = ({ label, value, onChange }: { label: string; value: number; on
 /* ──────────────────────────── Component ──────────────────────────── */
 export default function CentralDados() {
   const [equipSel, setEquipSel] = useState('2');
-  const [mesRef, setMesRef] = useState('Março/2025');
+  const [mesRef, setMesRef] = useState('Março/2026');
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +67,7 @@ export default function CentralDados() {
 
   /* ── CadÚnico state ── */
   const [cad, setCad] = useState({
-    mesRef: 'Março/2025',
+    mesRef: 'Março/2026',
     total_familias: 0, urbanas: 0, rurais: 0,
     extrema_pobreza: 0, pobreza: 0, acima_linha: 0,
     atualizado: 0, desatualizado: 0,
