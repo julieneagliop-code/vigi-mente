@@ -6,6 +6,7 @@ export interface Equipamento {
   servicos: string[];
   publicoAtendido: string;
   capacidade: number;
+  capacidadeMensal: number;
   capacidadeDescricao: string;
   equipeTotalProfissionais: number;
   atendimentosAtuais: number;
@@ -20,9 +21,10 @@ export const equipamentos: Equipamento[] = [
     servicos: ['Benefícios eventuais (auxílio natalidade, funeral, vulnerabilidade temporária, calamidade)'],
     publicoAtendido: 'Famílias fora da área do CRAS e não atendidas pelo CREAS',
     capacidade: 3103,
-    capacidadeDescricao: '3.103 atendimentos/ano',
+    capacidadeMensal: 259,
+    capacidadeDescricao: '3.103 atendimentos/ano (~259/mês)',
     equipeTotalProfissionais: 4,
-    atendimentosAtuais: 2450,
+    atendimentosAtuais: 204,
   },
   {
     id: '2',
@@ -32,6 +34,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['SCFV Idosos (60+)', 'SCFV Crianças (até 6 anos)', 'PAIF', 'Benefícios Eventuais'],
     publicoAtendido: 'Famílias em situação de vulnerabilidade',
     capacidade: 650,
+    capacidadeMensal: 650,
     capacidadeDescricao: 'SCFV Idosos 120, SCFV Crianças 50, PAIF 480/mês',
     equipeTotalProfissionais: 8,
     atendimentosAtuais: 520,
@@ -44,6 +47,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['PAEFI', 'MSE (LA e PSC)', 'Abordagem Social', 'Benefícios Eventuais'],
     publicoAtendido: 'Famílias e indivíduos em situação de risco',
     capacidade: 77,
+    capacidadeMensal: 77,
     capacidadeDescricao: 'PAEFI 50, MSE 15, Abordagem Social 12/mês',
     equipeTotalProfissionais: 6,
     atendimentosAtuais: 58,
@@ -56,6 +60,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['Acolhimento Institucional'],
     publicoAtendido: 'Idosos',
     capacidade: 67,
+    capacidadeMensal: 67,
     capacidadeDescricao: '67 vagas',
     equipeTotalProfissionais: 17,
     atendimentosAtuais: 62,
@@ -68,6 +73,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['Acolhimento Institucional'],
     publicoAtendido: 'Crianças e Adolescentes',
     capacidade: 10,
+    capacidadeMensal: 10,
     capacidadeDescricao: '10 vagas',
     equipeTotalProfissionais: 11,
     atendimentosAtuais: 7,
@@ -80,6 +86,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['Proteção Social Especial para PcD, Idosos e Famílias'],
     publicoAtendido: 'Pessoas com deficiência, familiares, cuidadores',
     capacidade: 150,
+    capacidadeMensal: 150,
     capacidadeDescricao: '150 pessoas',
     equipeTotalProfissionais: 12,
     atendimentosAtuais: 132,
@@ -92,6 +99,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['SCFV'],
     publicoAtendido: 'Crianças e adolescentes 6-15 anos',
     capacidade: 100,
+    capacidadeMensal: 100,
     capacidadeDescricao: '100 pessoas',
     equipeTotalProfissionais: 6,
     atendimentosAtuais: 85,
@@ -104,6 +112,7 @@ export const equipamentos: Equipamento[] = [
     servicos: ['SCFV'],
     publicoAtendido: 'Crianças e adolescentes 6-15 anos',
     capacidade: 80,
+    capacidadeMensal: 80,
     capacidadeDescricao: '80 pessoas',
     equipeTotalProfissionais: 9,
     atendimentosAtuais: 72,
@@ -116,20 +125,9 @@ export const equipamentos: Equipamento[] = [
     servicos: ['SCFV'],
     publicoAtendido: 'Adultos 30-59 anos',
     capacidade: 30,
+    capacidadeMensal: 30,
     capacidadeDescricao: '30 pessoas',
     equipeTotalProfissionais: 2,
     atendimentosAtuais: 24,
-  },
-  {
-    id: '10',
-    nome: 'IAE',
-    tipoRede: 'indireta',
-    complexidade: 'baixa',
-    servicos: ['SCFV'],
-    publicoAtendido: 'Adolescentes e jovens 15-17 anos',
-    capacidade: 30,
-    capacidadeDescricao: '30 pessoas',
-    equipeTotalProfissionais: 5,
-    atendimentosAtuais: 22,
   },
 ];
