@@ -16,7 +16,7 @@ export const equipamentos: Equipamento[] = [
   {
     id: '1',
     nome: 'Órgão Gestor / Plantão Social',
-    tipoRede: 'direta',
+    tipoRede: 'indireta',
     complexidade: 'baixa',
     servicos: ['Benefícios eventuais (auxílio natalidade, funeral, vulnerabilidade temporária, calamidade)'],
     publicoAtendido: 'Famílias fora da área do CRAS e não atendidas pelo CREAS',
