@@ -1,4 +1,4 @@
-import { Building2, Users, Activity, Calendar, AlertTriangle, Clock, FileWarning } from 'lucide-react';
+import { Building2, Users, Activity, Calendar, AlertTriangle, CalendarClock, Info, CircleAlert } from 'lucide-react';
 import { SummaryCard } from '@/components/SummaryCard';
 import { equipamentos } from '@/data/equipamentos';
 import { acoesPlanilha } from '@/data/planoTrabalho';
@@ -32,20 +32,40 @@ const statusData = [
   { name: 'Não iniciadas', value: naoIniciadas, color: 'hsl(215 16% 75%)' },
 ];
 
-const alertas = [
-  { icon: Clock, cor: 'text-warning', texto: 'Censo SUAS previsto para outubro — preparar documentação' },
-  { icon: FileWarning, cor: 'text-destructive', texto: 'PMASweb pendente de alimentação' },
-  { icon: AlertTriangle, cor: 'text-warning', texto: '3 visitas a entidades pendentes neste bimestre' },
-  { icon: Clock, cor: 'text-primary', texto: 'Relatório semestral previsto para junho/2025' },
+type Nivel = 'urgente' | 'atencao' | 'informativo';
+
+interface Alerta {
+  nivel: Nivel;
+  texto: string;
+  data: string;
+}
+
+const alertasFixos: Alerta[] = [
+  { nivel: 'urgente', texto: 'Relatório Semestral — prazo: Jun/2025', data: '30/06/2025' },
+  { nivel: 'atencao', texto: 'Censo SUAS — preenchimento previsto para Outubro/2025', data: 'Out/2025' },
+  { nivel: 'atencao', texto: 'Visita bimestral às entidades — verificar agenda', data: 'Mar/2025' },
+  { nivel: 'informativo', texto: 'Capacitação da equipe — planejar cronograma', data: '2025' },
+  { nivel: 'informativo', texto: 'Reunião mensal de monitoramento — agendar próxima', data: 'Mar/2025' },
 ];
 
-const cronograma = [
-  { data: '15/03/2025', atividade: 'Reunião de monitoramento — CRAS', status: 'em_andamento' },
-  { data: '20/03/2025', atividade: 'Visita ao Abrigo Esperança', status: 'nao_iniciada' },
-  { data: '01/04/2025', atividade: 'Reunião bases de dados externas', status: 'nao_iniciada' },
-  { data: '15/04/2025', atividade: 'Visita à APAE', status: 'nao_iniciada' },
-  { data: '30/06/2025', atividade: 'Relatório Semestral — 1º Sem.', status: 'nao_iniciada' },
-];
+// Alertas automáticos para ações atrasadas
+const alertasAtrasadas: Alerta[] = acoesPlanilha
+  .filter((a) => a.status === 'atrasada')
+  .map((a) => ({ nivel: 'urgente' as Nivel, texto: `Ação atrasada: ${a.acaoTitulo}`, data: '' }));
+
+const todosAlertas = [...alertasAtrasadas, ...alertasFixos];
+
+const nivelConfig: Record<Nivel, { bg: string; border: string; dot: string }> = {
+  urgente: { bg: 'bg-destructive/5', border: 'border-destructive/15', dot: 'bg-destructive' },
+  atencao: { bg: 'bg-warning/5', border: 'border-warning/15', dot: 'bg-warning' },
+  informativo: { bg: 'bg-primary/5', border: 'border-primary/15', dot: 'bg-primary' },
+};
+
+// Próximas atividades do plano (em_andamento e nao_iniciada, ordenadas por mesInicio)
+const proximasAtividades = acoesPlanilha
+  .filter((a) => a.status === 'em_andamento' || a.status === 'nao_iniciada')
+  .sort((a, b) => a.mesInicio - b.mesInicio)
+  .slice(0, 5);
 
 const statusColors: Record<string, string> = {
   em_andamento: 'bg-primary',
@@ -53,6 +73,8 @@ const statusColors: Record<string, string> = {
   concluida: 'bg-success',
   atrasada: 'bg-destructive',
 };
+
+const mesesNomes = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
 export default function Dashboard() {
   return (
@@ -104,34 +126,54 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Bottom Panels */}
+      {/* Alertas & Próximas Atividades */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Alertas */}
-        <div className="bg-card rounded-lg shadow-card p-5">
-          <h2 className="font-semibold text-foreground mb-4">Alertas e Pendências</h2>
-          <div className="space-y-3">
-            {alertas.map((a, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
-                <a.icon className={`h-5 w-5 flex-shrink-0 mt-0.5 ${a.cor}`} />
-                <p className="text-sm text-foreground">{a.texto}</p>
-              </div>
-            ))}
+        {/* Alertas e Pendências */}
+        <div className="bg-card rounded-lg shadow-card p-5 flex flex-col">
+          <div className="flex items-center gap-2 mb-4">
+            <AlertTriangle className="h-5 w-5 text-warning" />
+            <h2 className="font-semibold text-foreground">Alertas e Pendências</h2>
           </div>
+          <div className="space-y-2.5 flex-1">
+            {todosAlertas.slice(0, 5).map((a, i) => {
+              const cfg = nivelConfig[a.nivel];
+              return (
+                <div key={i} className={`flex items-center gap-3 p-3 rounded-lg border ${cfg.bg} ${cfg.border}`}>
+                  <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
+                  <p className="text-sm text-foreground flex-1">{a.texto}</p>
+                  {a.data && <span className="text-xs text-muted-foreground whitespace-nowrap">{a.data}</span>}
+                </div>
+              );
+            })}
+          </div>
+          {todosAlertas.length > 5 && (
+            <button className="text-sm text-primary font-medium mt-3 hover:underline self-start">
+              Ver todos ({todosAlertas.length})
+            </button>
+          )}
         </div>
 
-        {/* Cronograma */}
-        <div className="bg-card rounded-lg shadow-card p-5">
-          <h2 className="font-semibold text-foreground mb-4">Cronograma Resumido</h2>
-          <div className="space-y-4">
-            {cronograma.map((c, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <div className="flex flex-col items-center">
-                  <div className={`w-3 h-3 rounded-full ${statusColors[c.status]}`} />
-                  {i < cronograma.length - 1 && <div className="w-px h-8 bg-border" />}
+        {/* Próximas Atividades */}
+        <div className="bg-card rounded-lg shadow-card p-5 flex flex-col">
+          <div className="flex items-center gap-2 mb-4">
+            <CalendarClock className="h-5 w-5 text-primary" />
+            <h2 className="font-semibold text-foreground">Próximas Atividades</h2>
+          </div>
+          <div className="space-y-4 flex-1">
+            {proximasAtividades.map((a, i) => (
+              <div key={a.id} className="flex items-start gap-3">
+                <div className="flex flex-col items-center pt-0.5">
+                  <div className={`w-3 h-3 rounded-full ${statusColors[a.status]}`} />
+                  {i < proximasAtividades.length - 1 && <div className="w-px h-10 bg-border mt-1" />}
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">{c.atividade}</p>
-                  <p className="text-xs text-muted-foreground">{c.data}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground leading-tight">{a.acaoTitulo}</p>
+                  <div className="flex items-center gap-3 mt-1">
+                    <span className="text-xs text-muted-foreground">{a.periodicidade}</span>
+                    <span className="text-xs font-medium text-primary">
+                      {mesesNomes[a.mesInicio - 1]}{a.mesInicio !== a.mesFim ? `–${mesesNomes[a.mesFim - 1]}` : ''}/2025
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
