@@ -7,11 +7,18 @@ import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts';
 
-const atendimentosData = equipamentos.map((e) => ({
-  nome: e.nome.length > 20 ? e.nome.substring(0, 20) + '…' : e.nome,
-  capacidade: e.capacidade,
-  atendimentos: e.atendimentosAtuais,
-}));
+// Capacidade mensal ordenada do maior para o menor
+const capacidadeData = [
+  { nome: 'CRAS', capacidade: 650 },
+  { nome: 'Órgão Gestor', capacidade: 259 },
+  { nome: 'APAE', capacidade: 150 },
+  { nome: 'APIM', capacidade: 100 },
+  { nome: 'CAICA', capacidade: 80 },
+  { nome: 'CREAS', capacidade: 77 },
+  { nome: 'Abrigo Esperança', capacidade: 67 },
+  { nome: 'AVCC', capacidade: 30 },
+  { nome: 'ACLA', capacidade: 10 },
+];
 
 const emAndamento = acoesPlanilha.filter((a) => a.status === 'em_andamento').length;
 const concluidas = acoesPlanilha.filter((a) => a.status === 'concluida').length;
@@ -57,7 +64,7 @@ export default function Dashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCard title="Total de Equipamentos" value={equipamentos.length} icon={Building2} variant="primary" subtitle="3 diretos • 7 indiretos" />
+        <SummaryCard title="Total de Equipamentos" value={9} icon={Building2} variant="primary" subtitle="3 diretos • 6 indiretos" />
         <SummaryCard title="Famílias no CadÚnico" value="8.015" icon={Users} variant="success" subtitle="390 rural • 7.625 urbano" />
         <SummaryCard title="Ações em Andamento" value={emAndamento} icon={Activity} variant="warning" subtitle={`de ${acoesPlanilha.length} ações totais`} />
         <SummaryCard title="Próximo Relatório" value="Jun/2025" icon={Calendar} variant="primary" subtitle="Relatório Semestral — DRADS" />
@@ -65,19 +72,19 @@ export default function Dashboard() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Atendimentos Chart */}
+        {/* Capacidade Mensal Chart */}
         <div className="bg-card rounded-lg shadow-card p-5">
-          <h2 className="font-semibold text-foreground mb-4">Atendimentos por Equipamento</h2>
+          <h2 className="font-semibold text-foreground mb-4">Capacidade Mensal por Equipamento</h2>
           <ResponsiveContainer width="100%" height={340}>
-            <BarChart data={atendimentosData} layout="vertical" margin={{ left: 10, right: 20 }}>
+            <BarChart data={capacidadeData} layout="vertical" margin={{ left: 10, right: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 32% 91%)" />
               <XAxis type="number" tick={{ fontSize: 11 }} />
               <YAxis dataKey="nome" type="category" width={120} tick={{ fontSize: 11 }} />
               <Tooltip formatter={(val: number) => val.toLocaleString('pt-BR')} />
-              <Bar dataKey="capacidade" fill="hsl(214 32% 91%)" name="Capacidade" radius={[0, 4, 4, 0]} />
-              <Bar dataKey="atendimentos" fill="hsl(224 76% 40%)" name="Atendimentos" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="capacidade" fill="hsl(224 76% 40%)" name="Capacidade" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
+          <p className="text-xs text-muted-foreground mt-2">* Atendimentos realizados serão exibidos quando houver dados lançados.</p>
         </div>
 
         {/* Status Pie Chart */}
