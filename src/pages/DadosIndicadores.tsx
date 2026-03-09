@@ -18,13 +18,13 @@ export default function DadosIndicadores() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Dados e Indicadores</h1>
+        <h1 className="text-2xl font-bold text-foreground">Dados e indicadores</h1>
         <p className="text-muted-foreground text-sm mt-1">Consolidação de dados do município</p>
       </div>
 
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList className="bg-card border">
-          <TabsTrigger value="perfil">Perfil do Município</TabsTrigger>
+          <TabsTrigger value="perfil">Perfil do município</TabsTrigger>
           <TabsTrigger value="cadunico">CadÚnico</TabsTrigger>
           <TabsTrigger value="vulnerabilidades">Vulnerabilidades</TabsTrigger>
           <TabsTrigger value="violencias">Violências</TabsTrigger>
@@ -33,7 +33,7 @@ export default function DadosIndicadores() {
         <TabsContent value="perfil" className="space-y-6 mt-4">
           {/* Dados gerais */}
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h2 className="font-semibold text-foreground mb-4">Dados Gerais — Presidente Venceslau/SP</h2>
+            <h2 className="font-semibold text-foreground mb-4">Dados gerais — Presidente Venceslau/SP</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {[
                 { label: 'População', value: dadosMunicipio.populacao.toLocaleString('pt-BR') },
@@ -53,7 +53,7 @@ export default function DadosIndicadores() {
 
           {/* Pirâmide Etária */}
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h2 className="font-semibold text-foreground mb-4">Pirâmide Etária</h2>
+            <h2 className="font-semibold text-foreground mb-4">Pirâmide etária</h2>
             <ResponsiveContainer width="100%" height={500}>
               <BarChart data={piramideFormatada} layout="vertical" margin={{ left: 10, right: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 32% 91%)" />
@@ -71,7 +71,7 @@ export default function DadosIndicadores() {
         <TabsContent value="cadunico" className="space-y-6 mt-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-card rounded-lg shadow-card p-5">
-              <h2 className="font-semibold text-foreground mb-4">Famílias por Área</h2>
+              <h2 className="font-semibold text-foreground mb-4">Famílias por área</h2>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie data={[
@@ -90,7 +90,7 @@ export default function DadosIndicadores() {
               <h2 className="font-semibold text-foreground mb-4">Resumo CadÚnico</h2>
               <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-muted/50">
-                  <p className="text-sm text-muted-foreground">Total de Famílias</p>
+                  <p className="text-sm text-muted-foreground">Total de famílias</p>
                   <p className="text-3xl font-bold text-foreground">{dadosCadUnico.total.toLocaleString('pt-BR')}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -125,7 +125,7 @@ export default function DadosIndicadores() {
 
         <TabsContent value="violencias" className="space-y-6 mt-4">
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h2 className="font-semibold text-foreground mb-4">Registros de Violências e Violações</h2>
+            <h2 className="font-semibold text-foreground mb-4">Registros de violências e violações</h2>
             <p className="text-sm text-muted-foreground">Nenhum registro cadastrado. Utilize o formulário para inserir dados do RMA do CREAS.</p>
             <div className="mt-6 p-8 rounded-lg border-2 border-dashed border-border flex flex-col items-center text-center">
               <p className="text-muted-foreground text-sm">Conecte ao Lovable Cloud para persistir dados de violências e violações.</p>
