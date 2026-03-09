@@ -32,8 +32,8 @@ export function PlanoTrabalhoPanel({ planoTrabalho }: PlanoTrabalhoPanelProps) {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Target className="h-5 w-5 text-primary" />
-          Execução do Plano de Trabalho
+           <Target className="h-5 w-5 text-primary" />
+           Execução do plano de trabalho
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -41,7 +41,7 @@ export function PlanoTrabalhoPanel({ planoTrabalho }: PlanoTrabalhoPanelProps) {
           {/* Progress geral */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium text-foreground">Progresso Geral</h4>
+              <h4 className="text-sm font-medium text-foreground">Progresso geral</h4>
               <span className="text-2xl font-bold text-primary">{planoTrabalho.percentualExecucao}%</span>
             </div>
             <Progress value={planoTrabalho.percentualExecucao} className="h-3" />
@@ -74,7 +74,7 @@ export function PlanoTrabalhoPanel({ planoTrabalho }: PlanoTrabalhoPanelProps) {
 
           {/* Próximas ações */}
           <div className="space-y-3">
-            <h4 className="text-sm font-medium text-foreground">Próximas Ações Prioritárias</h4>
+            <h4 className="text-sm font-medium text-foreground">Próximas ações prioritárias</h4>
             {planoTrabalho.proximasAcoes.length === 0 ? (
               <div className="text-center py-4">
                 <CheckCircle className="h-8 w-8 mx-auto mb-2 text-success" />

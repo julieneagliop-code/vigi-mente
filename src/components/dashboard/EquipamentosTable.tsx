@@ -40,17 +40,17 @@ export function EquipamentosTable({ equipamentos }: EquipamentosTableProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Produção por Equipamento</CardTitle>
+        <CardTitle>Produção por equipamento</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Equipamento</TableHead>
-              <TableHead>Rede</TableHead>
-              <TableHead className="text-center">Registros do Mês</TableHead>
-              <TableHead className="text-center">Variação</TableHead>
-              <TableHead className="text-center">Última Atualização</TableHead>
+               <TableHead>Rede</TableHead>
+               <TableHead className="text-center">Registros do mês</TableHead>
+               <TableHead className="text-center">Variação</TableHead>
+               <TableHead className="text-center">Última atualização</TableHead>
               <TableHead className="text-center">Status</TableHead>
             </TableRow>
           </TableHeader>

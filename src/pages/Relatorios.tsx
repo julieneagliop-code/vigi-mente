@@ -25,11 +25,11 @@ const anos = ['2025', '2026', '2027'];
 const mesAnoOptions = anos.flatMap((a) => meses.map((m) => `${m}/${a}`));
 
 const tiposRelatorio = [
-  { value: 'semestral_drads', label: 'Relatório Semestral para DRADS' },
-  { value: 'semestral_conselho', label: 'Relatório Semestral para Conselho Municipal' },
-  { value: 'diagnostico', label: 'Diagnóstico Socioterritorial' },
-  { value: 'monitoramento', label: 'Relatório de Monitoramento da Rede' },
-  { value: 'personalizado', label: 'Relatório Personalizado' },
+  { value: 'semestral_drads', label: 'Relatório semestral para DRADS' },
+  { value: 'semestral_conselho', label: 'Relatório semestral para Conselho Municipal' },
+  { value: 'diagnostico', label: 'Diagnóstico socioterritorial' },
+  { value: 'monitoramento', label: 'Relatório de monitoramento da rede' },
+  { value: 'personalizado', label: 'Relatório personalizado' },
 ];
 
 /* ── SSE stream helper ── */
@@ -345,12 +345,12 @@ export default function Relatorios() {
       <div className="bg-card rounded-lg shadow-card p-5 space-y-4">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <h2 className="font-semibold text-foreground">Gerar Relatório com IA</h2>
+          <h2 className="font-semibold text-foreground">Gerar relatório com IA</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <Label className="text-xs text-muted-foreground">Tipo de Relatório</Label>
+            <Label className="text-xs text-muted-foreground">Tipo de relatório</Label>
             <Select value={tipoRel} onValueChange={setTipoRel}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -361,7 +361,7 @@ export default function Relatorios() {
             </Select>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Período Início</Label>
+            <Label className="text-xs text-muted-foreground">Período início</Label>
             <Select value={periodoInicio} onValueChange={setPeriodoInicio}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -370,7 +370,7 @@ export default function Relatorios() {
             </Select>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Período Fim</Label>
+            <Label className="text-xs text-muted-foreground">Período fim</Label>
             <Select value={periodoFim} onValueChange={setPeriodoFim}>
               <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -401,7 +401,7 @@ export default function Relatorios() {
         <div className="bg-card rounded-lg shadow-card p-5 space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <h2 className="font-semibold text-foreground flex items-center gap-2">
-              <FileText className="h-5 w-5 text-primary" /> Preview do Relatório
+              <FileText className="h-5 w-5 text-primary" /> Preview do relatório
             </h2>
             <div className="flex gap-2 flex-wrap">
               <Button variant="outline" size="sm" onClick={handleExportPDF} disabled={!!exportando || gerando} className="gap-1.5">
@@ -436,13 +436,13 @@ export default function Relatorios() {
 
       {/* ═══════════════ RELATÓRIOS ANTERIORES ═══════════════ */}
       <div className="bg-card rounded-lg shadow-card p-5">
-        <h2 className="font-semibold text-foreground mb-4">Relatórios Anteriores</h2>
+        <h2 className="font-semibold text-foreground mb-4">Relatórios anteriores</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left">
                 <th className="pb-2 font-medium text-muted-foreground">Período</th>
-                <th className="pb-2 font-medium text-muted-foreground">Data de Geração</th>
+                <th className="pb-2 font-medium text-muted-foreground">Data de geração</th>
                 <th className="pb-2 font-medium text-muted-foreground">Destinatário</th>
                 <th className="pb-2 font-medium text-muted-foreground">Status</th>
               </tr>
@@ -468,7 +468,7 @@ export default function Relatorios() {
       {/* ═══════════════ ORÇAMENTO ═══════════════ */}
       <div className="bg-card rounded-lg shadow-card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-foreground">Previsão de Recursos Financeiros</h2>
+          <h2 className="font-semibold text-foreground">Previsão de recursos financeiros</h2>
           <Button variant="outline" size="sm" onClick={handleExportExcel} disabled={!!exportando} className="gap-1.5">
             <FileSpreadsheet className="h-3.5 w-3.5" /> Exportar dados
           </Button>
@@ -478,8 +478,8 @@ export default function Relatorios() {
             <thead>
               <tr className="border-b text-left">
                 <th className="pb-2 font-medium text-muted-foreground">Categoria</th>
-                <th className="pb-2 font-medium text-muted-foreground text-right">Valor Previsto</th>
-                <th className="pb-2 font-medium text-muted-foreground text-right">Valor Executado</th>
+                 <th className="pb-2 font-medium text-muted-foreground text-right">Valor previsto</th>
+                 <th className="pb-2 font-medium text-muted-foreground text-right">Valor executado</th>
                 <th className="pb-2 font-medium text-muted-foreground text-right">Saldo</th>
               </tr>
             </thead>

@@ -53,7 +53,7 @@ export default function DashboardExecutivo() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-muted-foreground">{getSaudacao()}</p>
-          <h1 className="text-2xl font-bold text-foreground">Dashboard Executivo</h1>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard executivo</h1>
           <p className="text-muted-foreground text-sm mt-1">
             Monitoramento da Vigilância Socioassistencial — Presidente Venceslau/SP
           </p>
@@ -79,31 +79,31 @@ export default function DashboardExecutivo() {
           {/* BLOCO 1 - Resumo do Mês */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <MetricCard
-              title="Total de Registros"
+              title="Total de registros"
               value={metrics?.totalRegistros.atual || 0}
               variation={metrics?.totalRegistros.variacao || 0}
               icon={<FileText className="h-5 w-5" />}
             />
             <MetricCard
-              title="Atendimentos Registrados"
+              title="Atendimentos registrados"
               value={metrics?.atendimentosRegistrados.atual || 0}
               variation={metrics?.atendimentosRegistrados.variacao || 0}
               icon={<Users className="h-5 w-5" />}
             />
             <MetricCard
-              title="Ocorrências Registradas"
+              title="Ocorrências registradas"
               value={metrics?.ocorrenciasRegistradas.atual || 0}
               variation={metrics?.ocorrenciasRegistradas.variacao || 0}
               icon={<AlertTriangle className="h-5 w-5" />}
             />
             <MetricCard
-              title="CadÚnico Movimentado"
+              title="CadÚnico movimentado"
               value={metrics?.cadunicoMovimentado.atual || 0}
               variation={metrics?.cadunicoMovimentado.variacao || 0}
               icon={<Activity className="h-5 w-5" />}
             />
             <MetricCard
-              title="Execução do Plano"
+              title="Execução do plano"
               value={metrics?.execucaoPlano.atual || 0}
               variation={metrics?.execucaoPlano.variacao || 0}
               format="percentage"

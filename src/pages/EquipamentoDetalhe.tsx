@@ -87,7 +87,7 @@ export default function EquipamentoDetalhe() {
 
       {/* Evolução */}
       <div className="bg-card rounded-lg shadow-card p-5">
-        <h2 className="font-semibold text-foreground mb-4">Evolução de Atendimentos (últimos 12 meses)</h2>
+        <h2 className="font-semibold text-foreground mb-4">Evolução de atendimentos (últimos 12 meses)</h2>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={evolucao}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 32% 91%)" />
@@ -101,7 +101,7 @@ export default function EquipamentoDetalhe() {
 
       {/* Visitas */}
       <div className="bg-card rounded-lg shadow-card p-5">
-        <h2 className="font-semibold text-foreground mb-4">Histórico de Visitas</h2>
+        <h2 className="font-semibold text-foreground mb-4">Histórico de visitas</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

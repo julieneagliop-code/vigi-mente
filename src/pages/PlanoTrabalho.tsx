@@ -32,14 +32,14 @@ export default function PlanoTrabalho() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Plano de Trabalho</h1>
+        <h1 className="text-2xl font-bold text-foreground">Plano de trabalho</h1>
         <p className="text-muted-foreground text-sm mt-1">Acompanhamento das macroatividades e ações</p>
       </div>
 
       {/* Progress Overview */}
       <div className="bg-card rounded-lg shadow-card p-5">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-semibold text-foreground">Progresso Geral</h2>
+          <h2 className="font-semibold text-foreground">Progresso geral</h2>
           <span className="text-2xl font-bold text-primary">{progressoGeral}%</span>
         </div>
         <Progress value={progressoGeral} className="h-3 mb-4" />
@@ -104,7 +104,7 @@ export default function PlanoTrabalho() {
 
       {/* Complementares */}
       <div className="bg-card rounded-lg shadow-card p-5">
-        <h2 className="font-semibold text-foreground mb-3">Ações Complementares</h2>
+        <h2 className="font-semibold text-foreground mb-3">Ações complementares</h2>
         <ul className="space-y-2">
           {acoesComplementares.map((a, i) => (
             <li key={i} className="flex items-center gap-2 text-sm text-foreground p-2 rounded-lg bg-muted/30">
@@ -117,7 +117,7 @@ export default function PlanoTrabalho() {
 
       {/* Gantt simplificado */}
       <div className="bg-card rounded-lg shadow-card p-5 overflow-x-auto">
-        <h2 className="font-semibold text-foreground mb-4">Cronograma Anual</h2>
+        <h2 className="font-semibold text-foreground mb-4">Cronograma anual</h2>
         <div className="min-w-[700px]">
           <div className="grid grid-cols-[200px_repeat(12,1fr)] gap-px text-xs">
             <div className="font-medium text-muted-foreground p-2">Ação</div>

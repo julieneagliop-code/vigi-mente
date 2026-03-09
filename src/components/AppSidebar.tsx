@@ -17,10 +17,10 @@ import {
 
 const menuItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/rede', label: 'Rede Socioassistencial', icon: Building2 },
-  { to: '/central-dados', label: 'Central de Dados', icon: Database },
-  { to: '/dados', label: 'Dados e Indicadores', icon: BarChart3 },
-  { to: '/plano', label: 'Plano de Trabalho', icon: ClipboardList },
+  { to: '/rede', label: 'Rede socioassistencial', icon: Building2 },
+  { to: '/central-dados', label: 'Central de dados', icon: Database },
+  { to: '/dados', label: 'Dados e indicadores', icon: BarChart3 },
+  { to: '/plano', label: 'Plano de trabalho', icon: ClipboardList },
   { to: '/assistente-ia', label: 'Assistente IA', icon: BrainCircuit },
   { to: '/relatorios', label: 'Relatórios', icon: FileText },
   { to: '/configuracoes', label: 'Configurações', icon: Settings },
@@ -96,7 +96,7 @@ export function AppSidebar() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-sidebar-foreground truncate">Técnico</p>
-              <p className="text-xs text-sidebar-foreground/60">Vigilância Social</p>
+              <p className="text-xs text-sidebar-foreground/60">Vigilância social</p>
             </div>
             <button className="text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors">
               <LogOut className="h-4 w-4" />

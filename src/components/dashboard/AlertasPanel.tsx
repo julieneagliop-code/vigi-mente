@@ -41,8 +41,8 @@ export function AlertasPanel({ alertas }: AlertasPanelProps) {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <AlertTriangle className="h-5 w-5 text-warning" />
-          Alertas Automáticos
+           <AlertTriangle className="h-5 w-5 text-warning" />
+           Alertas automáticos
         </CardTitle>
       </CardHeader>
       <CardContent>

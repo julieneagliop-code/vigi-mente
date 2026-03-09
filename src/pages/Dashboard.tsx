@@ -109,17 +109,17 @@ export default function Dashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCard title="Total de Equipamentos" value={10} icon={Building2} variant="primary" subtitle="3 diretos • 7 indiretos" />
+        <SummaryCard title="Total de equipamentos" value={10} icon={Building2} variant="primary" subtitle="3 diretos • 7 indiretos" />
         <SummaryCard title="Famílias no CadÚnico" value="8.015" icon={Users} variant="success" subtitle="390 rural • 7.625 urbano" />
-        <SummaryCard title="Ações em Andamento" value={emAndamento} icon={Activity} variant="warning" subtitle={`de ${acoesPlanilha.length} ações totais`} />
-        <SummaryCard title="Próximo Relatório" value="Jun/2026" icon={Calendar} variant="primary" subtitle="Relatório Semestral — DRADS" />
+        <SummaryCard title="Ações em andamento" value={emAndamento} icon={Activity} variant="warning" subtitle={`de ${acoesPlanilha.length} ações totais`} />
+        <SummaryCard title="Próximo relatório" value="Jun/2026" icon={Calendar} variant="primary" subtitle="Relatório semestral — DRADS" />
       </div>
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Capacidade Mensal Chart */}
         <div className="bg-card rounded-lg shadow-card p-5">
-          <h2 className="font-semibold text-foreground mb-4">Capacidade Mensal por Equipamento</h2>
+          <h2 className="font-semibold text-foreground mb-4">Capacidade mensal por equipamento</h2>
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={capacidadeData} layout="vertical" margin={{ left: 10, right: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(214 32% 91%)" />
@@ -134,7 +134,7 @@ export default function Dashboard() {
 
         {/* Status Pie Chart */}
         <div className="bg-card rounded-lg shadow-card p-5">
-          <h2 className="font-semibold text-foreground mb-4">Status das Ações do Plano</h2>
+          <h2 className="font-semibold text-foreground mb-4">Status das ações do plano</h2>
           <ResponsiveContainer width="100%" height={340}>
             <PieChart>
               <Pie data={statusData} cx="50%" cy="50%" innerRadius={70} outerRadius={120} dataKey="value" label={({ name, value }) => `${name}: ${value}`} labelLine={false}>
@@ -162,7 +162,7 @@ export default function Dashboard() {
         <div className="bg-card rounded-lg shadow-card p-5 flex flex-col">
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="h-5 w-5 text-warning" />
-            <h2 className="font-semibold text-foreground">Alertas e Pendências</h2>
+            <h2 className="font-semibold text-foreground">Alertas e pendências</h2>
           </div>
           <div className="space-y-2.5 flex-1">
             {todosAlertas.slice(0, 5).map((a, i) => {
@@ -187,7 +187,7 @@ export default function Dashboard() {
         <div className="bg-card rounded-lg shadow-card p-5 flex flex-col">
           <div className="flex items-center gap-2 mb-4">
             <CalendarClock className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold text-foreground">Próximas Atividades</h2>
+            <h2 className="font-semibold text-foreground">Próximas atividades</h2>
           </div>
           <div className="space-y-4 flex-1">
             {proximasAtividades.map((a, i) => (

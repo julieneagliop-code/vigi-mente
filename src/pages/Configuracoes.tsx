@@ -90,9 +90,9 @@ export default function Configuracoes() {
       {/* Usuários */}
       <div className="bg-card rounded-lg shadow-card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-foreground">Usuários do Sistema</h2>
-          <button onClick={openCreate} className="flex items-center gap-2 gradient-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-            <UserPlus className="h-4 w-4" /> Adicionar Usuário
+          <h2 className="font-semibold text-foreground">Usuários do sistema</h2>
+           <button onClick={openCreate} className="flex items-center gap-2 gradient-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
+             <UserPlus className="h-4 w-4" /> Adicionar usuário
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -141,28 +141,28 @@ export default function Configuracoes() {
 
       {/* Dados do Município */}
       <div className="bg-card rounded-lg shadow-card p-5">
-        <h2 className="font-semibold text-foreground mb-4">Dados do Município</h2>
+        <h2 className="font-semibold text-foreground mb-4">Dados do município</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div><Label className="text-muted-foreground">Nome do Município</Label><Input defaultValue="Presidente Venceslau" className="mt-1" /></div>
           <div><Label className="text-muted-foreground">Estado</Label><Input defaultValue="São Paulo" className="mt-1" /></div>
           <div><Label className="text-muted-foreground">População</Label><Input defaultValue="37.981" className="mt-1" /></div>
           <div><Label className="text-muted-foreground">DRADS Vinculada</Label><Input defaultValue="DRADS Presidente Prudente" className="mt-1" /></div>
         </div>
-        <button className="mt-4 gradient-primary text-primary-foreground px-6 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">Salvar Alterações</button>
+        <button className="mt-4 gradient-primary text-primary-foreground px-6 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">Salvar alterações</button>
       </div>
 
       {/* Backup */}
       <div className="bg-card rounded-lg shadow-card p-5">
-        <h2 className="font-semibold text-foreground mb-4">Backup e Exportação</h2>
-        <p className="text-sm text-muted-foreground mb-4">Conecte ao Lovable Cloud para habilitar backup automático e persistência de dados.</p>
-        <button className="border border-primary text-primary px-6 py-2 rounded-lg text-sm font-medium hover:bg-primary/5 transition-colors">Exportar Dados (JSON)</button>
+         <h2 className="font-semibold text-foreground mb-4">Backup e exportação</h2>
+         <p className="text-sm text-muted-foreground mb-4">Conecte ao Lovable Cloud para habilitar backup automático e persistência de dados.</p>
+         <button className="border border-primary text-primary px-6 py-2 rounded-lg text-sm font-medium hover:bg-primary/5 transition-colors">Exportar dados (JSON)</button>
       </div>
 
       {/* Dialog Criar/Editar */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{editingId ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
+            <DialogTitle>{editingId ? 'Editar usuário' : 'Novo usuário'}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div><Label>Nome completo *</Label><Input value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} className="mt-1" /></div>
@@ -190,7 +190,7 @@ export default function Configuracoes() {
       <Dialog open={!!confirmDelete} onOpenChange={() => setConfirmDelete(null)}>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>Desativar Usuário</DialogTitle>
+            <DialogTitle>Desativar usuário</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground py-2">Tem certeza que deseja desativar este usuário? Ele não será excluído permanentemente.</p>
           <DialogFooter className="gap-2">

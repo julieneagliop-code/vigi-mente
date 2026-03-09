@@ -262,24 +262,24 @@ export default function CentralDados() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Database className="h-6 w-6 text-primary" /> Central de Dados
-        </h1>
+           <Database className="h-6 w-6 text-primary" /> Central de dados
+         </h1>
         <p className="text-muted-foreground text-sm mt-1">Entrada e gestão dos dados da Vigilância Socioassistencial</p>
       </div>
 
       <Tabs defaultValue="rma" className="w-full">
         <TabsList className="w-full flex">
-          <TabsTrigger value="rma" className="flex-1">RMA</TabsTrigger>
-          <TabsTrigger value="cadunico" className="flex-1">CadÚnico</TabsTrigger>
-          <TabsTrigger value="pmas" className="flex-1">PMAS e Censo SUAS</TabsTrigger>
-          <TabsTrigger value="registros" className="flex-1">Registros Rápidos</TabsTrigger>
+           <TabsTrigger value="rma" className="flex-1">RMA</TabsTrigger>
+           <TabsTrigger value="cadunico" className="flex-1">CadÚnico</TabsTrigger>
+           <TabsTrigger value="pmas" className="flex-1">PMAS e Censo SUAS</TabsTrigger>
+           <TabsTrigger value="registros" className="flex-1">Registros rápidos</TabsTrigger>
         </TabsList>
 
         {/* ═══════════════ ABA 1: RMA ═══════════════ */}
         <TabsContent value="rma" className="space-y-6 mt-4">
           {/* Filtros */}
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h2 className="font-semibold text-foreground mb-4">Relatório Mensal de Atendimentos (RMA)</h2>
+            <h2 className="font-semibold text-foreground mb-4">Relatório mensal de atendimentos (RMA)</h2>
             <div className="flex flex-wrap gap-4 items-end">
               <div>
                 <Label className="text-xs text-muted-foreground">Equipamento</Label>
@@ -293,7 +293,7 @@ export default function CentralDados() {
                 </Select>
               </div>
               <div>
-                <Label className="text-xs text-muted-foreground">Mês/Ano de Referência</Label>
+                 <Label className="text-xs text-muted-foreground">Mês/ano de referência</Label>
                 <Select value={mesRef} onValueChange={setMesRef}>
                   <SelectTrigger className="w-48 mt-1"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -420,7 +420,7 @@ export default function CentralDados() {
 
           {/* Upload */}
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h3 className="font-semibold text-foreground mb-3">Upload de arquivo</h3>
+             <h3 className="font-semibold text-foreground mb-3">Upload de arquivo</h3>
             <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/40 transition-colors cursor-pointer">
               <Upload className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
               <p className="text-sm text-muted-foreground">Arraste o arquivo do RMA aqui ou clique para selecionar</p>
@@ -430,7 +430,7 @@ export default function CentralDados() {
 
           {/* Histórico */}
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h3 className="font-semibold text-foreground mb-3">Histórico de RMAs</h3>
+             <h3 className="font-semibold text-foreground mb-3">Histórico de RMAs</h3>
             {rmaHistory.length === 0 ? (
               <p className="text-sm text-muted-foreground">Nenhum RMA lançado ainda.</p>
             ) : (
@@ -467,9 +467,9 @@ export default function CentralDados() {
         {/* ═══════════════ ABA 2: CadÚnico ═══════════════ */}
         <TabsContent value="cadunico" className="space-y-6 mt-4">
           <div className="bg-card rounded-lg shadow-card p-5 space-y-5">
-            <h2 className="font-semibold text-foreground">Atualização Mensal — CadÚnico</h2>
+            <h2 className="font-semibold text-foreground">Atualização mensal — CadÚnico</h2>
             <div>
-              <Label className="text-xs text-muted-foreground">Mês/Ano de Referência</Label>
+              <Label className="text-xs text-muted-foreground">Mês/ano de referência</Label>
               <Select value={cad.mesRef} onValueChange={(v) => setCad({ ...cad, mesRef: v })}>
                 <SelectTrigger className="w-48 mt-1"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -519,21 +519,21 @@ export default function CentralDados() {
         {/* ═══════════════ ABA 3: PMAS e Censo SUAS ═══════════════ */}
         <TabsContent value="pmas" className="space-y-6 mt-4">
           <div className="bg-card rounded-lg shadow-card p-5 space-y-4">
-            <h2 className="font-semibold text-foreground">PMAS — Plano Municipal de Assistência Social</h2>
+            <h2 className="font-semibold text-foreground">PMAS — Plano municipal de assistência social</h2>
             <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/40 transition-colors cursor-pointer">
               <Upload className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
               <p className="text-sm text-muted-foreground">Arraste o arquivo do PMAS (PDF ou Word)</p>
             </div>
           </div>
           <div className="bg-card rounded-lg shadow-card p-5 space-y-4">
-            <h2 className="font-semibold text-foreground">Censo SUAS</h2>
+             <h2 className="font-semibold text-foreground">Censo SUAS</h2>
             <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/40 transition-colors cursor-pointer">
               <FileSpreadsheet className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
               <p className="text-sm text-muted-foreground">Arraste a planilha do Censo SUAS (.xlsx, .xls, .csv)</p>
             </div>
           </div>
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h3 className="font-semibold text-foreground mb-3">Histórico de documentos</h3>
+             <h3 className="font-semibold text-foreground mb-3">Histórico de documentos</h3>
             <p className="text-sm text-muted-foreground">Nenhum documento enviado ainda.</p>
           </div>
         </TabsContent>
@@ -541,7 +541,7 @@ export default function CentralDados() {
         {/* ═══════════════ ABA 4: Registros Rápidos ═══════════════ */}
         <TabsContent value="registros" className="space-y-6 mt-4">
           <div className="bg-card rounded-lg shadow-card p-5 space-y-5">
-            <h2 className="font-semibold text-foreground">Novo Registro</h2>
+            <h2 className="font-semibold text-foreground">Novo registro</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label className="text-xs text-muted-foreground">Tipo</Label>
@@ -589,7 +589,7 @@ export default function CentralDados() {
           </div>
 
           <div className="bg-card rounded-lg shadow-card p-5">
-            <h3 className="font-semibold text-foreground mb-3">Últimos registros</h3>
+             <h3 className="font-semibold text-foreground mb-3">Últimos registros</h3>
             {registros.length === 0 ? (
               <p className="text-sm text-muted-foreground">Nenhum registro ainda.</p>
             ) : (
