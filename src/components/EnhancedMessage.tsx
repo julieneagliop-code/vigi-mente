@@ -39,62 +39,62 @@ export function EnhancedMessage({ content, userQuestion = '' }: EnhancedMessageP
 
   // Custom components para markdown
   const components = {
-    h1: ({ children }: any) => (
-      <h1 className="text-xl font-bold text-foreground mt-6 mb-3 first:mt-0">
+    h1: ({ children, ...props }: any) => (
+      <h1 {...props} className="text-xl font-bold text-foreground mt-6 mb-3 first:mt-0">
         {children}
       </h1>
     ),
-    h2: ({ children }: any) => (
-      <h2 className="text-lg font-bold text-foreground mt-4 mb-2">
+    h2: ({ children, ...props }: any) => (
+      <h2 {...props} className="text-lg font-bold text-foreground mt-4 mb-2">
         {children}
       </h2>
     ),
-    h3: ({ children }: any) => (
-      <h3 className="text-base font-semibold text-foreground mt-3 mb-2">
+    h3: ({ children, ...props }: any) => (
+      <h3 {...props} className="text-base font-semibold text-foreground mt-3 mb-2">
         {children}
       </h3>
     ),
-    p: ({ children }: any) => (
-      <p className="text-sm text-foreground mb-3 leading-relaxed">
+    p: ({ children, ...props }: any) => (
+      <p {...props} className="text-sm text-foreground mb-3 leading-relaxed">
         {typeof children === 'string' ? addContextualIcons(children) : children}
       </p>
     ),
-    strong: ({ children }: any) => (
-      <strong className="font-semibold text-primary">
+    strong: ({ children, ...props }: any) => (
+      <strong {...props} className="font-semibold text-primary">
         {children}
       </strong>
     ),
-    ul: ({ children }: any) => (
-      <ul className="list-disc list-inside mb-3 space-y-1 text-sm">
+    ul: ({ children, ...props }: any) => (
+      <ul {...props} className="list-disc list-inside mb-3 space-y-1 text-sm">
         {children}
       </ul>
     ),
-    ol: ({ children }: any) => (
-      <ol className="list-decimal list-inside mb-3 space-y-1 text-sm">
+    ol: ({ children, ...props }: any) => (
+      <ol {...props} className="list-decimal list-inside mb-3 space-y-1 text-sm">
         {children}
       </ol>
     ),
-    li: ({ children }: any) => (
-      <li className="text-foreground">
+    li: ({ children, ...props }: any) => (
+      <li {...props} className="text-foreground">
         {typeof children === 'string' ? addContextualIcons(children) : children}
       </li>
     ),
-    table: ({ children }: any) => (
+    table: ({ children, ...props }: any) => (
       <div className="my-4 rounded-md border">
         <Table>
           {children}
         </Table>
       </div>
     ),
-    thead: ({ children }: any) => <TableHeader>{children}</TableHeader>,
-    tbody: ({ children }: any) => <TableBody>{children}</TableBody>,
-    tr: ({ children }: any) => <TableRow>{children}</TableRow>,
-    th: ({ children }: any) => <TableHead>{children}</TableHead>,
-    td: ({ children }: any) => <TableCell>{children}</TableCell>,
-    hr: () => <Separator className="my-4" />,
+    thead: ({ children, ...props }: any) => <TableHeader {...props}>{children}</TableHeader>,
+    tbody: ({ children, ...props }: any) => <TableBody {...props}>{children}</TableBody>,
+    tr: ({ children, ...props }: any) => <TableRow {...props}>{children}</TableRow>,
+    th: ({ children, ...props }: any) => <TableHead {...props}>{children}</TableHead>,
+    td: ({ children, ...props }: any) => <TableCell {...props}>{children}</TableCell>,
+    hr: (props: any) => <Separator {...props} className="my-4" />,
     // Destacar números e percentuais
-    code: ({ children }: any) => (
-      <code className="bg-primary/10 text-primary px-1 py-0.5 rounded text-sm font-mono">
+    code: ({ children, ...props }: any) => (
+      <code {...props} className="bg-primary/10 text-primary px-1 py-0.5 rounded text-sm font-mono">
         {children}
       </code>
     )

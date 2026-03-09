@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      acoes_plano_status: {
+        Row: {
+          acao_id: string
+          created_at: string | null
+          id: string
+          is_exemplo: boolean | null
+          observacao: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          acao_id: string
+          created_at?: string | null
+          id?: string
+          is_exemplo?: boolean | null
+          observacao?: string | null
+          status: string
+          updated_at?: string | null
+        }
+        Update: {
+          acao_id?: string
+          created_at?: string | null
+          id?: string
+          is_exemplo?: boolean | null
+          observacao?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       analises_ia: {
         Row: {
           conteudo: string
@@ -53,6 +83,7 @@ export type Database = {
           familias_rurais: number | null
           familias_urbanas: number | null
           id: string
+          is_exemplo: boolean | null
           mes_referencia: string
           pobreza: number | null
           total_familias: number | null
@@ -69,6 +100,7 @@ export type Database = {
           familias_rurais?: number | null
           familias_urbanas?: number | null
           id?: string
+          is_exemplo?: boolean | null
           mes_referencia: string
           pobreza?: number | null
           total_familias?: number | null
@@ -85,10 +117,53 @@ export type Database = {
           familias_rurais?: number | null
           familias_urbanas?: number | null
           id?: string
+          is_exemplo?: boolean | null
           mes_referencia?: string
           pobreza?: number | null
           total_familias?: number | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      dados_importados_arquivos: {
+        Row: {
+          created_at: string
+          dados_extraidos: Json
+          equipamento_id: string | null
+          id: string
+          mes_referencia: string | null
+          nome_arquivo: string
+          status: string
+          tipo_arquivo: string
+          tipo_dados: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dados_extraidos: Json
+          equipamento_id?: string | null
+          id?: string
+          mes_referencia?: string | null
+          nome_arquivo: string
+          status?: string
+          tipo_arquivo: string
+          tipo_dados: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dados_extraidos?: Json
+          equipamento_id?: string | null
+          id?: string
+          mes_referencia?: string | null
+          nome_arquivo?: string
+          status?: string
+          tipo_arquivo?: string
+          tipo_dados?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -173,6 +248,39 @@ export type Database = {
         }
         Relationships: []
       }
+      execucao_financeira: {
+        Row: {
+          ano_referencia: string
+          categoria: string
+          created_at: string | null
+          id: string
+          is_exemplo: boolean | null
+          updated_at: string | null
+          valor_executado: number
+          valor_previsto: number
+        }
+        Insert: {
+          ano_referencia: string
+          categoria: string
+          created_at?: string | null
+          id?: string
+          is_exemplo?: boolean | null
+          updated_at?: string | null
+          valor_executado?: number
+          valor_previsto?: number
+        }
+        Update: {
+          ano_referencia?: string
+          categoria?: string
+          created_at?: string | null
+          id?: string
+          is_exemplo?: boolean | null
+          updated_at?: string | null
+          valor_executado?: number
+          valor_previsto?: number
+        }
+        Relationships: []
+      }
       historico_analises_ia: {
         Row: {
           created_at: string | null
@@ -206,6 +314,48 @@ export type Database = {
           titulo?: string
           updated_at?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      ocorrencias: {
+        Row: {
+          created_at: string | null
+          data_ocorrencia: string
+          descricao: string
+          equipamento_id: string
+          gravidade: string
+          id: string
+          is_exemplo: boolean | null
+          status: string
+          tipo: string
+          titulo: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          data_ocorrencia: string
+          descricao: string
+          equipamento_id: string
+          gravidade: string
+          id?: string
+          is_exemplo?: boolean | null
+          status?: string
+          tipo: string
+          titulo: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          data_ocorrencia?: string
+          descricao?: string
+          equipamento_id?: string
+          gravidade?: string
+          id?: string
+          is_exemplo?: boolean | null
+          status?: string
+          tipo?: string
+          titulo?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -248,6 +398,7 @@ export type Database = {
           equipamento_id: string
           familia_individuo: string | null
           id: string
+          is_exemplo: boolean | null
           quantidade: number | null
           responsavel: string | null
           tipo: string
@@ -260,6 +411,7 @@ export type Database = {
           equipamento_id: string
           familia_individuo?: string | null
           id?: string
+          is_exemplo?: boolean | null
           quantidade?: number | null
           responsavel?: string | null
           tipo: string
@@ -272,6 +424,7 @@ export type Database = {
           equipamento_id?: string
           familia_individuo?: string | null
           id?: string
+          is_exemplo?: boolean | null
           quantidade?: number | null
           responsavel?: string | null
           tipo?: string
@@ -293,6 +446,7 @@ export type Database = {
           familias_acompanhamento_paif: number | null
           familias_grupos_paif: number | null
           id: string
+          is_exemplo: boolean | null
           mes_referencia: string
           novas_familias_paif: number | null
           observacoes: string | null
@@ -315,6 +469,7 @@ export type Database = {
           familias_acompanhamento_paif?: number | null
           familias_grupos_paif?: number | null
           id?: string
+          is_exemplo?: boolean | null
           mes_referencia: string
           novas_familias_paif?: number | null
           observacoes?: string | null
@@ -337,6 +492,7 @@ export type Database = {
           familias_acompanhamento_paif?: number | null
           familias_grupos_paif?: number | null
           id?: string
+          is_exemplo?: boolean | null
           mes_referencia?: string
           novas_familias_paif?: number | null
           observacoes?: string | null
@@ -359,6 +515,7 @@ export type Database = {
           exploracao_sexual: number | null
           familias_acompanhamento_paefi: number | null
           id: string
+          is_exemplo: boolean | null
           mes_referencia: string
           negligencia_abandono: number | null
           novas_familias_paefi: number | null
@@ -385,6 +542,7 @@ export type Database = {
           exploracao_sexual?: number | null
           familias_acompanhamento_paefi?: number | null
           id?: string
+          is_exemplo?: boolean | null
           mes_referencia: string
           negligencia_abandono?: number | null
           novas_familias_paefi?: number | null
@@ -411,6 +569,7 @@ export type Database = {
           exploracao_sexual?: number | null
           familias_acompanhamento_paefi?: number | null
           id?: string
+          is_exemplo?: boolean | null
           mes_referencia?: string
           negligencia_abandono?: number | null
           novas_familias_paefi?: number | null
@@ -437,6 +596,7 @@ export type Database = {
           encaminhamentos_recebidos: number | null
           equipamento_id: string
           id: string
+          is_exemplo: boolean | null
           lista_espera: number | null
           mes_referencia: string
           novas_insercoes: number | null
@@ -452,6 +612,7 @@ export type Database = {
           encaminhamentos_recebidos?: number | null
           equipamento_id: string
           id?: string
+          is_exemplo?: boolean | null
           lista_espera?: number | null
           mes_referencia: string
           novas_insercoes?: number | null
@@ -467,6 +628,7 @@ export type Database = {
           encaminhamentos_recebidos?: number | null
           equipamento_id?: string
           id?: string
+          is_exemplo?: boolean | null
           lista_espera?: number | null
           mes_referencia?: string
           novas_insercoes?: number | null
