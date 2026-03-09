@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { BrainCircuit, Send, Loader2, Calendar, ChevronDown } from 'lucide-react';
+import { BrainCircuit, Send, Loader2, Calendar, ChevronDown, Paperclip, X, FileText, Image, File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
@@ -108,11 +108,18 @@ Por favor, estruture o resumo com: 1) Apresentação do Município e Gestão do 
   },
 ];
 
+interface AttachedFile {
+  file: File;
+  id: string;
+  preview?: string;
+}
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   id: string;
   tipo?: string;
+  attachments?: AttachedFile[];
 }
 
 interface AnaliseHistorico {
@@ -217,8 +224,10 @@ export default function AssistenteIA() {
   const [loadingAnalise, setLoadingAnalise] = useState<string | null>(null);
   const [showMonthDialog, setShowMonthDialog] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastUserQuestionRef = useRef<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -243,13 +252,19 @@ export default function AssistenteIA() {
 
   const handleSend = async (text?: string, tipo?: string) => {
     const msg = text || input.trim();
-    if (!msg || loading) return;
+    if ((!msg && attachedFiles.length === 0) || loading) return;
 
     const userMsgId = Date.now().toString();
-    const userMsg: Message = { role: 'user', content: msg, id: userMsgId };
+    const userMsg: Message = { 
+      role: 'user', 
+      content: msg || 'Arquivo enviado', 
+      id: userMsgId,
+      attachments: attachedFiles.length > 0 ? attachedFiles : undefined
+    };
     const updatedMessages = [...messages, userMsg];
     setMessages(updatedMessages);
     setInput('');
+    setAttachedFiles([]);
     setLoading(true);
     lastUserQuestionRef.current = msg;
     if (tipo) setLoadingAnalise(tipo);
