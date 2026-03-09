@@ -32,7 +32,7 @@ serve(async (req) => {
     // Build context string
     const context = buildContext(rmaCras.data, rmaCreas.data, rmaRede.data, cadunico.data, registros.data);
 
-    const systemPrompt = `Você é o Assistente IA do VigiSUAS — sistema de Vigilância Socioassistencial do município de Presidente Venceslau/SP.
+    const systemPrompt = `Você é o Assistente IA do Vigilância+ — sistema de Vigilância Socioassistencial do município de Presidente Venceslau/SP.
 
 Seu papel é analisar dados de atendimentos, indicadores de vulnerabilidade, e ajudar a equipe técnica da Secretaria de Assistência Social.
 

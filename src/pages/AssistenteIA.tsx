@@ -116,7 +116,7 @@ export default function AssistenteIA() {
     {
       role: 'assistant',
       content:
-        'Olá! Sou o Assistente IA do VigiSUAS. Posso analisar dados de atendimentos, indicadores de vulnerabilidade, status do plano de trabalho e muito mais. Faça uma pergunta ou escolha uma sugestão ao lado! 🧠',
+        'Olá! Sou o Assistente IA do Vigilância+. Posso analisar dados de atendimentos, indicadores de vulnerabilidade, status do plano de trabalho e muito mais. Faça uma pergunta ou escolha uma sugestão ao lado! 🧠',
     },
   ]);
   const [input, setInput] = useState('');
