@@ -44,7 +44,7 @@ export default function RedeSocioassistencial() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="todos">Todas</SelectItem>
-            <SelectItem value="baixa">Baixa</SelectItem>
+            <SelectItem value="básica">Básica</SelectItem>
             <SelectItem value="media">Média</SelectItem>
             <SelectItem value="alta">Alta</SelectItem>
           </SelectContent>

@@ -2,7 +2,7 @@ export interface Equipamento {
   id: string;
   nome: string;
   tipoRede: 'direta' | 'indireta';
-  complexidade: 'baixa' | 'media' | 'alta';
+  complexidade: 'básica' | 'media' | 'alta';
   servicos: string[];
   publicoAtendido: string;
   capacidade: number;
@@ -17,7 +17,7 @@ export const equipamentos: Equipamento[] = [
     id: '1',
     nome: 'Órgão Gestor / Plantão Social',
     tipoRede: 'direta',
-    complexidade: 'baixa',
+    complexidade: 'básica',
     servicos: ['Benefícios eventuais (auxílio natalidade, funeral, vulnerabilidade temporária, calamidade)'],
     publicoAtendido: 'Famílias fora da área do CRAS e não atendidas pelo CREAS',
     capacidade: 3103,
@@ -30,7 +30,7 @@ export const equipamentos: Equipamento[] = [
     id: '2',
     nome: 'CRAS',
     tipoRede: 'direta',
-    complexidade: 'baixa',
+    complexidade: 'básica',
     servicos: ['SCFV Idosos (60+)', 'SCFV Crianças (até 6 anos)', 'PAIF', 'Benefícios Eventuais'],
     publicoAtendido: 'Famílias em situação de vulnerabilidade',
     capacidade: 650,
@@ -95,7 +95,7 @@ export const equipamentos: Equipamento[] = [
     id: '7',
     nome: 'APIM',
     tipoRede: 'indireta',
-    complexidade: 'baixa',
+    complexidade: 'básica',
     servicos: ['SCFV'],
     publicoAtendido: 'Crianças e adolescentes 6-15 anos',
     capacidade: 100,
@@ -108,7 +108,7 @@ export const equipamentos: Equipamento[] = [
     id: '8',
     nome: 'CAICA',
     tipoRede: 'indireta',
-    complexidade: 'baixa',
+    complexidade: 'básica',
     servicos: ['SCFV'],
     publicoAtendido: 'Crianças e adolescentes 6-15 anos',
     capacidade: 80,
@@ -121,7 +121,7 @@ export const equipamentos: Equipamento[] = [
     id: '9',
     nome: 'AVCC',
     tipoRede: 'indireta',
-    complexidade: 'baixa',
+    complexidade: 'básica',
     servicos: ['SCFV'],
     publicoAtendido: 'Adultos 30-59 anos',
     capacidade: 30,
@@ -134,7 +134,7 @@ export const equipamentos: Equipamento[] = [
     id: '10',
     nome: 'Cadastro Único — CadÚnico',
     tipoRede: 'direta',
-    complexidade: 'baixa',
+    complexidade: 'básica',
     servicos: ['Cadastramento e atualização cadastral junto ao CadÚnico'],
     publicoAtendido: 'Famílias em situação de vulnerabilidade social que necessitam de cadastramento ou atualização no Cadastro Único',
     capacidade: 2068,

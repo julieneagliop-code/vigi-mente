@@ -1,13 +1,13 @@
 import { Badge } from '@/components/ui/badge';
 
 const complexidadeVariant: Record<string, string> = {
-  baixa: 'bg-success/10 text-success border-success/20',
+  básica: 'bg-success/10 text-success border-success/20',
   media: 'bg-warning/10 text-warning border-warning/20',
   alta: 'bg-destructive/10 text-destructive border-destructive/20',
 };
 
 const complexidadeLabel: Record<string, string> = {
-  baixa: 'Baixa',
+  básica: 'Básica',
   media: 'Média',
   alta: 'Alta',
 };
