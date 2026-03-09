@@ -173,6 +173,42 @@ export type Database = {
         }
         Relationships: []
       }
+      historico_analises_ia: {
+        Row: {
+          created_at: string | null
+          dados_utilizados: Json | null
+          id: string
+          pergunta_original: string
+          resposta_ia: string
+          tipo: string
+          titulo: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dados_utilizados?: Json | null
+          id?: string
+          pergunta_original: string
+          resposta_ia: string
+          tipo: string
+          titulo: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dados_utilizados?: Json | null
+          id?: string
+          pergunta_original?: string
+          resposta_ia?: string
+          tipo?: string
+          titulo?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
