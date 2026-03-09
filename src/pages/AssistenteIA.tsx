@@ -309,20 +309,20 @@ export default function AssistenteIA() {
     const extension = fileName.split('.').pop()?.toLowerCase();
     switch (extension) {
       case 'pdf':
-        return <FileText className="h-4 w-4 text-red-500" />;
+        return <FileText className="h-4 w-4 text-destructive" />;
       case 'xlsx':
       case 'xls':
       case 'csv':
-        return <FileText className="h-4 w-4 text-green-500" />;
+        return <FileText className="h-4 w-4 text-emerald-500" />;
       case 'doc':
       case 'docx':
         return <FileText className="h-4 w-4 text-blue-500" />;
       case 'png':
       case 'jpg':
       case 'jpeg':
-        return <Image className="h-4 w-4 text-purple-500" />;
+        return <Image className="h-4 w-4 text-violet-500" />;
       default:
-        return <File className="h-4 w-4 text-gray-500" />;
+        return <File className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
