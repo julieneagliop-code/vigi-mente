@@ -2,7 +2,7 @@ export interface Equipamento {
   id: string;
   nome: string;
   tipoRede: 'direta' | 'indireta';
-  complexidade: 'baixa' | 'media' | 'alta';
+  complexidade: 'básica' | 'media' | 'alta';
   servicos: string[];
   publicoAtendido: string;
   capacidade: number;
