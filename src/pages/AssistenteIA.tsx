@@ -1,9 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { BrainCircuit, Send, Sparkles, BarChart3, AlertTriangle, FileText } from 'lucide-react';
+import { BrainCircuit, Send, Loader2, Calendar, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
-import ReactMarkdown from 'react-markdown';
+import { supabase } from '@/integrations/supabase/client';
+import { EnhancedMessage } from '@/components/EnhancedMessage';
+import { HistoricoAnalises } from '@/components/HistoricoAnalises';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-assistente`;
 
@@ -19,15 +24,104 @@ const sugestoes = [
 ];
 
 const analises = [
-  { label: 'Diagnóstico Socioterritorial', emoji: '📊' },
-  { label: 'Relatório Comparativo Mensal', emoji: '📈' },
-  { label: 'Mapa de Vulnerabilidades', emoji: '⚠️' },
-  { label: 'Resumo para DRADS', emoji: '📋' },
+  {
+    label: 'Diagnóstico Socioterritorial',
+    emoji: '📊',
+    tipo: 'diagnostico',
+    prompt: `Gere um Diagnóstico Socioterritorial completo e detalhado para o município de Presidente Venceslau/SP com base nos seguintes dados disponíveis:
+
+**DADOS DEMOGRÁFICOS:**
+- População total: 37.981 habitantes
+- Área: 755,203 km²
+- Densidade: 50,3 hab/km²
+- Taxa de urbanização: 97%
+- Total de domicílios: 13.581
+- Média de ocupação: 2,8 pessoas/domicílio
+
+**PERFIL ETÁRIO (Pirâmide Etária):**
+- 0-14 anos: 5.813 habitantes (15,3%)
+- 15-59 anos: 24.645 habitantes (64,9%)
+- 60+ anos: 7.523 habitantes (19,8%)
+- Índice de envelhecimento: 124,30
+- Razão de dependência: 0,54
+
+**CadÚnico:**
+- Famílias urbanas: 7.625
+- Famílias rurais: 390
+- Total: 8.015 famílias registradas
+
+**REDE SOCIOASSISTENCIAL:**
+- 1 CRAS ativo
+- 1 CREAS ativo
+- Serviços de convivência e fortalecimento de vínculos
+- Benefícios eventuais
+
+Por favor, estruture o relatório com: 1) Caracterização do Município, 2) Perfil Demográfico e Pirâmide Etária, 3) Indicadores de Vulnerabilidade, 4) Mapa da Rede Socioassistencial, 5) Análise de Cobertura dos Serviços, 6) Territórios de Maior Vulnerabilidade, 7) Recomendações e Prioridades para a Política de Assistência Social.`
+  },
+  {
+    label: 'Relatório Comparativo Mensal',
+    emoji: '📈',
+    tipo: 'comparativo',
+    prompt: null, // dinâmico - precisa pedir mês
+    needsMonth: true
+  },
+  {
+    label: 'Panorama de Vulnerabilidades',
+    emoji: '⚠️',
+    tipo: 'vulnerabilidades',
+    prompt: `Gere um Panorama Completo das Vulnerabilidades Sociais do município de Presidente Venceslau/SP, abrangendo:
+
+**DADOS BASE:**
+- Índice de envelhecimento: 124,30 (acima da média estadual)
+- Razão de dependência: 0,54
+- 8.015 famílias no CadÚnico (21,1% da população)
+- Taxa de urbanização: 97%
+
+**VIOLAÇÕES E SITUAÇÕES DE RISCO (atendimentos CREAS):**
+- Violência física contra crianças e adolescentes
+- Violência psicológica intrafamiliar
+- Negligência/abandono de idosos
+- Trabalho infantil
+- Abuso e exploração sexual
+- Adolescentes em medidas socioeducativas (LA e PSC)
+
+Por favor, estruture o relatório com: 1) Principais Vulnerabilidades Identificadas, 2) Grupos Populacionais em Maior Risco, 3) Evolução dos Indicadores de Vulnerabilidade, 4) Situações de Violência e Violações de Direitos (CREAS), 5) Relação entre Vulnerabilidade e Demanda nos Serviços, 6) Territórios Críticos, 7) Ações Prioritárias Recomendadas para Redução das Vulnerabilidades.`
+  },
+  {
+    label: 'Resumo para DRADS',
+    emoji: '📋',
+    tipo: 'drads',
+    prompt: `Gere um Resumo Institucional para a DRADS (Departamento Regional de Assistência e Desenvolvimento Social) do município de Presidente Venceslau/SP, com o seguinte formato padrão esperado pela DRADS:
+
+**DADOS DO MUNICÍPIO:**
+- Município: Presidente Venceslau/SP
+- Região: 10ª Regional — DRADS/Presidente Prudente
+- Gestor Municipal de Assistência Social: [Secretaria Municipal de Assistência Social]
+
+**BASE DE DADOS DISPONÍVEL:**
+- Equipamentos: 1 CRAS, 1 CREAS, Serviços de Convivência
+- Famílias CadÚnico: 8.015 (7.625 urbanas + 390 rurais)
+- Atendimentos registrados nos RMAs
+- Orçamento FMAS executado parcialmente
+
+Por favor, estruture o resumo com: 1) Apresentação do Município e Gestão do SUAS, 2) Ações Realizadas no Período, 3) Dados Consolidados dos Atendimentos por Equipamento, 4) Status do Plano de Trabalho e Metas, 5) Execução Financeira do FMAS, 6) Avanços, Dificuldades e Desafios, 7) Considerações Finais e Demandas ao Estado.`
+  },
 ];
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  id: string;
+  tipo?: string;
+}
+
+interface AnaliseHistorico {
+  id: string;
+  titulo: string;
+  pergunta_original: string;
+  resposta_ia: string;
+  tipo: string;
+  created_at: string;
 }
 
 async function streamChat({
@@ -36,7 +130,7 @@ async function streamChat({
   onDone,
   onError,
 }: {
-  messages: Message[];
+  messages: { role: string; content: string }[];
   onDelta: (text: string) => void;
   onDone: () => void;
   onError: (err: string) => void;
@@ -91,7 +185,6 @@ async function streamChat({
     }
   }
 
-  // Flush remaining
   if (textBuffer.trim()) {
     for (let raw of textBuffer.split('\n')) {
       if (!raw) continue;
@@ -115,96 +208,218 @@ export default function AssistenteIA() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content:
-        'Olá! Sou o Assistente IA do Vigilância+. Posso analisar dados de atendimentos, indicadores de vulnerabilidade, status do plano de trabalho e muito mais. Faça uma pergunta ou escolha uma sugestão ao lado! 🧠',
+      content: 'Olá! Sou o Assistente IA do Vigilância+. Posso analisar dados de atendimentos, indicadores de vulnerabilidade, status do plano de trabalho e muito mais. Faça uma pergunta ou escolha uma sugestão ao lado! 🧠',
+      id: 'welcome'
     },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingAnalise, setLoadingAnalise] = useState<string | null>(null);
+  const [showMonthDialog, setShowMonthDialog] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const lastUserQuestionRef = useRef<string>('');
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = async (text?: string) => {
+  const saveToHistory = async (titulo: string, pergunta: string, resposta: string, tipo: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      await supabase.from('historico_analises_ia').insert({
+        user_id: user.id,
+        titulo,
+        pergunta_original: pergunta,
+        resposta_ia: resposta,
+        tipo
+      });
+    } catch (error) {
+      console.error('Erro ao salvar histórico:', error);
+    }
+  };
+
+  const handleSend = async (text?: string, tipo?: string) => {
     const msg = text || input.trim();
     if (!msg || loading) return;
 
-    const userMsg: Message = { role: 'user', content: msg };
+    const userMsgId = Date.now().toString();
+    const userMsg: Message = { role: 'user', content: msg, id: userMsgId };
     const updatedMessages = [...messages, userMsg];
     setMessages(updatedMessages);
     setInput('');
     setLoading(true);
+    lastUserQuestionRef.current = msg;
+    if (tipo) setLoadingAnalise(tipo);
 
     let assistantSoFar = '';
+    const assistantId = `assistant-${Date.now()}`;
 
     const upsertAssistant = (chunk: string) => {
       assistantSoFar += chunk;
       setMessages((prev) => {
         const last = prev[prev.length - 1];
-        if (last?.role === 'assistant' && prev.length === updatedMessages.length + 1) {
-          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
+        if (last?.role === 'assistant' && last?.id === assistantId) {
+          return prev.map((m) => m.id === assistantId ? { ...m, content: assistantSoFar } : m);
         }
-        return [...prev, { role: 'assistant', content: assistantSoFar }];
+        return [...prev, { role: 'assistant', content: assistantSoFar, id: assistantId, tipo }];
       });
     };
 
     try {
       await streamChat({
-        messages: updatedMessages,
+        messages: updatedMessages.map(m => ({ role: m.role, content: m.content })),
         onDelta: (chunk) => upsertAssistant(chunk),
-        onDone: () => setLoading(false),
+        onDone: async () => {
+          setLoading(false);
+          setLoadingAnalise(null);
+          if (tipo && assistantSoFar) {
+            await saveToHistory(
+              msg.length > 60 ? msg.substring(0, 57) + '...' : msg,
+              msg,
+              assistantSoFar,
+              tipo
+            );
+          }
+        },
         onError: (err) => {
           toast({ title: 'Erro na IA', description: err, variant: 'destructive' });
           setLoading(false);
+          setLoadingAnalise(null);
         },
       });
     } catch (e) {
       console.error(e);
       toast({ title: 'Erro de conexão', description: 'Não foi possível conectar ao assistente.', variant: 'destructive' });
       setLoading(false);
+      setLoadingAnalise(null);
     }
+  };
+
+  const handleAnalise = (analise: typeof analises[0]) => {
+    if (analise.needsMonth) {
+      setShowMonthDialog(true);
+      return;
+    }
+    if (analise.prompt) {
+      handleSend(analise.prompt, analise.tipo);
+    }
+  };
+
+  const handleComparativoMensal = () => {
+    if (!selectedMonth) {
+      toast({ title: 'Selecione um mês para comparação.', variant: 'destructive' });
+      return;
+    }
+    
+    const [year, month] = selectedMonth.split('-');
+    const monthName = new Date(parseInt(year), parseInt(month) - 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+    
+    const prompt = `Gere um Relatório Comparativo Mensal para o município de Presidente Venceslau/SP, comparando os atendimentos de ${monthName} com o mês anterior.
+
+Estruture o relatório com:
+1) Comparação de Atendimentos por Equipamento (CRAS e CREAS) — mês atual vs. anterior
+2) Variações Significativas (acima de 20% — positivas ou negativas)
+3) Serviços com Destaque (queda ou aumento expressivo de atendimentos)
+4) Análise das Possíveis Causas das variações
+5) Situações que Requerem Atenção Imediata
+6) Recomendações para o próximo período
+
+Obs: Use os dados disponíveis nos registros mensais e destaque em negrito os percentuais e variações mais relevantes.`;
+
+    setShowMonthDialog(false);
+    handleSend(prompt, 'comparativo');
+  };
+
+  const handleReloadFromHistory = (analysis: AnaliseHistorico) => {
+    const historyMsg: Message = {
+      role: 'assistant',
+      content: `📁 *Análise recarregada do histórico — ${new Date(analysis.created_at).toLocaleString('pt-BR')}*\n\n---\n\n${analysis.resposta_ia}`,
+      id: `history-${analysis.id}`,
+      tipo: analysis.tipo
+    };
+    setMessages(prev => [...prev, historyMsg]);
   };
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-6rem)]">
+      {/* Dialog para mês do comparativo */}
+      <Dialog open={showMonthDialog} onOpenChange={setShowMonthDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>📈 Relatório Comparativo Mensal</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-sm text-muted-foreground">
+              Selecione o mês de referência para a comparação. O relatório irá comparar com o mês anterior.
+            </p>
+            <div className="space-y-2">
+              <Label>Mês de referência</Label>
+              <Input
+                type="month"
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setShowMonthDialog(false)}>Cancelar</Button>
+            <Button onClick={handleComparativoMensal} disabled={!selectedMonth}>
+              Gerar Relatório
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Chat — 70% */}
       <div className="flex-[7] flex flex-col bg-card rounded-lg shadow-card overflow-hidden">
         <div className="p-4 border-b flex items-center gap-2">
           <BrainCircuit className="h-5 w-5 text-primary" />
           <h1 className="font-semibold text-foreground">Assistente IA</h1>
           <span className="text-xs text-muted-foreground ml-2">Powered by Lovable AI</span>
+          <div className="ml-auto">
+            <HistoricoAnalises onReloadAnalysis={handleReloadFromHistory} />
+          </div>
         </div>
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((m, i) => (
-            <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[85%] rounded-lg px-4 py-3 text-sm ${
+                className={`max-w-[90%] rounded-lg px-4 py-3 text-sm ${
                   m.role === 'user'
                     ? 'bg-muted text-foreground'
                     : 'bg-primary/5 text-foreground border border-primary/10'
                 }`}
               >
                 {m.role === 'assistant' ? (
-                  <div className="prose prose-sm max-w-none dark:prose-invert [&>p]:my-1 [&>ul]:my-1 [&>ol]:my-1 [&>h2]:mt-3 [&>h2]:mb-1 [&>h3]:mt-2 [&>h3]:mb-1">
-                    <ReactMarkdown>{m.content}</ReactMarkdown>
-                  </div>
+                  <EnhancedMessage
+                    content={m.content}
+                    userQuestion={lastUserQuestionRef.current}
+                  />
                 ) : (
                   <span className="whitespace-pre-wrap">{m.content}</span>
                 )}
               </div>
             </div>
           ))}
+
           {loading && messages[messages.length - 1]?.role === 'user' && (
             <div className="flex justify-start">
-              <div className="bg-primary/5 border border-primary/10 rounded-lg px-4 py-3 text-sm text-muted-foreground animate-pulse">
-                Analisando dados do município...
+              <div className="bg-primary/5 border border-primary/10 rounded-lg px-4 py-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {loadingAnalise
+                    ? 'Gerando análise... isso pode levar alguns segundos ⏳'
+                    : 'Analisando dados do município...'}
+                </div>
               </div>
             </div>
           )}
+
           <div ref={messagesEndRef} />
         </div>
 
@@ -224,7 +439,7 @@ export default function AssistenteIA() {
               }}
             />
             <Button onClick={() => handleSend()} disabled={!input.trim() || loading} size="icon" className="shrink-0">
-              <Send className="h-4 w-4" />
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </Button>
           </div>
         </div>
@@ -249,17 +464,30 @@ export default function AssistenteIA() {
         </div>
 
         <div className="bg-card rounded-lg shadow-card p-4">
-          <h2 className="font-semibold text-foreground text-sm mb-3">Análises Rápidas</h2>
+          <h2 className="font-semibold text-foreground text-sm mb-3">📊 Análises Rápidas</h2>
+          <p className="text-xs text-muted-foreground mb-3">
+            Gere relatórios completos prontos para exportar em PDF, Word ou Excel.
+          </p>
           <div className="space-y-2">
             {analises.map((a) => (
               <button
                 key={a.label}
-                onClick={() => handleSend(a.label)}
+                onClick={() => handleAnalise(a)}
                 disabled={loading}
-                className="w-full text-left text-xs bg-muted hover:bg-accent rounded-md px-3 py-2 transition-colors text-foreground flex items-center gap-2 disabled:opacity-50"
+                className="w-full text-left text-xs bg-muted hover:bg-accent rounded-md px-3 py-2 transition-colors text-foreground flex items-center gap-2 disabled:opacity-50 group"
               >
-                <span>{a.emoji}</span>
-                <span>{a.label}</span>
+                <span className="text-base">{a.emoji}</span>
+                <div className="flex-1">
+                  <div className="font-medium">{a.label}</div>
+                  {a.needsMonth && (
+                    <div className="text-muted-foreground text-[10px] flex items-center gap-1 mt-0.5">
+                      <Calendar className="h-2.5 w-2.5" /> Selecione o mês antes
+                    </div>
+                  )}
+                </div>
+                {loadingAnalise === a.tipo && (
+                  <Loader2 className="h-3 w-3 animate-spin shrink-0" />
+                )}
               </button>
             ))}
           </div>
