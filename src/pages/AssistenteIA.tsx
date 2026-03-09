@@ -500,7 +500,29 @@ Obs: Use os dados disponíveis nos registros mensais e destaque em negrito os pe
                     userQuestion={lastUserQuestionRef.current}
                   />
                 ) : (
-                  <span className="whitespace-pre-wrap">{m.content}</span>
+                  <div>
+                    <span className="whitespace-pre-wrap">{m.content}</span>
+                    {m.attachments && m.attachments.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {m.attachments.map((attachment) => (
+                          <div
+                            key={attachment.id}
+                            className="flex items-center gap-2 bg-background/50 rounded-md px-2 py-1.5 border border-border"
+                          >
+                            {getFileIcon(attachment.file.name)}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-xs truncate" title={attachment.file.name}>
+                                {attachment.file.name}
+                              </div>
+                              <div className="text-[10px] text-muted-foreground">
+                                {formatFileSize(attachment.file.size)}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
