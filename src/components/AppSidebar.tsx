@@ -57,7 +57,10 @@ export function AppSidebar() {
               <Shield className="h-7 w-7 text-sidebar-foreground" />
             </div>
             <div>
-              <h1 className="font-bold text-sidebar-foreground text-base leading-tight">VigiSUAS</h1>
+              <h1 className="text-sidebar-foreground text-base leading-tight">
+                <span className="font-normal">Vigilância</span>
+                <span className="font-bold text-[#10b981] text-[1.5em] ml-0.5">+</span>
+              </h1>
               <p className="text-xs text-sidebar-foreground/70">Presidente Venceslau</p>
             </div>
           </div>

@@ -18,9 +18,9 @@ interface Usuario {
 }
 
 const usuariosIniciais: Usuario[] = [
-  { id: '1', nome: 'Heloisa dos Santos Martins de Oliveira Silva', email: 'heloisa@vigisuas.pv.sp.gov.br', cargo: 'Orientadora Jurídica', perfil: 'Técnico', criadoEm: '01/01/2026', ativo: true },
-  { id: '2', nome: 'Andrea (Técnica de Referência)', email: 'andrea@vigisuas.pv.sp.gov.br', cargo: 'Assistente Social', perfil: 'Técnico', criadoEm: '01/01/2026', ativo: true },
-  { id: '3', nome: 'Bruna (Gestora da Secretaria)', email: 'bruna@vigisuas.pv.sp.gov.br', cargo: 'Secretária de Assistência Social', perfil: 'Gestor', criadoEm: '01/01/2026', ativo: true },
+  { id: '1', nome: 'Heloisa dos Santos Martins de Oliveira Silva', email: 'heloisa@vigilancia.pv.sp.gov.br', cargo: 'Orientadora Jurídica', perfil: 'Técnico', criadoEm: '01/01/2026', ativo: true },
+  { id: '2', nome: 'Andrea (Técnica de Referência)', email: 'andrea@vigilancia.pv.sp.gov.br', cargo: 'Assistente Social', perfil: 'Técnico', criadoEm: '01/01/2026', ativo: true },
+  { id: '3', nome: 'Bruna (Gestora da Secretaria)', email: 'bruna@vigilancia.pv.sp.gov.br', cargo: 'Secretária de Assistência Social', perfil: 'Gestor', criadoEm: '01/01/2026', ativo: true },
 ];
 
 const emptyForm = { nome: '', email: '', cargo: '', perfil: 'Técnico' as 'Técnico' | 'Gestor' };
@@ -69,7 +69,7 @@ export default function Configuracoes() {
         ativo: true,
       };
       setUsuarios((prev) => [...prev, novo]);
-      toast({ title: 'Usuário criado com sucesso!', description: 'Senha temporária: VigiSUAS2026' });
+      toast({ title: 'Usuário criado com sucesso!', description: 'Senha temporária: Vigilancia2026' });
     }
     setDialogOpen(false);
   };
