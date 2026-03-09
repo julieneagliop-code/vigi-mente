@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { BrainCircuit, Send, Loader2, Calendar, ChevronDown } from 'lucide-react';
+import { BrainCircuit, Send, Loader2, Calendar, ChevronDown, Paperclip, X, FileText, Image, File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
@@ -108,11 +108,18 @@ Por favor, estruture o resumo com: 1) Apresentação do Município e Gestão do 
   },
 ];
 
+interface AttachedFile {
+  file: File;
+  id: string;
+  preview?: string;
+}
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   id: string;
   tipo?: string;
+  attachments?: AttachedFile[];
 }
 
 interface AnaliseHistorico {
@@ -217,8 +224,10 @@ export default function AssistenteIA() {
   const [loadingAnalise, setLoadingAnalise] = useState<string | null>(null);
   const [showMonthDialog, setShowMonthDialog] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastUserQuestionRef = useRef<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -241,15 +250,105 @@ export default function AssistenteIA() {
     }
   };
 
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const allowedTypes = ['.pdf', '.xlsx', '.xls', '.csv', '.doc', '.docx', '.png', '.jpg', '.jpeg'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const maxFiles = 3;
+
+    const validFiles: AttachedFile[] = [];
+
+    for (const file of files) {
+      if (attachedFiles.length + validFiles.length >= maxFiles) {
+        toast({ title: 'Limite excedido', description: `Máximo ${maxFiles} arquivos por mensagem`, variant: 'destructive' });
+        break;
+      }
+
+      const extension = '.' + file.name.split('.').pop()?.toLowerCase();
+      if (!allowedTypes.includes(extension)) {
+        toast({ title: 'Formato não suportado', description: `${file.name} - Formatos aceitos: ${allowedTypes.join(', ')}`, variant: 'destructive' });
+        continue;
+      }
+
+      if (file.size > maxSize) {
+        toast({ title: 'Arquivo muito grande', description: `${file.name} - Máximo 10MB`, variant: 'destructive' });
+        continue;
+      }
+
+      const attachedFile: AttachedFile = {
+        file,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      };
+
+      // Create preview for images
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          attachedFile.preview = e.target?.result as string;
+          setAttachedFiles(prev => [...prev, attachedFile]);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        validFiles.push(attachedFile);
+      }
+    }
+
+    if (validFiles.length > 0) {
+      setAttachedFiles(prev => [...prev, ...validFiles]);
+    }
+
+    // Reset input
+    if (event.target) event.target.value = '';
+  };
+
+  const removeAttachedFile = (fileId: string) => {
+    setAttachedFiles(prev => prev.filter(f => f.id !== fileId));
+  };
+
+  const getFileIcon = (fileName: string) => {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return <FileText className="h-4 w-4 text-destructive" />;
+      case 'xlsx':
+      case 'xls':
+      case 'csv':
+        return <FileText className="h-4 w-4 text-emerald-500" />;
+      case 'doc':
+      case 'docx':
+        return <FileText className="h-4 w-4 text-blue-500" />;
+      case 'png':
+      case 'jpg':
+      case 'jpeg':
+        return <Image className="h-4 w-4 text-violet-500" />;
+      default:
+        return <File className="h-4 w-4 text-muted-foreground" />;
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  };
+
   const handleSend = async (text?: string, tipo?: string) => {
     const msg = text || input.trim();
-    if (!msg || loading) return;
+    if ((!msg && attachedFiles.length === 0) || loading) return;
 
     const userMsgId = Date.now().toString();
-    const userMsg: Message = { role: 'user', content: msg, id: userMsgId };
+    const userMsg: Message = { 
+      role: 'user', 
+      content: msg || 'Arquivo enviado', 
+      id: userMsgId,
+      attachments: attachedFiles.length > 0 ? attachedFiles : undefined
+    };
     const updatedMessages = [...messages, userMsg];
     setMessages(updatedMessages);
     setInput('');
+    setAttachedFiles([]);
     setLoading(true);
     lastUserQuestionRef.current = msg;
     if (tipo) setLoadingAnalise(tipo);
@@ -401,7 +500,29 @@ Obs: Use os dados disponíveis nos registros mensais e destaque em negrito os pe
                     userQuestion={lastUserQuestionRef.current}
                   />
                 ) : (
-                  <span className="whitespace-pre-wrap">{m.content}</span>
+                  <div>
+                    <span className="whitespace-pre-wrap">{m.content}</span>
+                    {m.attachments && m.attachments.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {m.attachments.map((attachment) => (
+                          <div
+                            key={attachment.id}
+                            className="flex items-center gap-2 bg-background/50 rounded-md px-2 py-1.5 border border-border"
+                          >
+                            {getFileIcon(attachment.file.name)}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-xs truncate" title={attachment.file.name}>
+                                {attachment.file.name}
+                              </div>
+                              <div className="text-[10px] text-muted-foreground">
+                                {formatFileSize(attachment.file.size)}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -425,20 +546,71 @@ Obs: Use os dados disponíveis nos registros mensais e destaque em negrito os pe
 
         {/* Input */}
         <div className="p-4 border-t">
+          {/* File previews */}
+          {attachedFiles.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {attachedFiles.map((attachedFile) => (
+                <div
+                  key={attachedFile.id}
+                  className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2 text-sm border"
+                >
+                  {getFileIcon(attachedFile.file.name)}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium truncate max-w-[120px]" title={attachedFile.file.name}>
+                      {attachedFile.file.name}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {formatFileSize(attachedFile.file.size)}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => removeAttachedFile(attachedFile.id)}
+                    className="text-muted-foreground hover:text-destructive transition-colors"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          
           <div className="flex gap-2">
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Pergunte algo sobre os dados da Vigilância..."
-              className="min-h-[44px] max-h-[120px] resize-none"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-            />
-            <Button onClick={() => handleSend()} disabled={!input.trim() || loading} size="icon" className="shrink-0">
+            <div className="relative flex-1">
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Pergunte algo sobre os dados da Vigilância..."
+                className="min-h-[44px] max-h-[120px] resize-none pr-12"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={loading}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-muted-foreground hover:text-primary transition-colors disabled:opacity-50"
+                title="Anexar arquivo"
+              >
+                <Paperclip className="h-4 w-4" />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept=".pdf,.xlsx,.xls,.csv,.doc,.docx,.png,.jpg,.jpeg"
+                onChange={handleFileSelect}
+                className="hidden"
+              />
+            </div>
+            <Button 
+              onClick={() => handleSend()} 
+              disabled={(!input.trim() && attachedFiles.length === 0) || loading} 
+              size="icon" 
+              className="shrink-0"
+            >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </Button>
           </div>
