@@ -81,7 +81,7 @@ export default function DashboardExecutivo() {
       ) : (
         <>
           {/* BLOCO 1 - Resumo do Mês */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
             <MetricCard
               title="Total de registros"
               value={metrics?.totalRegistros.atual || 0}
@@ -113,6 +113,18 @@ export default function DashboardExecutivo() {
               format="percentage"
               icon={<Target className="h-5 w-5" />}
             />
+            <div
+              onClick={() => navigate('/alertas')}
+              className="cursor-pointer hover:scale-[1.02] transition-transform"
+            >
+              <MetricCard
+                title="Alertas ativos"
+                value={alertasVigilancia?.length || 0}
+                variation={0}
+                icon={<Bell className="h-5 w-5" />}
+              />
+            </div>
+          </div>
           </div>
 
           {/* BLOCO 2 - Produção por Equipamento */}
