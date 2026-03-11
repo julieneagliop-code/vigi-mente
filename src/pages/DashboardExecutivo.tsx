@@ -33,6 +33,7 @@ function getDataFormatada() {
 }
 
 export default function DashboardExecutivo() {
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     ano: new Date().getFullYear().toString(),
     mes: (new Date().getMonth() + 1).toString(),
@@ -46,6 +47,7 @@ export default function DashboardExecutivo() {
   const { data: alertas, isLoading: alertasLoading } = useAlertasDashboard(filters);
   const { data: planoTrabalho, isLoading: planoLoading } = usePlanoTrabalhoDashboard();
   const { data: ocorrencias, isLoading: ocorrenciasLoading } = useOcorrenciasDashboard(filters);
+  const { data: alertasVigilancia } = useAlertasVigilancia();
 
   const isLoading = metricsLoading || equipamentosLoading || alertasLoading || planoLoading || ocorrenciasLoading;
 
