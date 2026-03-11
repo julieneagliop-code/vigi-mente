@@ -125,7 +125,6 @@ export default function DashboardExecutivo() {
               />
             </div>
           </div>
-          </div>
 
           {/* BLOCO 2 - Produção por Equipamento */}
           <EquipamentosTable equipamentos={equipamentos || []} />
