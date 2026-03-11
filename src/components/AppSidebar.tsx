@@ -3,6 +3,7 @@ import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   Building2,
+  Bell,
   Database,
   BarChart3,
   ClipboardList,
