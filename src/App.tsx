@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import DashboardExecutivo from "./pages/DashboardExecutivo";
+import PainelAlertas from "./pages/PainelAlertas";
 import RedeSocioassistencial from "./pages/RedeSocioassistencial";
 import EquipamentoDetalhe from "./pages/EquipamentoDetalhe";
 import CentralDados from "./pages/CentralDados";
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/central-dados" element={<CentralDados />} />
             <Route path="/dados" element={<DadosIndicadores />} />
             <Route path="/plano" element={<PlanoTrabalho />} />
+            <Route path="/alertas" element={<PainelAlertas />} />
             <Route path="/assistente-ia" element={<AssistenteIA />} />
             <Route path="/relatorios" element={<Relatorios />} />
             <Route path="/configuracoes" element={<Configuracoes />} />

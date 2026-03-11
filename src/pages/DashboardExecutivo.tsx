@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { FileText, Users, Activity, AlertTriangle, Target } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { FileText, Users, Activity, AlertTriangle, Target, Bell } from 'lucide-react';
 import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { EquipamentosTable } from '@/components/dashboard/EquipamentosTable';
@@ -13,6 +14,7 @@ import {
   usePlanoTrabalhoDashboard,
   useOcorrenciasDashboard
 } from '@/hooks/useDashboardData';
+import { useAlertasVigilancia } from '@/hooks/useAlertasVigilancia';
 
 function getSaudacao() {
   const h = new Date().getHours();
@@ -31,6 +33,7 @@ function getDataFormatada() {
 }
 
 export default function DashboardExecutivo() {
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     ano: new Date().getFullYear().toString(),
     mes: (new Date().getMonth() + 1).toString(),
@@ -44,6 +47,7 @@ export default function DashboardExecutivo() {
   const { data: alertas, isLoading: alertasLoading } = useAlertasDashboard(filters);
   const { data: planoTrabalho, isLoading: planoLoading } = usePlanoTrabalhoDashboard();
   const { data: ocorrencias, isLoading: ocorrenciasLoading } = useOcorrenciasDashboard(filters);
+  const { data: alertasVigilancia } = useAlertasVigilancia();
 
   const isLoading = metricsLoading || equipamentosLoading || alertasLoading || planoLoading || ocorrenciasLoading;
 
@@ -77,7 +81,7 @@ export default function DashboardExecutivo() {
       ) : (
         <>
           {/* BLOCO 1 - Resumo do Mês */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
             <MetricCard
               title="Total de registros"
               value={metrics?.totalRegistros.atual || 0}
@@ -109,6 +113,17 @@ export default function DashboardExecutivo() {
               format="percentage"
               icon={<Target className="h-5 w-5" />}
             />
+            <div
+              onClick={() => navigate('/alertas')}
+              className="cursor-pointer hover:scale-[1.02] transition-transform"
+            >
+              <MetricCard
+                title="Alertas ativos"
+                value={alertasVigilancia?.length || 0}
+                variation={0}
+                icon={<Bell className="h-5 w-5" />}
+              />
+            </div>
           </div>
 
           {/* BLOCO 2 - Produção por Equipamento */}
