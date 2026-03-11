@@ -34,6 +34,7 @@ const App = () => (
             <Route path="/central-dados" element={<CentralDados />} />
             <Route path="/dados" element={<DadosIndicadores />} />
             <Route path="/plano" element={<PlanoTrabalho />} />
+            <Route path="/alertas" element={<PainelAlertas />} />
             <Route path="/assistente-ia" element={<AssistenteIA />} />
             <Route path="/relatorios" element={<Relatorios />} />
             <Route path="/configuracoes" element={<Configuracoes />} />

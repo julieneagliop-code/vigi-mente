@@ -19,6 +19,7 @@ import {
 const menuItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/rede', label: 'Rede socioassistencial', icon: Building2 },
+  { to: '/alertas', label: 'Painel de alertas', icon: Bell },
   { to: '/central-dados', label: 'Central de dados', icon: Database },
   { to: '/dados', label: 'Dados e indicadores', icon: BarChart3 },
   { to: '/plano', label: 'Plano de trabalho', icon: ClipboardList },
