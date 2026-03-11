@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { FileText, Users, Activity, AlertTriangle, Target } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { FileText, Users, Activity, AlertTriangle, Target, Bell } from 'lucide-react';
 import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { EquipamentosTable } from '@/components/dashboard/EquipamentosTable';
