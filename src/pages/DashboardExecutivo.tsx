@@ -14,6 +14,7 @@ import {
   usePlanoTrabalhoDashboard,
   useOcorrenciasDashboard
 } from '@/hooks/useDashboardData';
+import { useAlertasVigilancia } from '@/hooks/useAlertasVigilancia';
 
 function getSaudacao() {
   const h = new Date().getHours();
