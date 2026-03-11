@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import DashboardExecutivo from "./pages/DashboardExecutivo";
+import PainelAlertas from "./pages/PainelAlertas";
 import RedeSocioassistencial from "./pages/RedeSocioassistencial";
 import EquipamentoDetalhe from "./pages/EquipamentoDetalhe";
 import CentralDados from "./pages/CentralDados";
