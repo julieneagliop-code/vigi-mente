@@ -82,6 +82,8 @@ export default function CentralDados() {
 
   /* ── RMA History ── */
   const [rmaHistory, setRmaHistory] = useState<any[]>([]);
+  const [importedHistory, setImportedHistory] = useState<any[]>([]);
+  const [importFilter, setImportFilter] = useState({ mes: '', ano: '', unidade: '' });
 
   /* ── Load RMA history on mount ── */
   useEffect(() => {
