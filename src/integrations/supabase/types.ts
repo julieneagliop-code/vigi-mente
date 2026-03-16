@@ -503,6 +503,126 @@ export type Database = {
         }
         Relationships: []
       }
+      rma_cras_importado: {
+        Row: {
+          arquivo_original_url: string | null
+          atendimentos_individualizados_total: number | null
+          auxilio_funeral: number | null
+          auxilio_natalidade: number | null
+          competencia_ano: number
+          competencia_mes: number
+          created_at: string
+          data_importacao: string
+          encaminhadas_bpc: number | null
+          encaminhadas_cadunico_atualizacao: number | null
+          encaminhadas_cadunico_inclusao: number | null
+          encaminhadas_creas: number | null
+          endereco: string | null
+          id: string
+          municipio: string | null
+          outros_beneficios_eventuais: number | null
+          paif_grupos_familias: number | null
+          paif_novas_familias_mes: number | null
+          paif_total_familias_acompanhadas: number | null
+          palestras_oficinas_atividades: number | null
+          perfil_familias_acolhimento: number | null
+          perfil_familias_bolsa_familia: number | null
+          perfil_familias_bolsa_familia_descumprimento: number | null
+          perfil_familias_bpc: number | null
+          perfil_familias_pobreza: number | null
+          perfil_familias_trabalho_infantil: number | null
+          pessoas_com_deficiencia_scfv_paif: number | null
+          scfv_0_6: number | null
+          scfv_15_17: number | null
+          scfv_18_59: number | null
+          scfv_7_14: number | null
+          scfv_idosos: number | null
+          uf: string | null
+          unidade: string | null
+          updated_at: string
+          user_id: string | null
+          visitas_domiciliares: number | null
+        }
+        Insert: {
+          arquivo_original_url?: string | null
+          atendimentos_individualizados_total?: number | null
+          auxilio_funeral?: number | null
+          auxilio_natalidade?: number | null
+          competencia_ano: number
+          competencia_mes: number
+          created_at?: string
+          data_importacao?: string
+          encaminhadas_bpc?: number | null
+          encaminhadas_cadunico_atualizacao?: number | null
+          encaminhadas_cadunico_inclusao?: number | null
+          encaminhadas_creas?: number | null
+          endereco?: string | null
+          id?: string
+          municipio?: string | null
+          outros_beneficios_eventuais?: number | null
+          paif_grupos_familias?: number | null
+          paif_novas_familias_mes?: number | null
+          paif_total_familias_acompanhadas?: number | null
+          palestras_oficinas_atividades?: number | null
+          perfil_familias_acolhimento?: number | null
+          perfil_familias_bolsa_familia?: number | null
+          perfil_familias_bolsa_familia_descumprimento?: number | null
+          perfil_familias_bpc?: number | null
+          perfil_familias_pobreza?: number | null
+          perfil_familias_trabalho_infantil?: number | null
+          pessoas_com_deficiencia_scfv_paif?: number | null
+          scfv_0_6?: number | null
+          scfv_15_17?: number | null
+          scfv_18_59?: number | null
+          scfv_7_14?: number | null
+          scfv_idosos?: number | null
+          uf?: string | null
+          unidade?: string | null
+          updated_at?: string
+          user_id?: string | null
+          visitas_domiciliares?: number | null
+        }
+        Update: {
+          arquivo_original_url?: string | null
+          atendimentos_individualizados_total?: number | null
+          auxilio_funeral?: number | null
+          auxilio_natalidade?: number | null
+          competencia_ano?: number
+          competencia_mes?: number
+          created_at?: string
+          data_importacao?: string
+          encaminhadas_bpc?: number | null
+          encaminhadas_cadunico_atualizacao?: number | null
+          encaminhadas_cadunico_inclusao?: number | null
+          encaminhadas_creas?: number | null
+          endereco?: string | null
+          id?: string
+          municipio?: string | null
+          outros_beneficios_eventuais?: number | null
+          paif_grupos_familias?: number | null
+          paif_novas_familias_mes?: number | null
+          paif_total_familias_acompanhadas?: number | null
+          palestras_oficinas_atividades?: number | null
+          perfil_familias_acolhimento?: number | null
+          perfil_familias_bolsa_familia?: number | null
+          perfil_familias_bolsa_familia_descumprimento?: number | null
+          perfil_familias_bpc?: number | null
+          perfil_familias_pobreza?: number | null
+          perfil_familias_trabalho_infantil?: number | null
+          pessoas_com_deficiencia_scfv_paif?: number | null
+          scfv_0_6?: number | null
+          scfv_15_17?: number | null
+          scfv_18_59?: number | null
+          scfv_7_14?: number | null
+          scfv_idosos?: number | null
+          uf?: string | null
+          unidade?: string | null
+          updated_at?: string
+          user_id?: string | null
+          visitas_domiciliares?: number | null
+        }
+        Relationships: []
+      }
       rma_creas: {
         Row: {
           abuso_sexual: number | null
