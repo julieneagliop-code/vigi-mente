@@ -437,14 +437,79 @@ export default function CentralDados() {
             </div>
           )}
 
-          {/* Upload */}
+          {/* Importação automática */}
           <div className="bg-card rounded-lg shadow-card p-5">
-             <h3 className="font-semibold text-foreground mb-3">Upload de arquivo</h3>
-            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/40 transition-colors cursor-pointer">
-              <Upload className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-              <p className="text-sm text-muted-foreground">Arraste o arquivo do RMA aqui ou clique para selecionar</p>
-              <p className="text-xs text-muted-foreground mt-1">Aceita .xlsx, .xls, .csv, .pdf</p>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h3 className="font-semibold text-foreground">Importação automática de RMA do CRAS</h3>
+                <p className="text-xs text-muted-foreground mt-1">Envie o arquivo do RMA (PDF, Excel ou CSV) para extração automática dos dados consolidados do Formulário 1</p>
+              </div>
+              <ImportarRmaCras onImportSuccess={() => { loadImportedHistory(); loadRmaHistory(); }} />
             </div>
+          </div>
+
+          {/* Histórico de importações */}
+          <div className="bg-card rounded-lg shadow-card p-5">
+            <h3 className="font-semibold text-foreground mb-3">RMAs importados automaticamente</h3>
+            <div className="flex flex-wrap gap-3 mb-4">
+              <div>
+                <Label className="text-xs text-muted-foreground">Mês</Label>
+                <Select value={importFilter.mes} onValueChange={(v) => setImportFilter({ ...importFilter, mes: v === 'all' ? '' : v })}>
+                  <SelectTrigger className="w-36 mt-1"><SelectValue placeholder="Todos" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {Object.entries(mesesNome).map(([k, v]) => <SelectItem key={k} value={k}>{v}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">Ano</Label>
+                <Select value={importFilter.ano} onValueChange={(v) => setImportFilter({ ...importFilter, ano: v === 'all' ? '' : v })}>
+                  <SelectTrigger className="w-28 mt-1"><SelectValue placeholder="Todos" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {anos.map((a) => <SelectItem key={a} value={a}>{a}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">Unidade</Label>
+                <Input
+                  placeholder="Filtrar por unidade..."
+                  value={importFilter.unidade}
+                  onChange={(e) => setImportFilter({ ...importFilter, unidade: e.target.value })}
+                  className="w-48 mt-1"
+                />
+              </div>
+            </div>
+            {filteredImported.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Nenhum RMA importado ainda.</p>
+            ) : (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-left">
+                    <th className="pb-2 font-medium text-muted-foreground">Competência</th>
+                    <th className="pb-2 font-medium text-muted-foreground">Unidade</th>
+                    <th className="pb-2 font-medium text-muted-foreground">Município</th>
+                    <th className="pb-2 font-medium text-muted-foreground">Famílias PAIF</th>
+                    <th className="pb-2 font-medium text-muted-foreground">Atend. indiv.</th>
+                    <th className="pb-2 font-medium text-muted-foreground">Data importação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredImported.map((r: any) => (
+                    <tr key={r.id} className="border-b last:border-0">
+                      <td className="py-2 text-foreground">{mesesNome[r.competencia_mes]}/{r.competencia_ano}</td>
+                      <td className="py-2 text-foreground">{r.unidade || '—'}</td>
+                      <td className="py-2 text-foreground">{r.municipio || '—'}</td>
+                      <td className="py-2 text-foreground">{r.paif_total_familias_acompanhadas}</td>
+                      <td className="py-2 text-foreground">{r.atendimentos_individualizados_total}</td>
+                      <td className="py-2 text-foreground">{new Date(r.data_importacao).toLocaleDateString('pt-BR')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
 
           {/* Histórico */}
