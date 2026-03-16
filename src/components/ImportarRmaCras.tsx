@@ -85,20 +85,39 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
     try {
       let fileContent = '';
       
-      if (ext === 'csv') {
+      if (ext === 'csv' || ext === 'txt') {
         fileContent = await f.text();
+      } else if (ext === 'xlsx' || ext === 'xls') {
+        // For Excel files, read as text (will be partially readable)
+        fileContent = await f.text();
+        if (!fileContent || fileContent.length < 10) {
+          // Fallback: convert to base64
+          const buffer = await f.arrayBuffer();
+          const bytes = new Uint8Array(buffer);
+          let binary = '';
+          bytes.forEach(b => binary += String.fromCharCode(b));
+          fileContent = `[Arquivo Excel codificado em base64]\n${btoa(binary)}`;
+        }
       } else {
-        // Convert file to base64 for AI processing
-        const buffer = await f.arrayBuffer();
-        const bytes = new Uint8Array(buffer);
-        let binary = '';
-        bytes.forEach(b => binary += String.fromCharCode(b));
-        fileContent = `[Arquivo ${ext?.toUpperCase()} codificado em base64]\n${btoa(binary)}`;
+        // PDF: read as text first (some PDFs have extractable text)
+        const textContent = await f.text();
+        // Check if it has readable content
+        const readableChars = textContent.replace(/[^\x20-\x7E\u00C0-\u024F\n\r\t]/g, '');
+        if (readableChars.length > 100) {
+          fileContent = readableChars;
+        } else {
+          // Fallback: base64
+          const buffer = await f.arrayBuffer();
+          const bytes = new Uint8Array(buffer);
+          let binary = '';
+          bytes.forEach(b => binary += String.fromCharCode(b));
+          fileContent = `[Arquivo PDF codificado em base64]\n${btoa(binary)}`;
+        }
       }
 
-      // Limit content size
-      if (fileContent.length > 100000) {
-        fileContent = fileContent.substring(0, 100000);
+      // Limit content size for AI processing
+      if (fileContent.length > 50000) {
+        fileContent = fileContent.substring(0, 50000);
       }
 
       const { data, error } = await supabase.functions.invoke('processar-rma-cras', {
