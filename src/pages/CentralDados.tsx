@@ -89,6 +89,7 @@ export default function CentralDados() {
   useEffect(() => {
     loadRmaHistory();
     loadRegistros();
+    loadImportedHistory();
   }, []);
 
   const loadRmaHistory = async () => {
