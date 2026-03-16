@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
 import { equipamentos } from '@/data/equipamentos';
 import { supabase } from '@/integrations/supabase/client';
+import ImportarRmaCras from '@/components/ImportarRmaCras';
 import {
   Database, Upload, Eye, Edit, Download, Save, Plus, FileSpreadsheet, Loader2,
 } from 'lucide-react';
