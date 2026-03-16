@@ -111,6 +111,21 @@ export default function CentralDados() {
     if (data) setRegistros(data);
   };
 
+  const loadImportedHistory = async () => {
+    const { data } = await supabase
+      .from('rma_cras_importado' as any)
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (data) setImportedHistory(data as any[]);
+  };
+
+  const filteredImported = importedHistory.filter((r: any) => {
+    if (importFilter.mes && r.competencia_mes !== Number(importFilter.mes)) return false;
+    if (importFilter.ano && r.competencia_ano !== Number(importFilter.ano)) return false;
+    if (importFilter.unidade && !r.unidade?.toLowerCase().includes(importFilter.unidade.toLowerCase())) return false;
+    return true;
+  });
+
   /* ── Load existing RMA data ── */
   const carregarDados = async () => {
     setLoading(true);
