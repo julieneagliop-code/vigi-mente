@@ -98,7 +98,7 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
           fileContent = `[Arquivo Excel codificado em base64]\n${btoa(binary)}`;
         }
       } else {
-        // PDF: use pdfjs-dist for proper text extraction
+        // PDF: use pdfjs-dist with spatial layout preservation
         try {
           const buffer = await f.arrayBuffer();
           pdfjsLib.GlobalWorkerOptions.workerSrc = '';
@@ -107,10 +107,24 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
           for (let i = 1; i <= pdf.numPages; i++) {
             const page = await pdf.getPage(i);
             const textContent = await page.getTextContent();
-            const pageText = textContent.items
-              .map((item: any) => item.str)
-              .join(' ');
-            pages.push(`--- Página ${i} ---\n${pageText}`);
+            // Group items by Y coordinate to reconstruct lines
+            const items = textContent.items as any[];
+            const lineMap = new Map<number, { x: number; str: string }[]>();
+            for (const item of items) {
+              if (!item.str || item.str.trim() === '') continue;
+              // Round Y to group items on the same visual line (tolerance of 3 units)
+              const y = Math.round(item.transform[5] / 3) * 3;
+              if (!lineMap.has(y)) lineMap.set(y, []);
+              lineMap.get(y)!.push({ x: item.transform[4], str: item.str });
+            }
+            // Sort lines top-to-bottom (higher Y = higher on page), items left-to-right
+            const sortedYs = Array.from(lineMap.keys()).sort((a, b) => b - a);
+            const lineTexts: string[] = [];
+            for (const y of sortedYs) {
+              const lineItems = lineMap.get(y)!.sort((a, b) => a.x - b.x);
+              lineTexts.push(lineItems.map(i => i.str).join(' '));
+            }
+            pages.push(`--- Página ${i} ---\n${lineTexts.join('\n')}`);
           }
           fileContent = pages.join('\n\n');
           console.log('PDF text extracted, length:', fileContent.length);
