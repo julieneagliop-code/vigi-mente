@@ -33,56 +33,79 @@ serve(async (req) => {
 
 Analise o texto abaixo, extraído de um arquivo ${fileType} chamado "${fileName}".
 
-INSTRUÇÕES CRÍTICAS DE EXTRAÇÃO:
-1. Para cada campo, busque pelo TEXTO PARCIAL da linha (palavras-chave).
-2. Após encontrar o texto do campo, capture o NÚMERO que aparece ao FINAL ou PRÓXIMO da linha.
-3. Ignore quebras de linha e espaços extras.
-4. Sempre pegue o ÚLTIMO número relevante da linha.
-5. Se não encontrar um campo, use null (NÃO use 0).
-6. NÃO extraia dados nominais (nomes, CPFs, NIS).
+REGRAS CRÍTICAS DE EXTRAÇÃO:
 
-MAPEAMENTO DE PALAVRAS-CHAVE → CAMPOS:
+1. O PDF é um FORMULÁRIO GOVERNAMENTAL. Os rótulos e valores frequentemente NÃO estão na mesma linha.
+2. Para cada campo, busque o RÓTULO (label) pelo texto parcial/palavras-chave.
+3. Após encontrar o rótulo, busque o NÚMERO MAIS PRÓXIMO:
+   - na mesma linha (após o rótulo)
+   - OU na linha imediatamente abaixo
+   - OU na linha imediatamente acima (em formulários invertidos)
+   - OU separado por pontos, traços ou espaços (ex: "campo ............ 620")
+4. Ignore quebras de linha, múltiplos espaços, pontuação (.:;-) e caracteres decorativos (....).
+5. Capture o PRIMEIRO número válido encontrado próximo ao rótulo (dentro de ~50 caracteres).
+6. Se o valor for claramente 0 (zero explícito no documento), use 0.
+7. Se NÃO encontrar o campo ou valor, use null (NUNCA invente valores).
+8. NÃO extraia dados nominais (nomes, CPFs, NIS).
+
+MAPEAMENTO — busque por QUALQUER dessas variações (ignorando acentos e maiúsculas):
 
 Cabeçalho:
-- "mês" ou "competência" → competencia_mes (número 1-12)
+- "mes" / "competencia" / "referencia" → competencia_mes (1-12)
 - "ano" → competencia_ano (4 dígitos)
 - nome do CRAS/unidade → unidade
-- município → municipio
-- UF/estado → uf (sigla de 2 letras)
-- endereço → endereco
+- "municipio" → municipio
+- "UF" / "estado" → uf (sigla 2 letras)
+- "endereco" → endereco
 
-Bloco 1 - PAIF:
-- "famílias em acompanhamento" ou "total de famílias" + "PAIF" → paif_total_familias_acompanhadas
-- "novas famílias" ou "inseridas no acompanhamento" → paif_novas_familias_mes
-- "extrema pobreza" ou "situação de pobreza" → perfil_familias_pobreza
-- "bolsa família" ou "programa bolsa" (primeira ocorrência) → perfil_familias_bolsa_familia
-- "descumprimento" ou "condicionalidades" → perfil_familias_bolsa_familia_descumprimento
-- "BPC" ou "benefício de prestação continuada" (no contexto de famílias) → perfil_familias_bpc
+Bloco 1 - PAIF (buscar rótulo, depois número mais próximo):
+- "familias" + "acompanhamento" + "paif" OU "total de familias" → paif_total_familias_acompanhadas
+- "novas familias" OU "inseridas" + "acompanhamento" → paif_novas_familias_mes
+- "extrema pobreza" OU "situacao de pobreza" → perfil_familias_pobreza
+- "bolsa familia" OU "programa bolsa" (1ª ocorrência, contexto famílias) → perfil_familias_bolsa_familia
+- "descumprimento" OU "condicionalidades" → perfil_familias_bolsa_familia_descumprimento
+- "BPC" OU "beneficio de prestacao continuada" (contexto famílias) → perfil_familias_bpc
 - "trabalho infantil" → perfil_familias_trabalho_infantil
 - "acolhimento" → perfil_familias_acolhimento
 
-Bloco 2 - Atendimentos:
-- "atendimentos individualizados" ou "atendimentos particularizados" → atendimentos_individualizados_total
-- "inclusão" + "cadastro único" ou "CadÚnico" → encaminhadas_cadunico_inclusao
-- "atualização" + "cadastro" ou "CadÚnico" → encaminhadas_cadunico_atualizacao
+Bloco 2 - Atendimentos (buscar rótulo, depois número mais próximo):
+- "atendimentos individualizados" OU "atendimentos particularizados" → atendimentos_individualizados_total
+- "inclusao" + "cadastro unico" OU "cadunico" → encaminhadas_cadunico_inclusao
+- "atualizacao" + "cadastro" OU "cadunico" → encaminhadas_cadunico_atualizacao
 - "encaminhad" + "BPC" → encaminhadas_bpc
 - "encaminhad" + "CREAS" → encaminhadas_creas
 - "visitas domiciliares" → visitas_domiciliares
-- "auxílio" + "natalidade" ou "auxílios-natalidade" → auxilio_natalidade
-- "auxílio" + "funeral" ou "auxílios-funeral" → auxilio_funeral
-- "outros benefícios eventuais" → outros_beneficios_eventuais
+- "auxilio" + "natalidade" OU "auxilios-natalidade" → auxilio_natalidade
+- "auxilio" + "funeral" OU "auxilios-funeral" → auxilio_funeral
+- "outros beneficios eventuais" → outros_beneficios_eventuais
 
-Bloco 3 - Coletivos:
-- "grupos" + "PAIF" ou "famílias participando regularmente" → paif_grupos_familias
-- "0 a 6" ou "zero a seis" → scfv_0_6
-- "7 a 14" ou "sete a quatorze" → scfv_7_14
-- "15 a 17" ou "quinze a dezessete" → scfv_15_17
-- "18 a 59" ou "dezoito a cinquenta" → scfv_18_59
-- "idosos" + "SCFV" ou "60" + "SCFV" → scfv_idosos
-- "palestras" ou "oficinas" ou "atividades coletivas" → palestras_oficinas_atividades
-- "deficiência" + ("SCFV" ou "PAIF") → pessoas_com_deficiencia_scfv_paif
+Bloco 3 - Coletivos (buscar rótulo, depois número mais próximo):
+- "grupos" + "PAIF" OU "familias participando regularmente" → paif_grupos_familias
+- "0 a 6" OU "zero a seis" → scfv_0_6
+- "7 a 14" OU "sete a quatorze" → scfv_7_14
+- "15 a 17" OU "quinze a dezessete" → scfv_15_17
+- "18 a 59" OU "dezoito a cinquenta" → scfv_18_59
+- "idosos" + ("SCFV" OU "60") → scfv_idosos
+- "palestras" OU "oficinas" OU "atividades coletivas" → palestras_oficinas_atividades
+- "deficiencia" + ("SCFV" OU "PAIF") → pessoas_com_deficiencia_scfv_paif
 
-Retorne um JSON com esta estrutura (use null para campos não encontrados, NÃO use 0):
+EXEMPLO de extração em formulário com layout quebrado:
+
+Texto do PDF:
+"Total de famílias em acompanhamento pelo PAIF
+620
+Novas famílias inseridas no acompanhamento do PAIF durante o mês de referência
+45"
+
+Resultado esperado:
+paif_total_familias_acompanhadas = 620
+paif_novas_familias_mes = 45
+
+OUTRO EXEMPLO com separadores:
+"Total de famílias em acompanhamento pelo PAIF ............ 620"
+→ paif_total_familias_acompanhadas = 620
+
+Retorne um JSON com esta estrutura (use null para campos não encontrados, NÃO use 0 como substituto):
 {
   "competencia_mes": <número 1-12 ou null>,
   "competencia_ano": <ano 4 dígitos ou null>,
