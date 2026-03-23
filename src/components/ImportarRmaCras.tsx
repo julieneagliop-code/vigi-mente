@@ -89,10 +89,8 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
       if (ext === 'csv' || ext === 'txt') {
         fileContent = await f.text();
       } else if (ext === 'xlsx' || ext === 'xls') {
-        // For Excel files, read as text (will be partially readable)
         fileContent = await f.text();
         if (!fileContent || fileContent.length < 10) {
-          // Fallback: convert to base64
           const buffer = await f.arrayBuffer();
           const bytes = new Uint8Array(buffer);
           let binary = '';
@@ -100,23 +98,32 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
           fileContent = `[Arquivo Excel codificado em base64]\n${btoa(binary)}`;
         }
       } else {
-        // PDF: read as text first (some PDFs have extractable text)
-        const textContent = await f.text();
-        // Check if it has readable content
-        const readableChars = textContent.replace(/[^\x20-\x7E\u00C0-\u024F\n\r\t]/g, '');
-        if (readableChars.length > 100) {
-          fileContent = readableChars;
-        } else {
-          // Fallback: base64
+        // PDF: use pdfjs-dist for proper text extraction
+        try {
           const buffer = await f.arrayBuffer();
-          const bytes = new Uint8Array(buffer);
-          let binary = '';
-          bytes.forEach(b => binary += String.fromCharCode(b));
-          fileContent = `[Arquivo PDF codificado em base64]\n${btoa(binary)}`;
+          pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+          const pdf = await pdfjsLib.getDocument({ data: buffer, useWorkerFetch: false, isEvalSupported: false, useSystemFonts: true }).promise;
+          const pages: string[] = [];
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items
+              .map((item: any) => item.str)
+              .join(' ');
+            pages.push(`--- Página ${i} ---\n${pageText}`);
+          }
+          fileContent = pages.join('\n\n');
+          console.log('PDF text extracted, length:', fileContent.length);
+          console.log('PDF preview:', fileContent.substring(0, 1000));
+        } catch (pdfErr) {
+          console.error('pdfjs extraction failed:', pdfErr);
+          // Fallback to raw text
+          fileContent = await f.text();
+          const readableChars = fileContent.replace(/[^\x20-\x7E\u00C0-\u024F\n\r\t]/g, '');
+          fileContent = readableChars.length > 100 ? readableChars : '[PDF não pôde ser lido]';
         }
       }
 
-      // Limit content size for AI processing
       if (fileContent.length > 50000) {
         fileContent = fileContent.substring(0, 50000);
       }
