@@ -291,7 +291,6 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
                 <p className="text-xs text-muted-foreground mt-1">
                   Alguns campos podem não ter sido identificados automaticamente devido ao formato do PDF. Revise os valores antes de salvar.
                 </p>
-                </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs text-muted-foreground">
                   <span><strong>Competência:</strong> {mesesNome[dados.competencia_mes]}/{dados.competencia_ano}</span>
                   <span><strong>Unidade:</strong> {dados.unidade || '—'}</span>
