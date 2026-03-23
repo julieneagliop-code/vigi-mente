@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Upload, FileText, Loader2, CheckCircle, AlertTriangle, Eye, X } from 'lucide-react';
+import * as pdfjsLib from 'pdfjs-dist';
 
 const mesesNome: Record<number, string> = {
   1: 'Janeiro', 2: 'Fevereiro', 3: 'Março', 4: 'Abril', 5: 'Maio', 6: 'Junho',
@@ -88,10 +89,8 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
       if (ext === 'csv' || ext === 'txt') {
         fileContent = await f.text();
       } else if (ext === 'xlsx' || ext === 'xls') {
-        // For Excel files, read as text (will be partially readable)
         fileContent = await f.text();
         if (!fileContent || fileContent.length < 10) {
-          // Fallback: convert to base64
           const buffer = await f.arrayBuffer();
           const bytes = new Uint8Array(buffer);
           let binary = '';
@@ -99,23 +98,32 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
           fileContent = `[Arquivo Excel codificado em base64]\n${btoa(binary)}`;
         }
       } else {
-        // PDF: read as text first (some PDFs have extractable text)
-        const textContent = await f.text();
-        // Check if it has readable content
-        const readableChars = textContent.replace(/[^\x20-\x7E\u00C0-\u024F\n\r\t]/g, '');
-        if (readableChars.length > 100) {
-          fileContent = readableChars;
-        } else {
-          // Fallback: base64
+        // PDF: use pdfjs-dist for proper text extraction
+        try {
           const buffer = await f.arrayBuffer();
-          const bytes = new Uint8Array(buffer);
-          let binary = '';
-          bytes.forEach(b => binary += String.fromCharCode(b));
-          fileContent = `[Arquivo PDF codificado em base64]\n${btoa(binary)}`;
+          pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+          const pdf = await pdfjsLib.getDocument({ data: buffer, useWorkerFetch: false, isEvalSupported: false, useSystemFonts: true }).promise;
+          const pages: string[] = [];
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items
+              .map((item: any) => item.str)
+              .join(' ');
+            pages.push(`--- Página ${i} ---\n${pageText}`);
+          }
+          fileContent = pages.join('\n\n');
+          console.log('PDF text extracted, length:', fileContent.length);
+          console.log('PDF preview:', fileContent.substring(0, 1000));
+        } catch (pdfErr) {
+          console.error('pdfjs extraction failed:', pdfErr);
+          // Fallback to raw text
+          fileContent = await f.text();
+          const readableChars = fileContent.replace(/[^\x20-\x7E\u00C0-\u024F\n\r\t]/g, '');
+          fileContent = readableChars.length > 100 ? readableChars : '[PDF não pôde ser lido]';
         }
       }
 
-      // Limit content size for AI processing
       if (fileContent.length > 50000) {
         fileContent = fileContent.substring(0, 50000);
       }
@@ -178,12 +186,19 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
     setSaving(false);
   };
 
-  const Field = ({ label, value }: { label: string; value: number | string | undefined }) => (
-    <div className="flex justify-between items-center py-1.5 border-b border-border/50 last:border-0">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="text-sm font-medium text-foreground">{value ?? 0}</span>
-    </div>
-  );
+  const Field = ({ label, value }: { label: string; value: number | string | undefined | null }) => {
+    const isNull = value === null || value === undefined;
+    return (
+      <div className="flex justify-between items-center py-1.5 border-b border-border/50 last:border-0">
+        <span className="text-sm text-muted-foreground">{label}</span>
+        {isNull ? (
+          <Badge variant="outline" className="text-xs text-amber-600 border-amber-300">Não identificado</Badge>
+        ) : (
+          <span className="text-sm font-medium text-foreground">{value}</span>
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -257,8 +272,11 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
               <div className="bg-primary/5 border border-primary/10 rounded-lg p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium text-foreground">Dados extraídos com sucesso</span>
+                  <span className="text-sm font-medium text-foreground">Arquivo lido com sucesso</span>
                 </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Alguns campos podem não ter sido identificados automaticamente. Revise antes de salvar.
+                </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs text-muted-foreground">
                   <span><strong>Competência:</strong> {mesesNome[dados.competencia_mes]}/{dados.competencia_ano}</span>
                   <span><strong>Unidade:</strong> {dados.unidade || '—'}</span>
