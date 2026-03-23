@@ -186,12 +186,19 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
     setSaving(false);
   };
 
-  const Field = ({ label, value }: { label: string; value: number | string | undefined }) => (
-    <div className="flex justify-between items-center py-1.5 border-b border-border/50 last:border-0">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="text-sm font-medium text-foreground">{value ?? 0}</span>
-    </div>
-  );
+  const Field = ({ label, value }: { label: string; value: number | string | undefined | null }) => {
+    const isNull = value === null || value === undefined;
+    return (
+      <div className="flex justify-between items-center py-1.5 border-b border-border/50 last:border-0">
+        <span className="text-sm text-muted-foreground">{label}</span>
+        {isNull ? (
+          <Badge variant="outline" className="text-xs text-amber-600 border-amber-300">Não identificado</Badge>
+        ) : (
+          <span className="text-sm font-medium text-foreground">{value}</span>
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
