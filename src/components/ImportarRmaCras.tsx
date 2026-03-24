@@ -166,6 +166,13 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
     setSaving(true);
 
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({ title: 'Você precisa estar logado para salvar os dados.', variant: 'destructive' });
+        setSaving(false);
+        return;
+      }
+
       // Check for duplicates
       const { data: existing } = await supabase
         .from('rma_cras_importado' as any)
@@ -185,7 +192,7 @@ export default function ImportarRmaCras({ onImportSuccess }: Props) {
 
       const { error } = await supabase
         .from('rma_cras_importado' as any)
-        .insert({ ...payload, arquivo_original_url: file?.name || null });
+        .insert({ ...payload, arquivo_original_url: file?.name || null, user_id: user.id });
 
       if (error) throw error;
 
