@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -15,6 +15,8 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+
+import { supabase } from '@/integrations/supabase/client';
 
 const menuItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -100,7 +102,11 @@ export function AppSidebar() {
               <p className="text-sm font-medium text-sidebar-foreground truncate">Técnico</p>
               <p className="text-xs text-sidebar-foreground/60">Vigilância social</p>
             </div>
-            <button className="text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors">
+            <button
+              onClick={async () => { await supabase.auth.signOut(); }}
+              className="text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors"
+              title="Sair"
+            >
               <LogOut className="h-4 w-4" />
             </button>
           </div>
