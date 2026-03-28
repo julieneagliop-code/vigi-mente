@@ -57,10 +57,12 @@ export default function CentralDados() {
 
   /* ── RMA CREAS state ── */
   const [creas, setCreas] = useState({
-    familias_paefi: 0, novas_paefi: 0,
-    mse_la: 0, mse_psc: 0, abordagem: 0, atend_indiv: 0,
+    familias_paefi: 0, novas_paefi: 0, familias_desligadas: 0, familias_acompanhamento: 0,
+    mse_la: 0, mse_psc: 0, novos_mse: 0, casos_mse: 0,
+    abordagem: 0, atend_indiv: 0, atend_coletivos: 0, total_atend: 0, visitas: 0,
     viol_fisica: 0, viol_psico: 0, abuso_sexual: 0,
-    explor_sexual: 0, negligencia: 0, trab_infantil: 0, outras: 0,
+    explor_sexual: 0, negligencia: 0, trab_infantil: 0, situacao_rua: 0,
+    violacao_idoso: 0, violacao_pcd: 0, outras: 0,
     vit_criancas: 0, vit_adolescentes: 0, vit_adultos: 0, vit_idosos: 0,
     encaminhamentos: 0, obs: '',
   });
