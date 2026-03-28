@@ -11,8 +11,9 @@ import { toast } from '@/hooks/use-toast';
 import { equipamentos } from '@/data/equipamentos';
 import { supabase } from '@/integrations/supabase/client';
 import ImportarRmaCras from '@/components/ImportarRmaCras';
+import ImportarRmaCreas from '@/components/ImportarRmaCreas';
 import {
-  Database, Upload, Eye, Edit, Download, Save, Plus, FileSpreadsheet, Loader2,
+  Database, Upload, Eye, Edit, Download, Save, Plus, FileSpreadsheet, Loader2, Copy,
 } from 'lucide-react';
 
 /* ──────────────────────────── helpers ──────────────────────────── */
@@ -56,10 +57,12 @@ export default function CentralDados() {
 
   /* ── RMA CREAS state ── */
   const [creas, setCreas] = useState({
-    familias_paefi: 0, novas_paefi: 0,
-    mse_la: 0, mse_psc: 0, abordagem: 0, atend_indiv: 0,
+    familias_paefi: 0, novas_paefi: 0, familias_desligadas: 0, familias_acompanhamento: 0,
+    mse_la: 0, mse_psc: 0, novos_mse: 0, casos_mse: 0,
+    abordagem: 0, atend_indiv: 0, atend_coletivos: 0, total_atend: 0, visitas: 0,
     viol_fisica: 0, viol_psico: 0, abuso_sexual: 0,
-    explor_sexual: 0, negligencia: 0, trab_infantil: 0, outras: 0,
+    explor_sexual: 0, negligencia: 0, trab_infantil: 0, situacao_rua: 0,
+    violacao_idoso: 0, violacao_pcd: 0, outras: 0,
     vit_criancas: 0, vit_adolescentes: 0, vit_adultos: 0, vit_idosos: 0,
     encaminhamentos: 0, obs: '',
   });
@@ -155,11 +158,17 @@ export default function CentralDados() {
       if (data) {
         setCreas({
           familias_paefi: data.familias_acompanhamento_paefi ?? 0, novas_paefi: data.novas_familias_paefi ?? 0,
+          familias_desligadas: (data as any).familias_desligadas ?? 0, familias_acompanhamento: (data as any).familias_acompanhamento ?? 0,
           mse_la: data.adolescentes_mse_la ?? 0, mse_psc: data.adolescentes_mse_psc ?? 0,
+          novos_mse: (data as any).novos_casos_mse ?? 0, casos_mse: (data as any).casos_acompanhamento_mse ?? 0,
           abordagem: data.pessoas_abordagem_social ?? 0, atend_indiv: data.atendimentos_individualizados ?? 0,
+          atend_coletivos: (data as any).atendimentos_coletivos ?? 0, total_atend: (data as any).total_atendimentos ?? 0,
+          visitas: (data as any).visitas_domiciliares ?? 0,
           viol_fisica: data.violencia_fisica ?? 0, viol_psico: data.violencia_psicologica ?? 0,
           abuso_sexual: data.abuso_sexual ?? 0, explor_sexual: data.exploracao_sexual ?? 0,
           negligencia: data.negligencia_abandono ?? 0, trab_infantil: data.trabalho_infantil ?? 0,
+          situacao_rua: (data as any).situacao_rua ?? 0, violacao_idoso: (data as any).violacao_idoso ?? 0,
+          violacao_pcd: (data as any).violacao_pcd ?? 0,
           outras: data.outras_violacoes ?? 0, vit_criancas: data.vitimas_criancas ?? 0,
           vit_adolescentes: data.vitimas_adolescentes ?? 0, vit_adultos: data.vitimas_adultos ?? 0,
           vit_idosos: data.vitimas_idosos ?? 0, encaminhamentos: data.encaminhamentos ?? 0,
@@ -167,7 +176,7 @@ export default function CentralDados() {
         });
         toast({ title: 'Dados carregados!' });
       } else {
-        toast({ title: 'Nenhum dado encontrado' });
+        toast({ title: 'Nenhum registro encontrado para esta competência.' });
       }
     } else {
       const { data } = await supabase.from('rma_rede_indireta').select('*').eq('equipamento_id', equipSel).eq('mes_referencia', mesRef).maybeSingle();
@@ -206,19 +215,25 @@ export default function CentralDados() {
       const res = await supabase.from('rma_cras').upsert(payload, { onConflict: 'equipamento_id,mes_referencia' });
       error = res.error;
     } else if (isCreas) {
-      const payload = {
+      const payload: any = {
         equipamento_id: equipSel, mes_referencia: mesRef,
         familias_acompanhamento_paefi: creas.familias_paefi, novas_familias_paefi: creas.novas_paefi,
+        familias_desligadas: creas.familias_desligadas, familias_acompanhamento: creas.familias_acompanhamento,
         adolescentes_mse_la: creas.mse_la, adolescentes_mse_psc: creas.mse_psc,
+        novos_casos_mse: creas.novos_mse, casos_acompanhamento_mse: creas.casos_mse,
         pessoas_abordagem_social: creas.abordagem, atendimentos_individualizados: creas.atend_indiv,
+        atendimentos_coletivos: creas.atend_coletivos, total_atendimentos: creas.total_atend,
+        visitas_domiciliares: creas.visitas,
         violencia_fisica: creas.viol_fisica, violencia_psicologica: creas.viol_psico,
         abuso_sexual: creas.abuso_sexual, exploracao_sexual: creas.explor_sexual,
         negligencia_abandono: creas.negligencia, trabalho_infantil: creas.trab_infantil,
+        situacao_rua: creas.situacao_rua, violacao_idoso: creas.violacao_idoso, violacao_pcd: creas.violacao_pcd,
         outras_violacoes: creas.outras, vitimas_criancas: creas.vit_criancas,
         vitimas_adolescentes: creas.vit_adolescentes, vitimas_adultos: creas.vit_adultos,
         vitimas_idosos: creas.vit_idosos, encaminhamentos: creas.encaminhamentos,
-        observacoes: creas.obs,
+        observacoes: creas.obs, origem_dados: 'manual', unidade: 'CREAS',
       };
+      console.log('[RMA CREAS] Salvando:', payload);
       const res = await supabase.from('rma_creas').upsert(payload, { onConflict: 'equipamento_id,mes_referencia' });
       error = res.error;
     } else {
@@ -333,6 +348,9 @@ export default function CentralDados() {
               {isCras && (
                 <ImportarRmaCras onImportSuccess={() => { loadImportedHistory(); loadRmaHistory(); }} />
               )}
+              {isCreas && (
+                <ImportarRmaCreas onImportSuccess={loadRmaHistory} />
+              )}
             </div>
           </div>
 
@@ -385,39 +403,67 @@ export default function CentralDados() {
           {isCreas && (
             <div className="bg-card rounded-lg shadow-card p-5 space-y-5">
               <h3 className="font-semibold text-foreground">Lançamento — CREAS</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+              {/* BLOCO 1 — PAEFI */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 1 — PAEFI</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <NumField label="Famílias em acompanhamento PAEFI" value={creas.familias_paefi} onChange={(v) => setCreas({ ...creas, familias_paefi: v })} />
                 <NumField label="Novas famílias inseridas PAEFI" value={creas.novas_paefi} onChange={(v) => setCreas({ ...creas, novas_paefi: v })} />
-                <NumField label="Adolescentes MSE — LA" value={creas.mse_la} onChange={(v) => setCreas({ ...creas, mse_la: v })} />
-                <NumField label="Adolescentes MSE — PSC" value={creas.mse_psc} onChange={(v) => setCreas({ ...creas, mse_psc: v })} />
-                <NumField label="Pessoas abordagem social" value={creas.abordagem} onChange={(v) => setCreas({ ...creas, abordagem: v })} />
-                <NumField label="Atendimentos individualizados" value={creas.atend_indiv} onChange={(v) => setCreas({ ...creas, atend_indiv: v })} />
+                <NumField label="Famílias desligadas" value={creas.familias_desligadas} onChange={(v) => setCreas({ ...creas, familias_desligadas: v })} />
+                <NumField label="Famílias em acompanhamento" value={creas.familias_acompanhamento} onChange={(v) => setCreas({ ...creas, familias_acompanhamento: v })} />
               </div>
-              <h4 className="text-sm font-medium text-foreground">Situações de violência por tipo</h4>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+              {/* BLOCO 2 — Violações de direitos */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 2 — Violações de direitos</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <NumField label="Violência física" value={creas.viol_fisica} onChange={(v) => setCreas({ ...creas, viol_fisica: v })} />
                 <NumField label="Violência psicológica" value={creas.viol_psico} onChange={(v) => setCreas({ ...creas, viol_psico: v })} />
                 <NumField label="Abuso sexual" value={creas.abuso_sexual} onChange={(v) => setCreas({ ...creas, abuso_sexual: v })} />
                 <NumField label="Exploração sexual" value={creas.explor_sexual} onChange={(v) => setCreas({ ...creas, explor_sexual: v })} />
                 <NumField label="Negligência/Abandono" value={creas.negligencia} onChange={(v) => setCreas({ ...creas, negligencia: v })} />
                 <NumField label="Trabalho infantil" value={creas.trab_infantil} onChange={(v) => setCreas({ ...creas, trab_infantil: v })} />
+                <NumField label="Situação de rua" value={creas.situacao_rua} onChange={(v) => setCreas({ ...creas, situacao_rua: v })} />
+                <NumField label="Violação contra idoso" value={creas.violacao_idoso} onChange={(v) => setCreas({ ...creas, violacao_idoso: v })} />
+                <NumField label="Violação contra PcD" value={creas.violacao_pcd} onChange={(v) => setCreas({ ...creas, violacao_pcd: v })} />
                 <NumField label="Outras violações" value={creas.outras} onChange={(v) => setCreas({ ...creas, outras: v })} />
               </div>
-              <h4 className="text-sm font-medium text-foreground">Faixa etária das vítimas</h4>
+              <h4 className="text-xs font-medium text-muted-foreground mt-2">Faixa etária das vítimas</h4>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <NumField label="Crianças (0-11)" value={creas.vit_criancas} onChange={(v) => setCreas({ ...creas, vit_criancas: v })} />
                 <NumField label="Adolescentes (12-17)" value={creas.vit_adolescentes} onChange={(v) => setCreas({ ...creas, vit_adolescentes: v })} />
                 <NumField label="Adultos (18-59)" value={creas.vit_adultos} onChange={(v) => setCreas({ ...creas, vit_adultos: v })} />
                 <NumField label="Idosos (60+)" value={creas.vit_idosos} onChange={(v) => setCreas({ ...creas, vit_idosos: v })} />
               </div>
+
+              {/* BLOCO 3 — MSE */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 3 — Medidas socioeducativas (MSE)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <NumField label="Liberdade assistida (LA)" value={creas.mse_la} onChange={(v) => setCreas({ ...creas, mse_la: v })} />
+                <NumField label="Prestação de serviço à comunidade (PSC)" value={creas.mse_psc} onChange={(v) => setCreas({ ...creas, mse_psc: v })} />
+                <NumField label="Novos casos MSE" value={creas.novos_mse} onChange={(v) => setCreas({ ...creas, novos_mse: v })} />
+                <NumField label="Casos em acompanhamento MSE" value={creas.casos_mse} onChange={(v) => setCreas({ ...creas, casos_mse: v })} />
+              </div>
+
+              {/* BLOCO 4 — Atendimentos */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 4 — Atendimentos</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <NumField label="Total de atendimentos" value={creas.total_atend} onChange={(v) => setCreas({ ...creas, total_atend: v })} />
+                <NumField label="Atend. individualizados" value={creas.atend_indiv} onChange={(v) => setCreas({ ...creas, atend_indiv: v })} />
+                <NumField label="Atend. coletivos" value={creas.atend_coletivos} onChange={(v) => setCreas({ ...creas, atend_coletivos: v })} />
+                <NumField label="Visitas domiciliares" value={creas.visitas} onChange={(v) => setCreas({ ...creas, visitas: v })} />
+                <NumField label="Pessoas abordagem social" value={creas.abordagem} onChange={(v) => setCreas({ ...creas, abordagem: v })} />
+              </div>
               <NumField label="Encaminhamentos realizados" value={creas.encaminhamentos} onChange={(v) => setCreas({ ...creas, encaminhamentos: v })} />
+
               <div>
                 <Label className="text-xs text-muted-foreground">Observações</Label>
                 <Textarea value={creas.obs} onChange={(e) => setCreas({ ...creas, obs: e.target.value })} className="mt-1" />
               </div>
-              <Button onClick={salvarRma} disabled={saving} className="gap-2">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Salvar RMA
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={salvarRma} disabled={saving} className="gap-2">
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Salvar RMA
+                </Button>
+              </div>
             </div>
           )}
 
