@@ -403,39 +403,67 @@ export default function CentralDados() {
           {isCreas && (
             <div className="bg-card rounded-lg shadow-card p-5 space-y-5">
               <h3 className="font-semibold text-foreground">Lançamento — CREAS</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+              {/* BLOCO 1 — PAEFI */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 1 — PAEFI</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <NumField label="Famílias em acompanhamento PAEFI" value={creas.familias_paefi} onChange={(v) => setCreas({ ...creas, familias_paefi: v })} />
                 <NumField label="Novas famílias inseridas PAEFI" value={creas.novas_paefi} onChange={(v) => setCreas({ ...creas, novas_paefi: v })} />
-                <NumField label="Adolescentes MSE — LA" value={creas.mse_la} onChange={(v) => setCreas({ ...creas, mse_la: v })} />
-                <NumField label="Adolescentes MSE — PSC" value={creas.mse_psc} onChange={(v) => setCreas({ ...creas, mse_psc: v })} />
-                <NumField label="Pessoas abordagem social" value={creas.abordagem} onChange={(v) => setCreas({ ...creas, abordagem: v })} />
-                <NumField label="Atendimentos individualizados" value={creas.atend_indiv} onChange={(v) => setCreas({ ...creas, atend_indiv: v })} />
+                <NumField label="Famílias desligadas" value={creas.familias_desligadas} onChange={(v) => setCreas({ ...creas, familias_desligadas: v })} />
+                <NumField label="Famílias em acompanhamento" value={creas.familias_acompanhamento} onChange={(v) => setCreas({ ...creas, familias_acompanhamento: v })} />
               </div>
-              <h4 className="text-sm font-medium text-foreground">Situações de violência por tipo</h4>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+              {/* BLOCO 2 — Violações de direitos */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 2 — Violações de direitos</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <NumField label="Violência física" value={creas.viol_fisica} onChange={(v) => setCreas({ ...creas, viol_fisica: v })} />
                 <NumField label="Violência psicológica" value={creas.viol_psico} onChange={(v) => setCreas({ ...creas, viol_psico: v })} />
                 <NumField label="Abuso sexual" value={creas.abuso_sexual} onChange={(v) => setCreas({ ...creas, abuso_sexual: v })} />
                 <NumField label="Exploração sexual" value={creas.explor_sexual} onChange={(v) => setCreas({ ...creas, explor_sexual: v })} />
                 <NumField label="Negligência/Abandono" value={creas.negligencia} onChange={(v) => setCreas({ ...creas, negligencia: v })} />
                 <NumField label="Trabalho infantil" value={creas.trab_infantil} onChange={(v) => setCreas({ ...creas, trab_infantil: v })} />
+                <NumField label="Situação de rua" value={creas.situacao_rua} onChange={(v) => setCreas({ ...creas, situacao_rua: v })} />
+                <NumField label="Violação contra idoso" value={creas.violacao_idoso} onChange={(v) => setCreas({ ...creas, violacao_idoso: v })} />
+                <NumField label="Violação contra PcD" value={creas.violacao_pcd} onChange={(v) => setCreas({ ...creas, violacao_pcd: v })} />
                 <NumField label="Outras violações" value={creas.outras} onChange={(v) => setCreas({ ...creas, outras: v })} />
               </div>
-              <h4 className="text-sm font-medium text-foreground">Faixa etária das vítimas</h4>
+              <h4 className="text-xs font-medium text-muted-foreground mt-2">Faixa etária das vítimas</h4>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <NumField label="Crianças (0-11)" value={creas.vit_criancas} onChange={(v) => setCreas({ ...creas, vit_criancas: v })} />
                 <NumField label="Adolescentes (12-17)" value={creas.vit_adolescentes} onChange={(v) => setCreas({ ...creas, vit_adolescentes: v })} />
                 <NumField label="Adultos (18-59)" value={creas.vit_adultos} onChange={(v) => setCreas({ ...creas, vit_adultos: v })} />
                 <NumField label="Idosos (60+)" value={creas.vit_idosos} onChange={(v) => setCreas({ ...creas, vit_idosos: v })} />
               </div>
+
+              {/* BLOCO 3 — MSE */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 3 — Medidas socioeducativas (MSE)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <NumField label="Liberdade assistida (LA)" value={creas.mse_la} onChange={(v) => setCreas({ ...creas, mse_la: v })} />
+                <NumField label="Prestação de serviço à comunidade (PSC)" value={creas.mse_psc} onChange={(v) => setCreas({ ...creas, mse_psc: v })} />
+                <NumField label="Novos casos MSE" value={creas.novos_mse} onChange={(v) => setCreas({ ...creas, novos_mse: v })} />
+                <NumField label="Casos em acompanhamento MSE" value={creas.casos_mse} onChange={(v) => setCreas({ ...creas, casos_mse: v })} />
+              </div>
+
+              {/* BLOCO 4 — Atendimentos */}
+              <h4 className="text-sm font-medium text-primary border-b border-border pb-1">Bloco 4 — Atendimentos</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <NumField label="Total de atendimentos" value={creas.total_atend} onChange={(v) => setCreas({ ...creas, total_atend: v })} />
+                <NumField label="Atend. individualizados" value={creas.atend_indiv} onChange={(v) => setCreas({ ...creas, atend_indiv: v })} />
+                <NumField label="Atend. coletivos" value={creas.atend_coletivos} onChange={(v) => setCreas({ ...creas, atend_coletivos: v })} />
+                <NumField label="Visitas domiciliares" value={creas.visitas} onChange={(v) => setCreas({ ...creas, visitas: v })} />
+                <NumField label="Pessoas abordagem social" value={creas.abordagem} onChange={(v) => setCreas({ ...creas, abordagem: v })} />
+              </div>
               <NumField label="Encaminhamentos realizados" value={creas.encaminhamentos} onChange={(v) => setCreas({ ...creas, encaminhamentos: v })} />
+
               <div>
                 <Label className="text-xs text-muted-foreground">Observações</Label>
                 <Textarea value={creas.obs} onChange={(e) => setCreas({ ...creas, obs: e.target.value })} className="mt-1" />
               </div>
-              <Button onClick={salvarRma} disabled={saving} className="gap-2">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Salvar RMA
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={salvarRma} disabled={saving} className="gap-2">
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Salvar RMA
+                </Button>
+              </div>
             </div>
           )}
 
