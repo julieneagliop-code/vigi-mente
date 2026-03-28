@@ -215,19 +215,25 @@ export default function CentralDados() {
       const res = await supabase.from('rma_cras').upsert(payload, { onConflict: 'equipamento_id,mes_referencia' });
       error = res.error;
     } else if (isCreas) {
-      const payload = {
+      const payload: any = {
         equipamento_id: equipSel, mes_referencia: mesRef,
         familias_acompanhamento_paefi: creas.familias_paefi, novas_familias_paefi: creas.novas_paefi,
+        familias_desligadas: creas.familias_desligadas, familias_acompanhamento: creas.familias_acompanhamento,
         adolescentes_mse_la: creas.mse_la, adolescentes_mse_psc: creas.mse_psc,
+        novos_casos_mse: creas.novos_mse, casos_acompanhamento_mse: creas.casos_mse,
         pessoas_abordagem_social: creas.abordagem, atendimentos_individualizados: creas.atend_indiv,
+        atendimentos_coletivos: creas.atend_coletivos, total_atendimentos: creas.total_atend,
+        visitas_domiciliares: creas.visitas,
         violencia_fisica: creas.viol_fisica, violencia_psicologica: creas.viol_psico,
         abuso_sexual: creas.abuso_sexual, exploracao_sexual: creas.explor_sexual,
         negligencia_abandono: creas.negligencia, trabalho_infantil: creas.trab_infantil,
+        situacao_rua: creas.situacao_rua, violacao_idoso: creas.violacao_idoso, violacao_pcd: creas.violacao_pcd,
         outras_violacoes: creas.outras, vitimas_criancas: creas.vit_criancas,
         vitimas_adolescentes: creas.vit_adolescentes, vitimas_adultos: creas.vit_adultos,
         vitimas_idosos: creas.vit_idosos, encaminhamentos: creas.encaminhamentos,
-        observacoes: creas.obs,
+        observacoes: creas.obs, origem_dados: 'manual', unidade: 'CREAS',
       };
+      console.log('[RMA CREAS] Salvando:', payload);
       const res = await supabase.from('rma_creas').upsert(payload, { onConflict: 'equipamento_id,mes_referencia' });
       error = res.error;
     } else {
