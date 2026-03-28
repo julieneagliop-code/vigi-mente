@@ -628,6 +628,7 @@ export type Database = {
           abuso_sexual: number | null
           adolescentes_mse_la: number | null
           adolescentes_mse_psc: number | null
+          ano_referencia: number
           atendimentos_coletivos: number | null
           atendimentos_individualizados: number | null
           casos_acompanhamento_mse: number | null
@@ -641,7 +642,7 @@ export type Database = {
           familias_desligadas: number | null
           id: string
           is_exemplo: boolean | null
-          mes_referencia: string
+          mes_referencia: number
           municipio: string | null
           negligencia_abandono: number | null
           novas_familias_paefi: number | null
@@ -655,7 +656,7 @@ export type Database = {
           total_atendimentos: number | null
           trabalho_infantil: number | null
           uf: string | null
-          unidade: string | null
+          unidade: string
           updated_at: string
           violacao_idoso: number | null
           violacao_pcd: number | null
@@ -671,6 +672,7 @@ export type Database = {
           abuso_sexual?: number | null
           adolescentes_mse_la?: number | null
           adolescentes_mse_psc?: number | null
+          ano_referencia: number
           atendimentos_coletivos?: number | null
           atendimentos_individualizados?: number | null
           casos_acompanhamento_mse?: number | null
@@ -684,7 +686,7 @@ export type Database = {
           familias_desligadas?: number | null
           id?: string
           is_exemplo?: boolean | null
-          mes_referencia: string
+          mes_referencia: number
           municipio?: string | null
           negligencia_abandono?: number | null
           novas_familias_paefi?: number | null
@@ -698,7 +700,7 @@ export type Database = {
           total_atendimentos?: number | null
           trabalho_infantil?: number | null
           uf?: string | null
-          unidade?: string | null
+          unidade?: string
           updated_at?: string
           violacao_idoso?: number | null
           violacao_pcd?: number | null
@@ -714,6 +716,7 @@ export type Database = {
           abuso_sexual?: number | null
           adolescentes_mse_la?: number | null
           adolescentes_mse_psc?: number | null
+          ano_referencia?: number
           atendimentos_coletivos?: number | null
           atendimentos_individualizados?: number | null
           casos_acompanhamento_mse?: number | null
@@ -727,7 +730,7 @@ export type Database = {
           familias_desligadas?: number | null
           id?: string
           is_exemplo?: boolean | null
-          mes_referencia?: string
+          mes_referencia?: number
           municipio?: string | null
           negligencia_abandono?: number | null
           novas_familias_paefi?: number | null
@@ -741,7 +744,7 @@ export type Database = {
           total_atendimentos?: number | null
           trabalho_infantil?: number | null
           uf?: string | null
-          unidade?: string | null
+          unidade?: string
           updated_at?: string
           violacao_idoso?: number | null
           violacao_pcd?: number | null
