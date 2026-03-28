@@ -348,6 +348,9 @@ export default function CentralDados() {
               {isCras && (
                 <ImportarRmaCras onImportSuccess={() => { loadImportedHistory(); loadRmaHistory(); }} />
               )}
+              {isCreas && (
+                <ImportarRmaCreas onImportSuccess={loadRmaHistory} />
+              )}
             </div>
           </div>
 
