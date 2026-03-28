@@ -11,8 +11,9 @@ import { toast } from '@/hooks/use-toast';
 import { equipamentos } from '@/data/equipamentos';
 import { supabase } from '@/integrations/supabase/client';
 import ImportarRmaCras from '@/components/ImportarRmaCras';
+import ImportarRmaCreas from '@/components/ImportarRmaCreas';
 import {
-  Database, Upload, Eye, Edit, Download, Save, Plus, FileSpreadsheet, Loader2,
+  Database, Upload, Eye, Edit, Download, Save, Plus, FileSpreadsheet, Loader2, Copy,
 } from 'lucide-react';
 
 /* ──────────────────────────── helpers ──────────────────────────── */
