@@ -158,11 +158,17 @@ export default function CentralDados() {
       if (data) {
         setCreas({
           familias_paefi: data.familias_acompanhamento_paefi ?? 0, novas_paefi: data.novas_familias_paefi ?? 0,
+          familias_desligadas: (data as any).familias_desligadas ?? 0, familias_acompanhamento: (data as any).familias_acompanhamento ?? 0,
           mse_la: data.adolescentes_mse_la ?? 0, mse_psc: data.adolescentes_mse_psc ?? 0,
+          novos_mse: (data as any).novos_casos_mse ?? 0, casos_mse: (data as any).casos_acompanhamento_mse ?? 0,
           abordagem: data.pessoas_abordagem_social ?? 0, atend_indiv: data.atendimentos_individualizados ?? 0,
+          atend_coletivos: (data as any).atendimentos_coletivos ?? 0, total_atend: (data as any).total_atendimentos ?? 0,
+          visitas: (data as any).visitas_domiciliares ?? 0,
           viol_fisica: data.violencia_fisica ?? 0, viol_psico: data.violencia_psicologica ?? 0,
           abuso_sexual: data.abuso_sexual ?? 0, explor_sexual: data.exploracao_sexual ?? 0,
           negligencia: data.negligencia_abandono ?? 0, trab_infantil: data.trabalho_infantil ?? 0,
+          situacao_rua: (data as any).situacao_rua ?? 0, violacao_idoso: (data as any).violacao_idoso ?? 0,
+          violacao_pcd: (data as any).violacao_pcd ?? 0,
           outras: data.outras_violacoes ?? 0, vit_criancas: data.vitimas_criancas ?? 0,
           vit_adolescentes: data.vitimas_adolescentes ?? 0, vit_adultos: data.vitimas_adultos ?? 0,
           vit_idosos: data.vitimas_idosos ?? 0, encaminhamentos: data.encaminhamentos ?? 0,
@@ -170,7 +176,7 @@ export default function CentralDados() {
         });
         toast({ title: 'Dados carregados!' });
       } else {
-        toast({ title: 'Nenhum dado encontrado' });
+        toast({ title: 'Nenhum registro encontrado para esta competência.' });
       }
     } else {
       const { data } = await supabase.from('rma_rede_indireta').select('*').eq('equipamento_id', equipSel).eq('mes_referencia', mesRef).maybeSingle();
