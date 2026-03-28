@@ -628,24 +628,40 @@ export type Database = {
           abuso_sexual: number | null
           adolescentes_mse_la: number | null
           adolescentes_mse_psc: number | null
+          atendimentos_coletivos: number | null
           atendimentos_individualizados: number | null
+          casos_acompanhamento_mse: number | null
           created_at: string
+          created_by: string | null
           encaminhamentos: number | null
           equipamento_id: string
           exploracao_sexual: number | null
+          familias_acompanhamento: number | null
           familias_acompanhamento_paefi: number | null
+          familias_desligadas: number | null
           id: string
           is_exemplo: boolean | null
           mes_referencia: string
+          municipio: string | null
           negligencia_abandono: number | null
           novas_familias_paefi: number | null
+          novos_casos_mse: number | null
           observacoes: string | null
+          origem_dados: string | null
           outras_violacoes: number | null
+          pdf_anexo_url: string | null
           pessoas_abordagem_social: number | null
+          situacao_rua: number | null
+          total_atendimentos: number | null
           trabalho_infantil: number | null
+          uf: string | null
+          unidade: string | null
           updated_at: string
+          violacao_idoso: number | null
+          violacao_pcd: number | null
           violencia_fisica: number | null
           violencia_psicologica: number | null
+          visitas_domiciliares: number | null
           vitimas_adolescentes: number | null
           vitimas_adultos: number | null
           vitimas_criancas: number | null
@@ -655,24 +671,40 @@ export type Database = {
           abuso_sexual?: number | null
           adolescentes_mse_la?: number | null
           adolescentes_mse_psc?: number | null
+          atendimentos_coletivos?: number | null
           atendimentos_individualizados?: number | null
+          casos_acompanhamento_mse?: number | null
           created_at?: string
+          created_by?: string | null
           encaminhamentos?: number | null
           equipamento_id: string
           exploracao_sexual?: number | null
+          familias_acompanhamento?: number | null
           familias_acompanhamento_paefi?: number | null
+          familias_desligadas?: number | null
           id?: string
           is_exemplo?: boolean | null
           mes_referencia: string
+          municipio?: string | null
           negligencia_abandono?: number | null
           novas_familias_paefi?: number | null
+          novos_casos_mse?: number | null
           observacoes?: string | null
+          origem_dados?: string | null
           outras_violacoes?: number | null
+          pdf_anexo_url?: string | null
           pessoas_abordagem_social?: number | null
+          situacao_rua?: number | null
+          total_atendimentos?: number | null
           trabalho_infantil?: number | null
+          uf?: string | null
+          unidade?: string | null
           updated_at?: string
+          violacao_idoso?: number | null
+          violacao_pcd?: number | null
           violencia_fisica?: number | null
           violencia_psicologica?: number | null
+          visitas_domiciliares?: number | null
           vitimas_adolescentes?: number | null
           vitimas_adultos?: number | null
           vitimas_criancas?: number | null
@@ -682,24 +714,40 @@ export type Database = {
           abuso_sexual?: number | null
           adolescentes_mse_la?: number | null
           adolescentes_mse_psc?: number | null
+          atendimentos_coletivos?: number | null
           atendimentos_individualizados?: number | null
+          casos_acompanhamento_mse?: number | null
           created_at?: string
+          created_by?: string | null
           encaminhamentos?: number | null
           equipamento_id?: string
           exploracao_sexual?: number | null
+          familias_acompanhamento?: number | null
           familias_acompanhamento_paefi?: number | null
+          familias_desligadas?: number | null
           id?: string
           is_exemplo?: boolean | null
           mes_referencia?: string
+          municipio?: string | null
           negligencia_abandono?: number | null
           novas_familias_paefi?: number | null
+          novos_casos_mse?: number | null
           observacoes?: string | null
+          origem_dados?: string | null
           outras_violacoes?: number | null
+          pdf_anexo_url?: string | null
           pessoas_abordagem_social?: number | null
+          situacao_rua?: number | null
+          total_atendimentos?: number | null
           trabalho_infantil?: number | null
+          uf?: string | null
+          unidade?: string | null
           updated_at?: string
+          violacao_idoso?: number | null
+          violacao_pcd?: number | null
           violencia_fisica?: number | null
           violencia_psicologica?: number | null
+          visitas_domiciliares?: number | null
           vitimas_adolescentes?: number | null
           vitimas_adultos?: number | null
           vitimas_criancas?: number | null
