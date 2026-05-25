@@ -359,6 +359,36 @@ export type Database = {
         }
         Relationships: []
       }
+      profile_unidades: {
+        Row: {
+          profile_id: string
+          unidade_id: string
+        }
+        Insert: {
+          profile_id: string
+          unidade_id: string
+        }
+        Update: {
+          profile_id?: string
+          unidade_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_unidades_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_unidades_unidade_id_fkey"
+            columns: ["unidade_id"]
+            isOneToOne: false
+            referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -366,6 +396,7 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          tenant_id: string | null
           updated_at: string
           user_id: string
         }
@@ -375,6 +406,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          tenant_id?: string | null
           updated_at?: string
           user_id: string
         }
@@ -384,10 +416,19 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          tenant_id?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       registros_rapidos: {
         Row: {
@@ -431,6 +472,83 @@ export type Database = {
         }
         Relationships: []
       }
+      tenants: {
+        Row: {
+          ativo: boolean | null
+          cnpj: string | null
+          created_at: string | null
+          id: string
+          municipio_ibge: string | null
+          nome: string
+          uf: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          cnpj?: string | null
+          created_at?: string | null
+          id?: string
+          municipio_ibge?: string | null
+          nome: string
+          uf?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          cnpj?: string | null
+          created_at?: string | null
+          id?: string
+          municipio_ibge?: string | null
+          nome?: string
+          uf?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      unidades: {
+        Row: {
+          ativo: boolean | null
+          created_at: string | null
+          endereco: string | null
+          id: string
+          nome: string
+          telefone: string | null
+          tenant_id: string
+          tipo: string
+          updated_at: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          created_at?: string | null
+          endereco?: string | null
+          id?: string
+          nome: string
+          telefone?: string | null
+          tenant_id: string
+          tipo: string
+          updated_at?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          created_at?: string | null
+          endereco?: string | null
+          id?: string
+          nome?: string
+          telefone?: string | null
+          tenant_id?: string
+          tipo?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unidades_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -460,6 +578,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      current_tenant_id: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -467,6 +586,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      user_has_unidade: { Args: { unidade_uuid: string }; Returns: boolean }
     }
     Enums: {
       app_role: "gestor" | "tecnico" | "coordenador"
