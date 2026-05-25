@@ -208,7 +208,8 @@ async function exportWord(content: string, titulo: string) {
 
 async function exportExcel(titulo: string) {
   const XLSX = await import('xlsx');
-  const { supabase } = await import('@/integrations/supabase/client');
+  const { supabase: _supabase } = await import('@/integrations/supabase/client');
+  const supabase: any = _supabase;
 
   const [rmaCras, rmaCreas, rmaRede, cadunico, registros] = await Promise.all([
     supabase.from('rma_cras').select('*').order('created_at', { ascending: false }),
