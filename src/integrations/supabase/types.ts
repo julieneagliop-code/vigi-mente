@@ -359,36 +359,6 @@ export type Database = {
         }
         Relationships: []
       }
-      profile_unidades: {
-        Row: {
-          profile_id: string
-          unidade_id: string
-        }
-        Insert: {
-          profile_id: string
-          unidade_id: string
-        }
-        Update: {
-          profile_id?: string
-          unidade_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profile_unidades_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profile_unidades_unidade_id_fkey"
-            columns: ["unidade_id"]
-            isOneToOne: false
-            referencedRelation: "unidades"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -572,6 +542,29 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      usuario_unidades: {
+        Row: {
+          unidade_id: string
+          user_id: string
+        }
+        Insert: {
+          unidade_id: string
+          user_id: string
+        }
+        Update: {
+          unidade_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_unidades_unidade_id_fkey"
+            columns: ["unidade_id"]
+            isOneToOne: false
+            referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
