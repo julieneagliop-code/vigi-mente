@@ -64,7 +64,7 @@ export function AppSidebar() {
             <div className="flex items-baseline gap-1.5">
               <span className="text-sidebar-foreground/70 text-xs uppercase tracking-wider">módulo</span>
               <h1 className="text-sidebar-foreground text-lg leading-none">
-                <span className="font-light">vigi</span><span className="font-bold text-secondary">SUAS</span>
+                <span className="font-light">Vigilância</span><span className="font-bold text-secondary">+</span>
               </h1>
             </div>
             <p className="text-xs text-sidebar-foreground/60 -mt-1">Presidente Venceslau</p>
