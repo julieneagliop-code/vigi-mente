@@ -560,6 +560,7 @@ export type Database = {
         Row: {
           ativo: boolean | null
           capacidade_descricao: string | null
+          codigo_cadsuas: string | null
           complexidade: Database["public"]["Enums"]["complexidade_tipo"] | null
           created_at: string | null
           endereco: string | null
@@ -577,6 +578,7 @@ export type Database = {
         Insert: {
           ativo?: boolean | null
           capacidade_descricao?: string | null
+          codigo_cadsuas?: string | null
           complexidade?: Database["public"]["Enums"]["complexidade_tipo"] | null
           created_at?: string | null
           endereco?: string | null
@@ -594,6 +596,7 @@ export type Database = {
         Update: {
           ativo?: boolean | null
           capacidade_descricao?: string | null
+          codigo_cadsuas?: string | null
           complexidade?: Database["public"]["Enums"]["complexidade_tipo"] | null
           created_at?: string | null
           endereco?: string | null
