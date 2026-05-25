@@ -15,6 +15,7 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import suastechLogo from '@/assets/suastech-logo.png';
 
 import { supabase } from '@/integrations/supabase/client';
 
