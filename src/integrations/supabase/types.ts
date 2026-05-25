@@ -522,21 +522,18 @@ export type Database = {
       user_roles: {
         Row: {
           created_at: string
-          equipamentos_vinculados: string[] | null
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
           created_at?: string
-          equipamentos_vinculados?: string[] | null
           id?: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
           created_at?: string
-          equipamentos_vinculados?: string[] | null
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
@@ -582,7 +579,12 @@ export type Database = {
       user_has_unidade: { Args: { unidade_uuid: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "gestor" | "tecnico" | "coordenador"
+      app_role:
+        | "gestor"
+        | "tecnico"
+        | "coordenador"
+        | "admin_sistema"
+        | "visualizador"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -710,7 +712,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["gestor", "tecnico", "coordenador"],
+      app_role: [
+        "gestor",
+        "tecnico",
+        "coordenador",
+        "admin_sistema",
+        "visualizador",
+      ],
     },
   },
 } as const
