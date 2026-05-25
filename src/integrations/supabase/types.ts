@@ -466,6 +466,141 @@ export type Database = {
         }
         Relationships: []
       }
+      rma_cras: {
+        Row: {
+          a1_total_familias_paif: number
+          a2_novas_familias_paif: number
+          arquivo_url: string | null
+          b1_extrema_pobreza: number
+          b2_bolsa_familia: number
+          b3_bolsa_familia_descumprimento: number
+          b4_membros_bpc: number
+          b5_trabalho_infantil: number
+          b6_acolhimento: number
+          c1_atendimentos_particularizados: number
+          c2_encaminhados_cadunico_inclusao: number
+          c3_encaminhados_cadunico_atualizacao: number
+          c4_encaminhados_bpc: number
+          c5_encaminhados_creas: number
+          c6_visitas_domiciliares: number
+          c7_auxilio_natalidade: number
+          c8_auxilio_funeral: number
+          c9_outros_beneficios_eventuais: number
+          competencia: string
+          created_at: string
+          criado_por: string | null
+          d1_familias_paif_grupos: number
+          d2_scfv_0_6: number
+          d3_scfv_7_14: number
+          d4_scfv_15_17: number
+          d5_scfv_idosos: number
+          d6_palestras_oficinas: number
+          d7_scfv_pcd: number
+          d8_scfv_18_59: number
+          id: string
+          observacoes: string | null
+          origem: Database["public"]["Enums"]["origem_dado"]
+          tenant_id: string
+          unidade_id: string
+          updated_at: string
+          versao: number
+          vigente: boolean
+        }
+        Insert: {
+          a1_total_familias_paif?: number
+          a2_novas_familias_paif?: number
+          arquivo_url?: string | null
+          b1_extrema_pobreza?: number
+          b2_bolsa_familia?: number
+          b3_bolsa_familia_descumprimento?: number
+          b4_membros_bpc?: number
+          b5_trabalho_infantil?: number
+          b6_acolhimento?: number
+          c1_atendimentos_particularizados?: number
+          c2_encaminhados_cadunico_inclusao?: number
+          c3_encaminhados_cadunico_atualizacao?: number
+          c4_encaminhados_bpc?: number
+          c5_encaminhados_creas?: number
+          c6_visitas_domiciliares?: number
+          c7_auxilio_natalidade?: number
+          c8_auxilio_funeral?: number
+          c9_outros_beneficios_eventuais?: number
+          competencia: string
+          created_at?: string
+          criado_por?: string | null
+          d1_familias_paif_grupos?: number
+          d2_scfv_0_6?: number
+          d3_scfv_7_14?: number
+          d4_scfv_15_17?: number
+          d5_scfv_idosos?: number
+          d6_palestras_oficinas?: number
+          d7_scfv_pcd?: number
+          d8_scfv_18_59?: number
+          id?: string
+          observacoes?: string | null
+          origem?: Database["public"]["Enums"]["origem_dado"]
+          tenant_id: string
+          unidade_id: string
+          updated_at?: string
+          versao?: number
+          vigente?: boolean
+        }
+        Update: {
+          a1_total_familias_paif?: number
+          a2_novas_familias_paif?: number
+          arquivo_url?: string | null
+          b1_extrema_pobreza?: number
+          b2_bolsa_familia?: number
+          b3_bolsa_familia_descumprimento?: number
+          b4_membros_bpc?: number
+          b5_trabalho_infantil?: number
+          b6_acolhimento?: number
+          c1_atendimentos_particularizados?: number
+          c2_encaminhados_cadunico_inclusao?: number
+          c3_encaminhados_cadunico_atualizacao?: number
+          c4_encaminhados_bpc?: number
+          c5_encaminhados_creas?: number
+          c6_visitas_domiciliares?: number
+          c7_auxilio_natalidade?: number
+          c8_auxilio_funeral?: number
+          c9_outros_beneficios_eventuais?: number
+          competencia?: string
+          created_at?: string
+          criado_por?: string | null
+          d1_familias_paif_grupos?: number
+          d2_scfv_0_6?: number
+          d3_scfv_7_14?: number
+          d4_scfv_15_17?: number
+          d5_scfv_idosos?: number
+          d6_palestras_oficinas?: number
+          d7_scfv_pcd?: number
+          d8_scfv_18_59?: number
+          id?: string
+          observacoes?: string | null
+          origem?: Database["public"]["Enums"]["origem_dado"]
+          tenant_id?: string
+          unidade_id?: string
+          updated_at?: string
+          versao?: number
+          vigente?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rma_cras_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rma_cras_unidade_id_fkey"
+            columns: ["unidade_id"]
+            isOneToOne: false
+            referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           ativo: boolean | null
@@ -695,6 +830,7 @@ export type Database = {
         | "admin_sistema"
         | "visualizador"
       complexidade_tipo: "basica" | "media" | "alta"
+      origem_dado: "manual" | "importacao_pdf" | "importacao_csv"
       rede_tipo: "direta" | "indireta"
     }
     CompositeTypes: {
@@ -831,6 +967,7 @@ export const Constants = {
         "visualizador",
       ],
       complexidade_tipo: ["basica", "media", "alta"],
+      origem_dado: ["manual", "importacao_pdf", "importacao_csv"],
       rede_tipo: ["direta", "indireta"],
     },
   },
