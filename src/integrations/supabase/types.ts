@@ -475,13 +475,76 @@ export type Database = {
         }
         Relationships: []
       }
+      unidade_indicadores_mensais: {
+        Row: {
+          atendimentos_realizados: number | null
+          capacidade_descricao_mes: string | null
+          capacidade_nominal: number | null
+          competencia: string
+          created_at: string
+          criado_por: string | null
+          id: string
+          observacoes: string | null
+          tenant_id: string
+          unidade_id: string
+          updated_at: string
+        }
+        Insert: {
+          atendimentos_realizados?: number | null
+          capacidade_descricao_mes?: string | null
+          capacidade_nominal?: number | null
+          competencia: string
+          created_at?: string
+          criado_por?: string | null
+          id?: string
+          observacoes?: string | null
+          tenant_id: string
+          unidade_id: string
+          updated_at?: string
+        }
+        Update: {
+          atendimentos_realizados?: number | null
+          capacidade_descricao_mes?: string | null
+          capacidade_nominal?: number | null
+          competencia?: string
+          created_at?: string
+          criado_por?: string | null
+          id?: string
+          observacoes?: string | null
+          tenant_id?: string
+          unidade_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unidade_indicadores_mensais_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "unidade_indicadores_mensais_unidade_id_fkey"
+            columns: ["unidade_id"]
+            isOneToOne: false
+            referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       unidades: {
         Row: {
           ativo: boolean | null
+          capacidade_descricao: string | null
+          complexidade: Database["public"]["Enums"]["complexidade_tipo"] | null
           created_at: string | null
           endereco: string | null
+          equipe_total_profissionais: number
           id: string
           nome: string
+          publico_atendido: string | null
+          rede: Database["public"]["Enums"]["rede_tipo"] | null
+          servicos: string[]
           telefone: string | null
           tenant_id: string
           tipo: string
@@ -489,10 +552,16 @@ export type Database = {
         }
         Insert: {
           ativo?: boolean | null
+          capacidade_descricao?: string | null
+          complexidade?: Database["public"]["Enums"]["complexidade_tipo"] | null
           created_at?: string | null
           endereco?: string | null
+          equipe_total_profissionais?: number
           id?: string
           nome: string
+          publico_atendido?: string | null
+          rede?: Database["public"]["Enums"]["rede_tipo"] | null
+          servicos?: string[]
           telefone?: string | null
           tenant_id: string
           tipo: string
@@ -500,10 +569,16 @@ export type Database = {
         }
         Update: {
           ativo?: boolean | null
+          capacidade_descricao?: string | null
+          complexidade?: Database["public"]["Enums"]["complexidade_tipo"] | null
           created_at?: string | null
           endereco?: string | null
+          equipe_total_profissionais?: number
           id?: string
           nome?: string
+          publico_atendido?: string | null
+          rede?: Database["public"]["Enums"]["rede_tipo"] | null
+          servicos?: string[]
           telefone?: string | null
           tenant_id?: string
           tipo?: string
@@ -585,6 +660,8 @@ export type Database = {
         | "coordenador"
         | "admin_sistema"
         | "visualizador"
+      complexidade_tipo: "basica" | "media" | "alta"
+      rede_tipo: "direta" | "indireta"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -719,6 +796,8 @@ export const Constants = {
         "admin_sistema",
         "visualizador",
       ],
+      complexidade_tipo: ["basica", "media", "alta"],
+      rede_tipo: ["direta", "indireta"],
     },
   },
 } as const
