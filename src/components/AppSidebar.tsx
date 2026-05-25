@@ -57,17 +57,17 @@ export function AppSidebar() {
       >
         {/* Header */}
         <div className="p-5 border-b border-sidebar-border">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-sidebar-primary/20 p-2">
-              <Shield className="h-7 w-7 text-sidebar-foreground" />
+          <div className="flex flex-col gap-3">
+            <div className="bg-white rounded-lg px-3 py-2 flex items-center justify-center">
+              <img src={suastechLogo} alt="suastech" className="h-7 w-auto" />
             </div>
-            <div>
-              <h1 className="text-sidebar-foreground text-base leading-tight">
-                <span className="font-normal">Vigilância</span>
-                <span className="font-bold text-[#10b981] text-[1.5em] ml-0.5">+</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-sidebar-foreground/70 text-xs uppercase tracking-wider">módulo</span>
+              <h1 className="text-sidebar-foreground text-lg leading-none">
+                <span className="font-light">vigi</span><span className="font-bold text-secondary">SUAS</span>
               </h1>
-              <p className="text-xs text-sidebar-foreground/70">Presidente Venceslau</p>
             </div>
+            <p className="text-xs text-sidebar-foreground/60 -mt-1">Presidente Venceslau</p>
           </div>
         </div>
 
