@@ -6,7 +6,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex w-full">
       <AppSidebar />
       <main className="flex-1 overflow-auto">
-        <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+        <div className="p-6 lg:p-8 pt-20 lg:pt-8 max-w-[1400px] mx-auto">
           {children}
         </div>
       </main>
