@@ -22,6 +22,7 @@ export type Database = {
           is_exemplo: boolean | null
           observacao: string | null
           status: string
+          tenant_id: string
           updated_at: string | null
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           is_exemplo?: boolean | null
           observacao?: string | null
           status: string
+          tenant_id?: string
           updated_at?: string | null
         }
         Update: {
@@ -40,6 +42,7 @@ export type Database = {
           is_exemplo?: boolean | null
           observacao?: string | null
           status?: string
+          tenant_id?: string
           updated_at?: string | null
         }
         Relationships: []
@@ -51,6 +54,7 @@ export type Database = {
           dados_utilizados: Json | null
           id: string
           referencia: string
+          tenant_id: string
           tipo: string
         }
         Insert: {
@@ -59,6 +63,7 @@ export type Database = {
           dados_utilizados?: Json | null
           id?: string
           referencia: string
+          tenant_id?: string
           tipo: string
         }
         Update: {
@@ -67,6 +72,7 @@ export type Database = {
           dados_utilizados?: Json | null
           id?: string
           referencia?: string
+          tenant_id?: string
           tipo?: string
         }
         Relationships: []
@@ -86,6 +92,7 @@ export type Database = {
           is_exemplo: boolean | null
           mes_referencia: string
           pobreza: number | null
+          tenant_id: string
           total_familias: number | null
           updated_at: string
         }
@@ -103,6 +110,7 @@ export type Database = {
           is_exemplo?: boolean | null
           mes_referencia: string
           pobreza?: number | null
+          tenant_id?: string
           total_familias?: number | null
           updated_at?: string
         }
@@ -120,6 +128,7 @@ export type Database = {
           is_exemplo?: boolean | null
           mes_referencia?: string
           pobreza?: number | null
+          tenant_id?: string
           total_familias?: number | null
           updated_at?: string
         }
@@ -175,6 +184,7 @@ export type Database = {
           id: string
           nome_arquivo: string
           resumo_ia: string | null
+          tenant_id: string
           tipo: string
         }
         Insert: {
@@ -184,6 +194,7 @@ export type Database = {
           id?: string
           nome_arquivo: string
           resumo_ia?: string | null
+          tenant_id?: string
           tipo: string
         }
         Update: {
@@ -193,6 +204,7 @@ export type Database = {
           id?: string
           nome_arquivo?: string
           resumo_ia?: string | null
+          tenant_id?: string
           tipo?: string
         }
         Relationships: []
@@ -211,6 +223,7 @@ export type Database = {
           nome_completo: string
           observacoes: string | null
           status: string
+          tenant_id: string
           updated_at: string
           vinculo: string
         }
@@ -227,6 +240,7 @@ export type Database = {
           nome_completo: string
           observacoes?: string | null
           status?: string
+          tenant_id?: string
           updated_at?: string
           vinculo: string
         }
@@ -243,6 +257,7 @@ export type Database = {
           nome_completo?: string
           observacoes?: string | null
           status?: string
+          tenant_id?: string
           updated_at?: string
           vinculo?: string
         }
@@ -255,6 +270,7 @@ export type Database = {
           created_at: string | null
           id: string
           is_exemplo: boolean | null
+          tenant_id: string
           updated_at: string | null
           valor_executado: number
           valor_previsto: number
@@ -265,6 +281,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_exemplo?: boolean | null
+          tenant_id?: string
           updated_at?: string | null
           valor_executado?: number
           valor_previsto?: number
@@ -275,6 +292,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_exemplo?: boolean | null
+          tenant_id?: string
           updated_at?: string | null
           valor_executado?: number
           valor_previsto?: number
@@ -327,6 +345,7 @@ export type Database = {
           id: string
           is_exemplo: boolean | null
           status: string
+          tenant_id: string
           tipo: string
           titulo: string
           updated_at: string | null
@@ -340,6 +359,7 @@ export type Database = {
           id?: string
           is_exemplo?: boolean | null
           status?: string
+          tenant_id?: string
           tipo: string
           titulo: string
           updated_at?: string | null
@@ -353,6 +373,7 @@ export type Database = {
           id?: string
           is_exemplo?: boolean | null
           status?: string
+          tenant_id?: string
           tipo?: string
           titulo?: string
           updated_at?: string | null
@@ -412,6 +433,7 @@ export type Database = {
           is_exemplo: boolean | null
           quantidade: number | null
           responsavel: string | null
+          tenant_id: string
           tipo: string
         }
         Insert: {
@@ -425,6 +447,7 @@ export type Database = {
           is_exemplo?: boolean | null
           quantidade?: number | null
           responsavel?: string | null
+          tenant_id?: string
           tipo: string
         }
         Update: {
@@ -438,6 +461,7 @@ export type Database = {
           is_exemplo?: boolean | null
           quantidade?: number | null
           responsavel?: string | null
+          tenant_id?: string
           tipo?: string
         }
         Relationships: []
