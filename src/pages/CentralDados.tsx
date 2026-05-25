@@ -9,7 +9,8 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
 import { equipamentos } from '@/data/equipamentos';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase as _supabase } from '@/integrations/supabase/client';
+const supabase: any = _supabase;
 import ImportarRmaCras from '@/components/ImportarRmaCras';
 import ImportarRmaCreas from '@/components/ImportarRmaCreas';
 import {
