@@ -644,11 +644,18 @@ export type Database = {
     }
     Functions: {
       current_tenant_id: { Args: never; Returns: string }
+      has_any_role: { Args: never; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_admin_sistema: { Args: never; Returns: boolean }
+      is_gestor_or_above: { Args: never; Returns: boolean }
+      user_can_edit_unidade: {
+        Args: { unidade_uuid: string }
         Returns: boolean
       }
       user_has_unidade: { Args: { unidade_uuid: string }; Returns: boolean }
