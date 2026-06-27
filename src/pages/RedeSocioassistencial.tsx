@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { equipamentos, Equipamento } from '@/data/equipamentos';
+
 import { ComplexidadeBadge, RedeBadge } from '@/components/StatusBadges';
 import { Users, ChevronRight } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';

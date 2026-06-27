@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { equipamentos } from '@/data/equipamentos';
+
 import { ComplexidadeBadge, RedeBadge } from '@/components/StatusBadges';
 import { ArrowLeft, Users, Building2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
