@@ -3,14 +3,9 @@ import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   Building2,
-  Bell,
-  Database,
-  BarChart3,
   ClipboardList,
   BrainCircuit,
-  FileText,
   Settings,
-  Shield,
   LogOut,
   Menu,
   X,
@@ -22,12 +17,8 @@ import { supabase } from '@/integrations/supabase/client';
 const menuItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/rede', label: 'Rede socioassistencial', icon: Building2 },
-  { to: '/alertas', label: 'Painel de alertas', icon: Bell },
-  { to: '/central-dados', label: 'Central de dados', icon: Database },
-  { to: '/dados', label: 'Dados e indicadores', icon: BarChart3 },
   { to: '/plano', label: 'Plano de trabalho', icon: ClipboardList },
   { to: '/assistente-ia', label: 'Assistente IA', icon: BrainCircuit },
-  { to: '/relatorios', label: 'Relatórios', icon: FileText },
   { to: '/configuracoes', label: 'Configurações', icon: Settings },
 ];
 
