@@ -1,91 +1,224 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useUnidades } from '@/hooks/useUnidades';
+import type { UnidadeComIndicador } from '@/types/unidade';
 
-import { ComplexidadeBadge, RedeBadge } from '@/components/StatusBadges';
-import { Users, ChevronRight } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+const MESES_PT = [
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
+];
+
+function formatCompetencia(c: string | null): string {
+  if (!c) return '';
+  const [y, m] = c.split('-');
+  const idx = Number(m) - 1;
+  return `${MESES_PT[idx] ?? m} ${y}`;
+}
+
+function redeBadgeClass(rede: UnidadeComIndicador['rede']) {
+  if (rede === 'direta')
+    return 'bg-blue-50 text-blue-700 border-blue-200';
+  if (rede === 'indireta')
+    return 'bg-slate-50 text-slate-600 border-slate-200';
+  return 'bg-muted text-muted-foreground border-border';
+}
+
+function complexidadeBadgeClass(
+  c: UnidadeComIndicador['complexidade'],
+) {
+  if (c === 'basica') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+  if (c === 'media') return 'bg-amber-50 text-amber-700 border-amber-200';
+  if (c === 'alta') return 'bg-rose-50 text-rose-700 border-rose-200';
+  return 'bg-muted text-muted-foreground border-border';
+}
+
+function labelComplexidade(c: UnidadeComIndicador['complexidade']) {
+  if (c === 'basica') return 'Básica';
+  if (c === 'media') return 'Média';
+  if (c === 'alta') return 'Alta';
+  return '—';
+}
+
+function labelRede(r: UnidadeComIndicador['rede']) {
+  if (r === 'direta') return 'Direta';
+  if (r === 'indireta') return 'Indireta';
+  return '—';
+}
+
+function truncate(s: string | null, n: number) {
+  if (!s) return '';
+  return s.length > n ? `${s.slice(0, n - 1)}…` : s;
+}
 
 export default function RedeSocioassistencial() {
-  const [filtroRede, setFiltroRede] = useState<string>('todas');
-  const [filtroComplexidade, setFiltroComplexidade] = useState<string>('todos');
   const navigate = useNavigate();
+  const { data, isLoading, isError, refetch } = useUnidades();
 
-  const filtrados = equipamentos.filter((e) => {
-    if (filtroRede !== 'todas' && e.tipoRede !== filtroRede) return false;
-    if (filtroComplexidade !== 'todos' && e.complexidade !== filtroComplexidade) return false;
-    return true;
-  });
+  const [busca, setBusca] = useState('');
+  const [redeFiltro, setRedeFiltro] = useState<string>('todas');
+  const [compFiltro, setCompFiltro] = useState<string>('todas');
 
-  const pct = (e: Equipamento) => Math.round((e.atendimentosAtuais / e.capacidade) * 100);
+  const filtradas = useMemo(() => {
+    const lista = data ?? [];
+    return lista.filter((u) => {
+      if (busca && !u.nome.toLowerCase().includes(busca.toLowerCase()))
+        return false;
+      if (redeFiltro !== 'todas' && u.rede !== redeFiltro) return false;
+      if (compFiltro !== 'todas' && u.complexidade !== compFiltro) return false;
+      return true;
+    });
+  }, [data, busca, redeFiltro, compFiltro]);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Rede socioassistencial</h1>
-        <p className="text-muted-foreground text-sm mt-1">Monitoramento dos equipamentos do município</p>
+        <h1 className="text-2xl font-semibold text-foreground">
+          Rede socioassistencial
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Monitoramento dos equipamentos do município
+        </p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4">
-        <Select value={filtroRede} onValueChange={setFiltroRede}>
-          <SelectTrigger className="w-48 bg-card">
-            <SelectValue placeholder="Tipo de rede" />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Buscar por nome..."
+            className="pl-9"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+          />
+        </div>
+        <Select value={redeFiltro} onValueChange={setRedeFiltro}>
+          <SelectTrigger className="sm:w-44">
+            <SelectValue placeholder="Rede" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="todas">Todas as redes</SelectItem>
-            <SelectItem value="direta">Rede Direta</SelectItem>
-            <SelectItem value="indireta">Rede Indireta</SelectItem>
+            <SelectItem value="direta">Direta</SelectItem>
+            <SelectItem value="indireta">Indireta</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={filtroComplexidade} onValueChange={setFiltroComplexidade}>
-          <SelectTrigger className="w-48 bg-card">
+        <Select value={compFiltro} onValueChange={setCompFiltro}>
+          <SelectTrigger className="sm:w-48">
             <SelectValue placeholder="Complexidade" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="todos">Todas</SelectItem>
-            <SelectItem value="básica">Básica</SelectItem>
+            <SelectItem value="todas">Todas as complexidades</SelectItem>
+            <SelectItem value="basica">Básica</SelectItem>
             <SelectItem value="media">Média</SelectItem>
             <SelectItem value="alta">Alta</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        {filtrados.map((e) => (
-          <div key={e.id} className="bg-card rounded-lg shadow-card hover:shadow-card-hover transition-shadow p-5 flex flex-col">
-            <div className="flex items-start justify-between mb-3">
-              <h3 className="font-semibold text-foreground text-base leading-tight">{e.nome}</h3>
-            </div>
-            <div className="flex gap-2 mb-3">
-              <RedeBadge tipo={e.tipoRede} />
-              <ComplexidadeBadge complexidade={e.complexidade} />
-            </div>
-            <p className="text-sm text-muted-foreground mb-2 line-clamp-2">{e.servicos.join(', ')}</p>
-            <p className="text-xs text-muted-foreground mb-3">
-              <span className="font-medium">Público:</span> {e.publicoAtendido}
-            </p>
-            <div className="mb-3">
-              <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                <span>Capacidade utilizada</span>
-                <span className="font-medium">{pct(e)}%</span>
-              </div>
-              <Progress value={pct(e)} className="h-2" />
-            </div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground mb-4">
-              <Users className="h-3.5 w-3.5" />
-              <span>{e.equipeTotalProfissionais} profissionais</span>
-            </div>
-            <button
-              onClick={() => navigate(`/rede/${e.id}`)}
-              className="mt-auto flex items-center justify-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors py-2 rounded-lg border border-primary/20 hover:bg-primary/5"
-            >
-              Ver Detalhes <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
-        ))}
-      </div>
+      {isLoading && (
+        <div className="space-y-2">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <Skeleton key={i} className="h-16 w-full rounded-lg" />
+          ))}
+        </div>
+      )}
+
+      {isError && (
+        <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center">
+          <p className="text-sm text-foreground mb-3">
+            Não foi possível carregar as unidades.
+          </p>
+          <button
+            onClick={() => refetch()}
+            className="rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      )}
+
+      {!isLoading && !isError && filtradas.length === 0 && (
+        <div className="rounded-lg border border-dashed p-10 text-center text-sm text-muted-foreground">
+          {(data?.length ?? 0) === 0
+            ? 'Nenhuma unidade cadastrada'
+            : 'Nenhuma unidade encontrada com esses filtros'}
+        </div>
+      )}
+
+      {!isLoading && !isError && filtradas.length > 0 && (
+        <ul className="space-y-2">
+          {filtradas.map((u) => (
+            <li key={u.id}>
+              <button
+                onClick={() => navigate(`/rede/${u.id}`)}
+                className="w-full text-left rounded-lg border border-border bg-card px-4 py-3 hover:border-primary hover:bg-accent/40 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-medium text-foreground truncate">
+                        {u.nome}
+                      </span>
+                      <span className="text-xs rounded border border-border bg-muted/40 px-2 py-0.5 text-muted-foreground">
+                        {u.tipo}
+                      </span>
+                      <span
+                        className={`text-xs rounded border px-2 py-0.5 ${redeBadgeClass(u.rede)}`}
+                      >
+                        {labelRede(u.rede)}
+                      </span>
+                      <span
+                        className={`text-xs rounded border px-2 py-0.5 ${complexidadeBadgeClass(u.complexidade)}`}
+                      >
+                        {labelComplexidade(u.complexidade)}
+                      </span>
+                    </div>
+                    {u.publico_atendido && (
+                      <p className="text-xs text-muted-foreground mt-1 truncate">
+                        {truncate(u.publico_atendido, 80)}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-right shrink-0">
+                    {u.ultimo_atendimento != null ? (
+                      <>
+                        <div className="text-2xl font-semibold text-foreground leading-none">
+                          {u.ultimo_atendimento}
+                        </div>
+                        <div className="text-[11px] text-muted-foreground mt-1">
+                          {formatCompetencia(u.ultima_competencia)}
+                        </div>
+                      </>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">
+                        Sem dado
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
